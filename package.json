@@ -1,0 +1,21 @@
+{
+  "name": "react-native-on-web",
+  "version": "1.0.0",
+  "description": "React Native for Web",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "react-native",
+    "react-native-web",
+    "react-native-for-web",
+    "react-native-on-web"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@git.lsfash.cn:f2e/react-native-on-web.git"
+  },
+  "author": "beven",
+  "license": "MIT"
+}
