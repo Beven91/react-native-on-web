@@ -4,7 +4,7 @@
  * 描述：通过代码方式执行npm命令
  */
 
-var run = '@@__run__@@';
+var run = '@@__run__@@'
 
 function Npm (cwd) {
   this.cwd = cwd || process.cwd
@@ -14,7 +14,16 @@ function Npm (cwd) {
  * 执行npm start
  */
 Npm.prototype.start = function () {
-    this[run](['start']);
+  this[run](['start'])
+}
+
+/**
+ * 执行npm install
+ */
+Npm.prototype.install = function (script) {
+  var args = script.split(' ')
+  args.unshift('install')
+  this[run](args)
 }
 
 /**
@@ -27,16 +36,16 @@ Npm.prototype.run = function (name, args, cwd) {
   args = args || []
   args.unshift(name)
   args.unshift('run')
-  this[run](args);
+  this[run](args)
 }
 
 /**
  * 执行一个npm脚本命令
  * @param  {Array} args 参数 
  */
-Npm.prototype[run] = function(args){
+Npm.prototype[run] = function (args) {
   var npm = process.platform === 'win32' ? 'npm.cmd' : 'npm'
-  require('child_process').spawn(npm, args, {
+  require('child_process').spawnSync(npm, args, {
     cwd: this.cwd,
     stdio: [process.stdin, process.stdout, process.stderr]
   })

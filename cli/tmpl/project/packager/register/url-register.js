@@ -12,6 +12,8 @@ var urlloader = require('url-loader');
 var webpack = require('../webpack/webpack.client.js');
 //静态资源配置
 var extensions = ["png","ico","jpg","jpeg","gif","svg","woff","woff2","svg","woff","woff2","eot","ttf"];
+//基础路径
+var publicPath = webpack.output.publicPath;
 
 /**
  * 扩展require.extensions url-loader 的require实现
