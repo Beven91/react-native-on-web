@@ -57,7 +57,7 @@ module.exports = {
       'react',
       'react-dom',
       'react-native-web',
-      'react-native-web-ext',
+      'react-native-on-web',
       'react-router',
       'whatwg-fetch'
     ]
@@ -110,7 +110,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'react-native': path.resolve('node_modules/react-native-web-ext'),
+      'react-native': path.resolve('node_modules/react-native-on-web'),
       'logger': path.resolve('server/logger'),
       'app-context': path.resolve('server/env/enviroment.js'),
       'babel-polyfill': path.resolve('node_modules/babel-polyfill'),

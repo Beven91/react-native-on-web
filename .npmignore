@@ -15,5 +15,5 @@ bower_modules/
 npm-debug.log
 workspace.xml
 Thumbs.db
-.babelrc
+/.babelrc
 src/

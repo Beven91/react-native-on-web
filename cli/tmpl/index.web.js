@@ -5,7 +5,12 @@
  */
 
 import React, { Component } from 'react'
+import { Route } from 'react-router'
 import { AppRegistry, StyleSheet, Text, View } from 'react-native'
+
+class DefaultComponent extends Component{
+
+}
 
 export default class hello extends Component {
   render () {
@@ -45,4 +50,4 @@ const styles = StyleSheet.create({
   }
 })
 
-AppRegistry.registerComponent('app', () => hello)
+AppRegistry.registerComponent('app', () => hello,()=><Route path='/' key='index' component={DefaultComponent}></Route>)

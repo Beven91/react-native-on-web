@@ -11,7 +11,7 @@ var webpack = require('../webpack/webpack.client.js')
 
 // 别名模块
 var ReactNativeWebAlias = webpack.resolve.alias || {
-  'react-native': 'react-native-web-ext'
+  'react-native': 'react-native-on-web'
 }
 
 /**

@@ -64,6 +64,7 @@ ReactNativeOnWebCli.prototype.remove = function () {
   var runRoot = process.cwd()
   var projectRoot = path.join(runRoot, 'web')
   var indexWeb = path.join(projectRoot, '..', 'index.web.js')
+  logger.error('ReactNativeOnWeb: remove web platform ......')
   if (fse.existsSync(projectRoot)) {
     fse.removeSync(projectRoot)
   }
