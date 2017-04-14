@@ -1,6 +1,6 @@
 {
   "name": "react-native-on-web",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "React Native for Web",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,6 @@
   "license": "MIT",
   "peerDependencies": {
     "react": "^15.3.2",
-    "react-native-web": "^0.0.62",
     "react-dom": "^15.3.2"
   },
   "devDependencies": {
@@ -36,6 +35,7 @@
     "babel-preset-react-native": "^1.9.1"
   },
   "dependencies": {
-    "fs-extra": "^2.1.2"
+    "fs-extra": "^2.1.2",
+    "react-native-web": "^0.0.62"
   }
 }
