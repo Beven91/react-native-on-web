@@ -22,7 +22,9 @@ const appRoutes = {};
  * @param {Function} getRouterFunc 获取React路由组件函数
  */
 AppRegistry.registerComponent  =function(appKey,getComponentFunc,getRouterFunc){
-    appRoutes[appKey] = getRouterFunc();
+    if(typeof getRouterFunc=='function'){
+        appRoutes[appKey] = getRouterFunc();
+    }
     return registerComponent.call(this,appKey,getComponentFunc);
 }
 
