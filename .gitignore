@@ -10,7 +10,7 @@ debug.log
 logs/
 yarn.lock
 __tests__/
-node_modules/
+node_modules
 cli/node_modules/
 bower_modules/
 .sass-cache/

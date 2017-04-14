@@ -1,6 +1,8 @@
 .classpath
 .project
 .idea
+.npmignore
+node_modules
 .vscode
 .idea/
 out/
