@@ -1,6 +1,6 @@
 {
   "name": "react-native-on-web",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "React Native for Web",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "push":"npm run build && npm publish"
   },
   "bin": {
-    "react-native-on-web": "./bin/sherlock.js"
+    "react-native-on-web": "./bin/react-native-on-web.js"
   },
   "keywords": [
     "react-native",
