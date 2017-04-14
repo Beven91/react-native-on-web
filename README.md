@@ -14,11 +14,11 @@
      
 ### 三、生成
 
-    react-native-on-web init //在你的react-native目录下执行一下命令生成web目录
+    react-native-on-web init //在你的react-native目录下执行此命令 -> 生成web平台
 
-    react-native-on-web start //在你的react-native目录下执行一下命令生成web平台
+    react-native-on-web start //在你的react-native目录下执行此命令 -> 启动web平台
 
-    react-native-on-web remove //在你的react-native目录下移除web平台
+    react-native-on-web remove //在你的react-native目录下执行此命令 -> 移除web平台
 
 
 ### 四、开源许可
