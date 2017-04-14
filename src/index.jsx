@@ -11,13 +11,15 @@ import ToastAndroid from "./components/ToastAndroid/ToastAndroid";
 import TabBarIOS from "./components/TabBarIOS/TabBarIOS";
 import Picker from "./components/Picker/Picker";
 import StatusBar from "./components/StatusBar/StatusBar"
+import AsyncStorage from "./apis/AsyncStorage"
 
 Object.assign(ReactNative, {
     Modal,
     ToastAndroid,
     TabBarIOS,
     Picker,
-    StatusBar
+    StatusBar,
+    AsyncStorage
 });
 
 module.exports = ReactNative;
