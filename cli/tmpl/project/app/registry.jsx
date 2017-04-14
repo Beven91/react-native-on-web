@@ -28,6 +28,6 @@ export default class WebAppRegistry {
     // 设置路由
     const registerRoutes = registerApplication.routers || (<Route path='/' key='index' component={DefaultComponent}></Route>)
     // 返回component 与routers
-    return {registerComponent,registerRoutes}
+    return {registerComponent,registerRoutes,appName:appName}
   }
 }

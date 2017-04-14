@@ -84,7 +84,7 @@ export default class ReactServerRequest {
             let reactApplication = this.reactApplication;
             let App = this.component;
             let route = props.routes.find((route) => (route && route.title)) || {};
-            let components = renderToString(<App><RouterContext  {...props} /></App>)
+            let components = renderToString(<App><RouterContext {...props} /></App>)
             //调用视图引擎返回页面
             let options = {
                 title: (route.title || "React Native for web"),

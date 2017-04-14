@@ -19,7 +19,6 @@ export default class ReactWebServerApplication {
    * @param {Object} context 上下文信息
    */
   constructor (context) {
-    debugger;
     //启动应用名称
     const reactRunAppName = context.getRunReactAppName();    
     //设置要启动的react应用
@@ -27,7 +26,7 @@ export default class ReactWebServerApplication {
     // 附加上下文
     this.appContext = context
     //设置当前运行react app名称
-    this.reactRunAppName = reactRunAppName;
+    this.reactRunAppName = registerApplication.appName;
     //要启动的App组件
     this.registerComponent = registerApplication.registerComponent; 
     //设置路由
