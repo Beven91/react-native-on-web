@@ -8,7 +8,6 @@ var path = require('path')
 var fse = require('fs-extra')
 var webpack = require('webpack')
 var envAdapter = require('../../server/env/enviroment')
-var BadjsReportPlugin = require('./plugins/badjsPlugin.js')
 var Dantejs = require('dantejs')
 var Arrays = Dantejs.Array
 
@@ -22,6 +21,15 @@ var releaseDir = path.resolve('release/node-msites')
 var assetDir = path.join(releaseDir, 'assets')
 // babel 配置
 var babelRc = fse.readJsonSync(path.resolve('.babelrc'))
+
+//react-native 依赖
+var mainDependencies = Object.keys(require('../../../package.json').dependencies);
+
+var only = function(file){
+    var name  =(file.split('node_modules/')[1]||'').split('/')[0];
+    return (file.indexOf('node_modules')<0) || mainDependencies.indexOf(name)>-1;
+}
+
 
 // 开发环境plugins
 var devPlugins = [
@@ -43,6 +51,7 @@ var proPlugins = [
 ]
 
 module.exports = {
+  only:only,
   devtool: envAdapter.valueOf('eval', undefined), // 打包后每个模块内容使用eval计算产出
   name: 'msites', // 配置名称
   context: appDir, // 根目录
@@ -79,6 +88,7 @@ module.exports = {
         test: /\.js$|\.jsx$/,
         loader: 'babel-loader',
         query: {
+          only:only,
           presets: babelRc.presets,
           plugins: babelRc.plugins
         }

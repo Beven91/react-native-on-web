@@ -4,6 +4,7 @@
  * 描述：
  */
 
+import React from "react";
 import "./apis/AppRegistry";
 import ReactNative from "react-native-web";
 import Modal from "./components/Modal/Modal";
@@ -14,7 +15,7 @@ import StatusBar from "./components/StatusBar/StatusBar"
 import AsyncStorage from "./apis/AsyncStorage"
 import LayoutAnimation from "./LayoutAnimation/LayoutAnimation.js"
 
-Object.assign(ReactNative, {
+Object.assign(ReactNative, React,{
     Modal,
     ToastAndroid,
     TabBarIOS,
