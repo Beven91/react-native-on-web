@@ -1,6 +1,7 @@
 .classpath
 .project
 .idea
+.vscode
 .idea/
 out/
 dist/

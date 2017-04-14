@@ -4,6 +4,7 @@
  * 描述：
  */
 
+import "apis/AppRegistry";
 import ReactNative from "react-native-web";
 import Modal from "./components/Modal/Modal";
 import ToastAndroid from "./components/ToastAndroid/ToastAndroid";
