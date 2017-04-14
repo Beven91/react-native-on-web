@@ -12,6 +12,7 @@ import TabBarIOS from "./components/TabBarIOS/TabBarIOS";
 import Picker from "./components/Picker/Picker";
 import StatusBar from "./components/StatusBar/StatusBar"
 import AsyncStorage from "./apis/AsyncStorage"
+import LayoutAnimation from "./LayoutAnimation/LayoutAnimation.js"
 
 Object.assign(ReactNative, {
     Modal,
@@ -19,7 +20,8 @@ Object.assign(ReactNative, {
     TabBarIOS,
     Picker,
     StatusBar,
-    AsyncStorage
+    AsyncStorage,
+    LayoutAnimation
 });
 
 module.exports = ReactNative;
