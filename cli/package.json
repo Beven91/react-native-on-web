@@ -1,12 +1,11 @@
 {
-  "name": "react-native-on-web",
+  "name": "react-native-on-web-cli",
   "version": "1.0.0",
   "description": "React Native for Web",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "build": "babel src --out-dir ./lib",
-    "push":"npm run build && npm publish"
+    "build": "npm run build:dev && babel src --out-dir ./lib"
   },
   "bin": {
     "react-native-on-web": "./bin/sherlock.js"
@@ -23,18 +22,6 @@
   },
   "author": "beven",
   "license": "MIT",
-  "peerDependencies": {
-    "react": "^15.3.2",
-    "react-native-web": "^0.0.62",
-    "react-dom": "^15.3.2"
-  },
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^3.2.0",
-    "babel-cli": "^6.16.0",
-    "babel-plugin-transform-react-remove-prop-types": "^0.2.11",
-    "babel-preset-react-native": "^1.9.1"
-  },
   "dependencies": {
     "fs-extra": "^2.1.2"
   }

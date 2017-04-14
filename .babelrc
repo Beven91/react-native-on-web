@@ -1,0 +1,10 @@
+﻿{
+    "presets": [
+        "react-native"
+    ],
+    "plugins": [
+        ["transform-react-remove-prop-types", {
+            "mode": "wrap"
+        }]
+    ]
+}
