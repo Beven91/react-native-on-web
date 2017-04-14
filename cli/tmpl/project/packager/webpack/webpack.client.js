@@ -110,6 +110,7 @@ module.exports = {
   },
   resolve: {
     alias: {
+      'NativeModules': path.resolve('node_modules/react-native-on-web'),
       'react-native': path.resolve('node_modules/react-native-on-web'),
       'logger': path.resolve('server/logger'),
       'app-context': path.resolve('server/env/enviroment.js'),
