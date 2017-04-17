@@ -13,7 +13,7 @@ import TabBarIOS from "./components/TabBarIOS/TabBarIOS";
 import Picker from "./components/Picker/Picker";
 import StatusBar from "./components/StatusBar/StatusBar"
 import AsyncStorage from "./apis/AsyncStorage"
-import LayoutAnimation from "./LayoutAnimation/LayoutAnimation.js"
+import LayoutAnimation from "./apis/LayoutAnimation/LayoutAnimation.js"
 
 Object.assign(ReactNative, React,{
     Modal,

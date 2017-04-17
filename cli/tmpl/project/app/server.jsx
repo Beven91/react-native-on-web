@@ -5,6 +5,7 @@
  */
 
 // 加载依赖
+import "../../index.web.js";
 import ReactServerRequest from './request'
 import WebAppRegistry from "./registry";
 import fetch from './modules/fetch/node-fetch.js'

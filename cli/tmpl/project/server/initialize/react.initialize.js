@@ -6,8 +6,6 @@
 
 //引入依赖>>
 import appContext from 'app-context';
-//加载index.web.js
-import "../../../index.web.js";
 //引入ReactApplication
 import ReactWebServerApplication from "../../app/server";
 

@@ -6,13 +6,14 @@
 
 //引入依赖>>
 import merge from 'deep-assign';
+import Storage from "./Storage/Storage.js";
 
 const mergeLocalStorageItem = (key, value) => {
-  const oldValue = window.localStorage.getItem(key);
+  const oldValue = Storage.getItem(key);
   const oldObject = JSON.parse(oldValue);
   const newObject = JSON.parse(value);
   const nextValue = JSON.stringify(merge({}, oldObject, newObject));
-  window.localStorage.setItem(key, nextValue);
+  Storage.setItem(key, nextValue);
 };
 
 const handlePromise = (callback,handler)=>{
@@ -36,7 +37,7 @@ export default class AsyncStorage {
    */
   static clear(callback) {
     return handlePromise(callback,()=>{
-      window.localStorage.clear()
+      Storage.clear()
     });
   }
 
@@ -46,10 +47,10 @@ export default class AsyncStorage {
    */
   static getAllKeys(callback) {
     return handlePromise(callback,()=> {
-        const numberOfKeys = window.localStorage.length;
+        const numberOfKeys = Storage.length;
         const keys = [];
         for (let i = 0; i < numberOfKeys; i += 1) {
-          const key = window.localStorage.key(i);
+          const key = Storage.key(i);
           keys.push(key);
         }
         return keys;
@@ -63,7 +64,7 @@ export default class AsyncStorage {
    */
   static getItem(key,callback) {
     return handlePromise(callback,() => {
-        return window.localStorage.getItem(key);
+        return Storage.getItem(key);
     });
   }
 
@@ -163,7 +164,7 @@ export default class AsyncStorage {
    * @param {Function} callback 回调函数
    */
   static removeItem(key,callback) {
-    return handlePromise(callback,()=>window.localStorage.removeItem(key));
+    return handlePromise(callback,()=>Storage.removeItem(key));
   }
 
   /**
@@ -173,6 +174,6 @@ export default class AsyncStorage {
    * @param {Function} callback 回调函数
    */
   static setItem(key, value,callback) {
-    return handlePromise(callback,()=>window.localStorage.setItem(key, value));
+    return handlePromise(callback,()=>Storage.setItem(key, value));
   }
 }
