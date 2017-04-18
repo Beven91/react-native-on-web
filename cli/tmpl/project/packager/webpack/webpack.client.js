@@ -85,7 +85,7 @@ module.exports = {
       // 图片类型模块资源访问
       {
         test: /\.(png|jpg|jpeg|gif)$/,
-        loader: 'image-web-loader!url'
+        loader: 'image-web-loader'
       },
       // url类型模块资源访问
       {
