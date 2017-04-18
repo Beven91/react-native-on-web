@@ -68,7 +68,7 @@ ReactNativeWeb.prototype.copyIndexWeb = function () {
  */
 ReactNativeWeb.prototype.install  =function(){
   logger.info('ReactNativeOnWeb: init web ...')
-  new Npm(path.join(this.targetProjectRoot,'..')).install('json-loader image-webpack-loader babel-loader file-loader url-loader --save-dev');
+  new Npm(path.join(this.targetProjectRoot,'..')).install('json-loader image-web-loader babel-loader file-loader url-loader --save-dev');
   new Npm(this.targetProjectRoot).run('init');
 }
 
