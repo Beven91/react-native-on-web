@@ -3,8 +3,6 @@
  * 日期：2016-11-18
  * 描述：无
  */
-'use strict';
-
 import { View, I18nManager, Platform, StyleSheet, Animated, Dimensions } from "react-native-web";
 import createDOMElement from "react-native-web/dist/modules/createDOMElement";
 import React, { PropTypes } from 'react';

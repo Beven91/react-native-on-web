@@ -1,6 +1,6 @@
 {
   "name": "react-native-on-web",
-  "version": "1.5.32",
+  "version": "1.6.33",
   "description": "React Native for Web",
   "main": "lib/index.js",
   "scripts": {
@@ -36,9 +36,10 @@
     "babel-preset-react-native": "^1.9.1"
   },
   "dependencies": {
+    "immutable": "^3.7.4",
     "commander": "^2.9.0",
     "deep-assign": "^2.0.0",
     "fs-extra": "^2.1.2",
-    "react-native-web": "^0.0.62"
+    "react-native-web": "^0.0.81"
   }
 }

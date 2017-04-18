@@ -22,15 +22,6 @@ var assetDir = path.join(releaseDir, 'assets')
 // babel 配置
 var babelRc = fse.readJsonSync(path.resolve('.babelrc'))
 
-//react-native 依赖
-var mainDependencies = Object.keys(require('../../../package.json').dependencies);
-
-var only = function(file){
-    var name  =(file.split('node_modules/')[1]||'').split('/')[0];
-    return (file.indexOf('node_modules')<0) || mainDependencies.indexOf(name)>-1;
-}
-
-
 // 开发环境plugins
 var devPlugins = [
   new webpack.HotModuleReplacementPlugin()
@@ -51,7 +42,6 @@ var proPlugins = [
 ]
 
 module.exports = {
-  only:only,
   devtool: envAdapter.valueOf('eval', undefined), // 打包后每个模块内容使用eval计算产出
   name: 'msites', // 配置名称
   context: appDir, // 根目录
@@ -88,10 +78,14 @@ module.exports = {
         test: /\.js$|\.jsx$/,
         loader: 'babel-loader',
         query: {
-          only:only,
           presets: babelRc.presets,
           plugins: babelRc.plugins
         }
+      },
+      // 图片类型模块资源访问
+      {
+        test: /\.(png|jpg|jpeg|gif)$/,
+        loader: 'image-web-loader!url'
       },
       // url类型模块资源访问
       {
@@ -101,15 +95,6 @@ module.exports = {
           name: '[hash].[ext]',
           limit: 10000
         }
-      }, {
-        test: /\.ttf$/,
-        loader: 'url-loader', // or directly file-loader
-        include: path.resolve('node_modules/react-native-vector-icons')
-      },
-      // 文件类型模块处理
-      {
-        test: /\.(svg|woff|woff2|eot|ttf)(\?\w+)?$/,
-        loader: 'file-loader'
       },
       // json类型模块处理
       {

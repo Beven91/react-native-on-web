@@ -2,8 +2,6 @@
  * 名称：React-Native ToastAndroid
  * 日期：2016-11-16
  */
-
-//加载依赖>>
 import React, { PropTypes } from 'react';
 import { Text, StyleSheet, Animated } from "react-native-web";
 import { render } from 'react-dom';

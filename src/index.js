@@ -14,6 +14,7 @@ import Picker from "./components/Picker/Picker";
 import StatusBar from "./components/StatusBar/StatusBar"
 import AsyncStorage from "./apis/AsyncStorage"
 import LayoutAnimation from "./apis/LayoutAnimation/LayoutAnimation.js"
+import Navigator from "./components/Navigator";
 
 Object.assign(ReactNative, React,{
     Modal,
@@ -22,6 +23,7 @@ Object.assign(ReactNative, React,{
     Picker,
     StatusBar,
     AsyncStorage,
+    Navigator,
     LayoutAnimation
 });
 

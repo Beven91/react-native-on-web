@@ -3,7 +3,6 @@
  * 日期：2016-11-16
  * 描述：无
  */
-'use strict';
 import { View, Platform,Easing, StyleSheet, Animated, Dimensions } from "react-native-web";
 import React, { PropTypes } from 'react';
 

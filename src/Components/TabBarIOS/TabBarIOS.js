@@ -3,8 +3,6 @@
  * 日期：2016-11-17
  * 描述：无
  */
-'use strict';
-
 import React from "react";
 import { View, StyleSheet, ColorPropType } from "react-native-web";
 import TabBarItemIOS from "./TabBarItemIOS";

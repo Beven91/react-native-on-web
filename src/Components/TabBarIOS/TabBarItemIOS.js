@@ -3,7 +3,6 @@
  * 日期：2016-11-17
  * 描述：无
  */
-//引入依赖
 import React from "react";
 import LocalPropTypes from "../../PropTypes.js";
 import { Image, View, Text, StyleSheet, ColorPropType, TouchableOpacity } from "react-native-web";

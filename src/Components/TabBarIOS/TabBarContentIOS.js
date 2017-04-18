@@ -3,8 +3,6 @@
  * 日期：2016-11-18
  * 描述：无
  */
-
-//引入依赖
 import React, { PropTypes } from "react";
 import { View, Text, StyleSheet, ColorPropType } from "react-native-web";
 

@@ -16,7 +16,12 @@ var presets = fse.readJSONSync(path.join(__dirname,'../../.babelrc')).presets;
 require('babel-polyfill')
 
 //2.启用babel-register
-require('babel-register')({presets: presets, only:webpack.only,compact: true, extensions: webpack.resolve.extensions})
+require('babel-register')({
+    presets: presets, 
+    ignore:/node_modules[/\\](babel-|regenerator-transform|babel)/,
+    compact: true, 
+    extensions: webpack.resolve.extensions
+})
 
 //3.静态资源加载
 require('./url-register.js');

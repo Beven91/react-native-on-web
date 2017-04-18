@@ -11,7 +11,13 @@ var urlloader = require('url-loader');
 //获取webpack配置
 var webpack = require('../webpack/webpack.client.js');
 //静态资源配置
-var extensions = ["png","ico","jpg","jpeg","gif","svg","woff","woff2","svg","woff","woff2","eot","ttf"];
+var extensions = [
+  'bmp', 'ico','gif', 'jpg', 'jpeg', 'png', 'psd', 'svg', 'webp', // Image formats
+  'm4v', 'mov', 'mp4', 'mpeg', 'mpg', 'webm', // Video formats
+  'aac', 'aiff', 'caf', 'm4a', 'mp3', 'wav', // Audio formats
+  'html', 'pdf', // Document formats
+  "woff","woff2","svg","woff","woff2","eot","ttf", //icon font
+];
 //基础路径
 var publicPath = webpack.output.publicPath;
 
