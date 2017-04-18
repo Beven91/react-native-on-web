@@ -117,6 +117,6 @@ module.exports = {
       'react-router': path.resolve('node_modules/react-router'),
       'whatwg-fetch': path.resolve('node_modules/whatwg-fetch')
     },
-    extensions: ['', '.js', '.jsx', '.web.js', '.web.jsx']
+    extensions: ['', '.js', '.jsx', '.web.js']
   }
 }
