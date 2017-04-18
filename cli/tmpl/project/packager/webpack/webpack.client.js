@@ -47,7 +47,7 @@ module.exports = {
   context: appDir, // 根目录
   entry: {
     app: Arrays.filterEmpty([
-      './client.jsx',
+      './client.js',
       envAdapter.onDev('webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true')
     ]),
     common: [
