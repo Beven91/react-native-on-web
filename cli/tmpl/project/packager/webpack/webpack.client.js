@@ -62,6 +62,7 @@ module.exports = {
     ]
   },
   output: {
+    devAssets:path.join(rootDir,'assets'),
     path: assetDir,
     filename: '[name].js',
     publicPath: '/'
@@ -85,7 +86,7 @@ module.exports = {
       // 图片类型模块资源访问
       {
         test: /\.(png|jpg|jpeg|gif)$/,
-        loader: 'image-web-loader'
+        loader: 'image-web-loader!file'
       },
       // url类型模块资源访问
       {

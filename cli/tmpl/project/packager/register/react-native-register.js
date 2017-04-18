@@ -20,7 +20,7 @@ var ReactNativeWebAlias = webpack.resolve.alias || {
  */
 module.constructor.prototype.require = function (name) {
   if (name.indexOf('image!') > -1) {
-    name = lookupResource(name);
+    name = lookupResource(path.join(webpack.output.devAssets,'images',name.replace('image!','')));
   }
   var id = ReactNativeWebAlias[name] || name
   return originRequire.call(this, id)
