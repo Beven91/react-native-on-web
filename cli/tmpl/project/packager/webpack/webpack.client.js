@@ -89,7 +89,7 @@ module.exports = {
       },
       // url类型模块资源访问
       {
-        test: /\.(png|ico|jpg|jpeg|gif|svg|woff|woff2)$/,
+        test:  /\.(ico|svg|woff|woff2)$/,
         loader: 'url',
         query: {
           name: '[hash].[ext]',
