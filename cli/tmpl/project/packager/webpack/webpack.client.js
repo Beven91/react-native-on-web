@@ -23,7 +23,11 @@ var assetDir = path.join(releaseDir, 'assets')
 // babel 配置
 var babelRc = fse.readJsonSync(path.resolve('.babelrc'))
 // 默认本地图片路径
-var imageAssets = path.resolve('assets/images')
+var imageAssets = [
+  path.join(path.resolve(''),'..','android/app/src/main/res/drawable/'),
+  path.join(path.resolve(''),'..','ios/SampleAppMovies/Images.xcassets/AppIcon.appiconset'),
+  path.resolve('assets/images')
+]
 
 // 开发环境plugins
 var devPlugins = [
