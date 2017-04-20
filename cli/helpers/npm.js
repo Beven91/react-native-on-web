@@ -21,7 +21,7 @@ Npm.prototype.start = function () {
  * 执行npm install
  */
 Npm.prototype.install = function (script) {
-  var args = script.split(' ')
+  var args = (script||'').split(' ')
   args.unshift('install')
   this[run](args)
 }
