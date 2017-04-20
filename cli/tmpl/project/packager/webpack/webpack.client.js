@@ -8,11 +8,12 @@ var path = require('path')
 var fse = require('fs-extra')
 var webpack = require('webpack')
 var envAdapter = require('../../server/env/enviroment')
-var Dantejs = require('dantejs')
-var Arrays = Dantejs.Array
+var dantejs = require('dantejs')
+var Arrays = dantejs.Array
+var RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlugin
 
 // 工程根目录
-var rootDir = path.resolve('');
+var rootDir = path.resolve('')
 // app代码根目录
 var appDir = path.join(rootDir, 'app')
 // 发布目录
@@ -21,6 +22,8 @@ var releaseDir = path.resolve('release/node-msites')
 var assetDir = path.join(releaseDir, 'assets')
 // babel 配置
 var babelRc = fse.readJsonSync(path.resolve('.babelrc'))
+// 默认本地图片路径
+var imageAssets = path.resolve('assets/images')
 
 // 开发环境plugins
 var devPlugins = [
@@ -45,6 +48,7 @@ module.exports = {
   devtool: envAdapter.valueOf('eval', undefined), // 打包后每个模块内容使用eval计算产出
   name: 'msites', // 配置名称
   context: appDir, // 根目录
+  imageAssets: imageAssets,
   entry: {
     app: Arrays.filterEmpty([
       './client.js',
@@ -62,20 +66,19 @@ module.exports = {
     ]
   },
   output: {
-    devAssets:path.join(rootDir,'assets'),
     path: assetDir,
     filename: '[name].js',
     publicPath: '/'
   },
   plugins: [
+    new RequireImageXAssetPlugin(imageAssets),
     new webpack.NoErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin('common.js')
-  // new BadjsReportPlugin()
   ].concat(envAdapter.valueOf(devPlugins, proPlugins)),
   module: {
     loaders: [
-      // jsx 以及js es6
       {
+        // jsx 以及js es6
         test: /\.js$|\.jsx$/,
         loader: 'babel-loader',
         query: {
@@ -83,25 +86,31 @@ module.exports = {
           plugins: babelRc.plugins
         }
       },
-      // 图片类型模块资源访问
       {
+        // 图片类型模块资源访问
         test: /\.(png|jpg|jpeg|gif)$/,
         loader: 'image-web-loader!file'
       },
-      // url类型模块资源访问
       {
-        test:  /\.(ico|svg|woff|woff2)$/,
+        // url类型模块资源访问
+        test: /\.(ico|svg|woff|woff2)$/,
         loader: 'url',
         query: {
           name: '[hash].[ext]',
           limit: 10000
         }
       },
-      // json类型模块处理
       {
+        // json类型模块处理
         test: /\.json$/,
         loader: 'json'
       }
+    ]
+  },
+  resolveLoader: {
+    root: [
+      //定义webpack loader查找目录
+      path.resolve('node_modules')
     ]
   },
   resolve: {
@@ -118,6 +127,6 @@ module.exports = {
       'react-router': path.resolve('node_modules/react-router'),
       'whatwg-fetch': path.resolve('node_modules/whatwg-fetch')
     },
-    extensions: ['', '.js', '.jsx', '.web.js']
+    extensions: ['', '.js', '.web.js']
   }
 }

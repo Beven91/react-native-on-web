@@ -5,10 +5,15 @@
  */
 var path = require('path')
 var fs = require('fs')
+var imageWeb = require('image-web-loader');
+
 // 原始require
 var originRequire = module.constructor.prototype.require
 // 获取webpack配置
 var webpack = require('../webpack/webpack.client.js')
+
+//RequireImageXAssetPlugin 用于支持require('image!x')
+var xAssetsPlugin = new (imageWeb.RequireImageXAssetPlugin)(webpack.imageAssets);
 
 // 别名模块
 var ReactNativeWebAlias = webpack.resolve.alias || {
@@ -19,26 +24,7 @@ var ReactNativeWebAlias = webpack.resolve.alias || {
  * 重写require  添加别名处理
  */
 module.constructor.prototype.require = function (name) {
-  if (name.indexOf('image!') > -1) {
-    name = lookupResource(path.join(webpack.output.devAssets,'images',name.replace('image!','')));
-  }
+  name = xAssetsPlugin.getRequest(name,path.dirname(this.id)) || name;
   var id = ReactNativeWebAlias[name] || name
   return originRequire.call(this, id)
-}
-
-/**
- * 搜索图片
- */
-function lookupResource (name) {
-  var exts = ['.jpg', '.png', '.gif', '.ico']
-  var ext = path.extname(name)
-  if (ext === '') {
-    ext = exts.find((ext) => fs.existsSync(name + ext))
-  }else{
-    return name;
-  }
-  if(!ext){
-    throw new Error("找到不图片资源:"+name);
-  }
-  return name + ext;
 }
