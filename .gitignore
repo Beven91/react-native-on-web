@@ -2,6 +2,8 @@
 .project
 .idea
 .idea/
+.happypack
+release/
 .vscode/
 out/
 dist/

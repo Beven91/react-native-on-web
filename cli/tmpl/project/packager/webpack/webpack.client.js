@@ -4,26 +4,31 @@
  * 描述：用于开发时进行客户端代码打包，使用热部署，进行自动更新
  */
 
+var os = require('os')
 var path = require('path')
 var fse = require('fs-extra')
 var webpack = require('webpack')
 var envAdapter = require('../../server/env/enviroment')
 var dantejs = require('dantejs')
-var config  =require('../config.js');
+var config = require('../config.js')
 var Arrays = dantejs.Array
 var RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlugin
-var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+var HappyPack = require('happypack')
+var happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
+
+// 
 
 // 工程根目录
-var rootDir = config.rootDir;
+var rootDir = config.rootDir
 // app代码根目录
 var appDir = path.join(rootDir, 'app')
 // 发布目录
-var releaseDir = config.releaseDir;
+var releaseDir = config.releaseDir
 // 公用资源存放目录
 var assetDir = path.join(releaseDir, 'assets')
 // babel 配置
-var babelRc = require('../babelRC.js');
+var babelRc = require('../babelRC.js')
 
 // 开发环境plugins
 var devPlugins = [
@@ -33,8 +38,8 @@ var devPlugins = [
 // 生产环境plugins
 var proPlugins = [
   new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-      openAnalyzer: false
+    analyzerMode: 'static',
+    openAnalyzer: false
   }),
   new webpack.DefinePlugin({
     'process.env': {
@@ -74,6 +79,19 @@ module.exports = {
     publicPath: '/'
   },
   plugins: [
+    new HappyPack({
+      id: 'babel',
+      loaders: [{
+        path:'babel-loader',
+        query: {
+          presets: babelRc.presets,
+          plugins: babelRc.plugins
+        }
+      }],
+      threadPool: happyThreadPool,
+      cache: true,
+      verbose: true
+    }),
     new RequireImageXAssetPlugin(config.imageAssets),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin('common')
@@ -83,12 +101,8 @@ module.exports = {
       {
         // jsx 以及js es6
         test: /\.js$|\.jsx$/,
-        loader: 'babel-loader',
-        query: {
-          presets: babelRc.presets,
-          plugins: babelRc.plugins
-        },
-        exclude:babelRc.ignore
+        loader: path.resolve('node_modules/happypack/loader') + '?id=babel',
+        exclude: babelRc.ignore
       },
       {
         // 图片类型模块资源访问
@@ -112,13 +126,13 @@ module.exports = {
     ]
   },
   resolveLoader: {
-     modules: [path.resolve('node_modules')]
+    modules: [path.resolve('node_modules')]
   },
   resolve: {
     alias: {
-      'react':path.resolve('node_modules/react'),
-      'react-dom':path.resolve('node_modules/react-dom'),
-      'babel-polyfill':path.resolve('node_modules/babel-polyfill'),
+      'react': path.resolve('node_modules/react'),
+      'react-dom': path.resolve('node_modules/react-dom'),
+      'babel-polyfill': path.resolve('node_modules/babel-polyfill'),
       'NativeModules': path.resolve('node_modules/react-native-on-web'),
       'react-native': path.resolve('node_modules/react-native-on-web'),
       'logger': path.resolve('server/logger'),
