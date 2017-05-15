@@ -7,10 +7,10 @@
     "init": "npm install --registry=https://registry.npm.taobao.org",
     "dev": "cross-env  NODE_ENV=development node ./server/index.js",
     "start": "cross-env  NODE_ENV=development node ./server/index.js",
-    "clean": "node ./build/release/clean.js",
-    "build:end": "node ./build/release/end.js",
-    "build:serv": "node ./build/release/server.js",
-    "webpack:client": "cross-env  NODE_ENV=production webpack --colors --config ./build/webpack/webpack.client.js",
+    "clean": "node ./packager/release/clean.js",
+    "build:end": "node ./packager/release/end.js",
+    "build:serv": "node ./packager/release/server.js",
+    "webpack:client": "cross-env NODE_ENV=production webpack --colors --config ./packager/webpack/webpack.client.js",
     "build": "npm run init && npm run clean && npm run build:serv && npm run webpack:client && npm run build:end"
   },
   "author": "",
@@ -39,16 +39,18 @@
     "babel-cli": "^6.18.0",
     "babel-loader": "^6.2.7",
     "babel-preset-react-native": "^1.9.1",
-    "image-web-loader":"1.1.11",
     "babel-register": "^6.18.0",
     "bundle-loader": "^0.5.4",
     "copy-webpack-plugin": "^4.0.1",
+    "happypack": "^3.0.3",
+    "image-web-loader": "1.1.11",
     "json-loader": "^0.5.4",
     "react-hot-loader": "1.2.7",
     "style-loader": "^0.13.0",
-    "webpack": "^1.13.1",
-    "webpack-dev-middleware": "^1.6.1",
-    "webpack-dev-server": "1.9.0",
-    "webpack-hot-middleware": "^2.10.0"
+    "webpack": "^2.5.1",
+    "webpack-bundle-analyzer": "^2.8.1",
+    "webpack-dev-middleware": "^1.10.2",
+    "webpack-dev-server": "^2.4.5",
+    "webpack-hot-middleware": "^2.18.0"
   }
 }

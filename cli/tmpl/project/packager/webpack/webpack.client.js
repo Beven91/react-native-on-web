@@ -9,25 +9,21 @@ var fse = require('fs-extra')
 var webpack = require('webpack')
 var envAdapter = require('../../server/env/enviroment')
 var dantejs = require('dantejs')
+var config  =require('../config.js');
 var Arrays = dantejs.Array
 var RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlugin
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // 工程根目录
-var rootDir = path.resolve('')
+var rootDir = config.rootDir;
 // app代码根目录
 var appDir = path.join(rootDir, 'app')
 // 发布目录
-var releaseDir = path.resolve('release/node-msites')
+var releaseDir = config.releaseDir;
 // 公用资源存放目录
 var assetDir = path.join(releaseDir, 'assets')
 // babel 配置
-var babelRc = fse.readJsonSync(path.resolve('.babelrc'))
-// 默认本地图片路径
-var imageAssets = [
-  path.join(path.resolve(''),'..','android/app/src/main/res/drawable/'),
-  path.join(path.resolve(''),'..','ios/SampleAppMovies/Images.xcassets/AppIcon.appiconset'),
-  path.resolve('assets/images')
-]
+var babelRc = require('../babelRC.js');
 
 // 开发环境plugins
 var devPlugins = [
@@ -36,9 +32,13 @@ var devPlugins = [
 
 // 生产环境plugins
 var proPlugins = [
+  new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false
+  }),
   new webpack.DefinePlugin({
     'process.env': {
-      NODE_ENV: '"production"'
+      NODE_ENV: JSON.stringify('production')
     }
   }),
   new webpack.optimize.UglifyJsPlugin({
@@ -52,21 +52,20 @@ module.exports = {
   devtool: envAdapter.valueOf('eval', undefined), // 打包后每个模块内容使用eval计算产出
   name: 'msites', // 配置名称
   context: appDir, // 根目录
-  imageAssets: imageAssets,
   entry: {
     app: Arrays.filterEmpty([
       './client.js',
       envAdapter.onDev('webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true')
     ]),
     common: [
-      'babel-polyfill',
       'dantejs',
       'react',
       'react-dom',
       'react-native-web',
       'react-native-on-web',
       'react-router',
-      'whatwg-fetch'
+      'whatwg-fetch',
+      'babel-polyfill'
     ]
   },
   output: {
@@ -75,9 +74,9 @@ module.exports = {
     publicPath: '/'
   },
   plugins: [
-    new RequireImageXAssetPlugin(imageAssets),
-    new webpack.NoErrorsPlugin(),
-    new webpack.optimize.CommonsChunkPlugin('common.js')
+    new RequireImageXAssetPlugin(config.imageAssets),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.CommonsChunkPlugin('common')
   ].concat(envAdapter.valueOf(devPlugins, proPlugins)),
   module: {
     loaders: [
@@ -88,7 +87,8 @@ module.exports = {
         query: {
           presets: babelRc.presets,
           plugins: babelRc.plugins
-        }
+        },
+        exclude:babelRc.ignore
       },
       {
         // 图片类型模块资源访问
@@ -112,25 +112,22 @@ module.exports = {
     ]
   },
   resolveLoader: {
-    root: [
-      //定义webpack loader查找目录
-      path.resolve('node_modules')
-    ]
+     modules: [path.resolve('node_modules')]
   },
   resolve: {
     alias: {
+      'react':path.resolve('node_modules/react'),
+      'react-dom':path.resolve('node_modules/react-dom'),
+      'babel-polyfill':path.resolve('node_modules/babel-polyfill'),
       'NativeModules': path.resolve('node_modules/react-native-on-web'),
       'react-native': path.resolve('node_modules/react-native-on-web'),
       'logger': path.resolve('server/logger'),
       'app-context': path.resolve('server/env/enviroment.js'),
-      'babel-polyfill': path.resolve('node_modules/babel-polyfill'),
       'dantejs': path.resolve('node_modules/dantejs'),
-      'react': path.resolve('node_modules/react'),
-      'react-dom': path.resolve('node_modules/react-dom'),
       'react-native-web': path.resolve('node_modules/react-native-web'),
       'react-router': path.resolve('node_modules/react-router'),
       'whatwg-fetch': path.resolve('node_modules/whatwg-fetch')
     },
-    extensions: ['', '.js', '.web.js']
+    extensions: babelRc.extensions
   }
 }

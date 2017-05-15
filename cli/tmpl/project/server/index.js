@@ -6,6 +6,5 @@
 
 //启用register
 require('../packager/register/');
-
 //开始启动网站
 require('./www.js');
