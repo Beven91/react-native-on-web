@@ -1,7 +1,7 @@
 /**
- * 名称：Webpack打包客户端(开发环境配置)
+ * 名称：Webpack打包客户端
  * 日期：2016-11-02
- * 描述：用于开发时进行客户端代码打包，使用热部署，进行自动更新
+ * 描述：用于进行客户端代码打包，或者开发时使用热部署，进行自动更新
  */
 
 var os = require('os')
@@ -55,7 +55,7 @@ var proPlugins = [
 
 module.exports = {
   devtool: envAdapter.valueOf('eval', undefined), // 打包后每个模块内容使用eval计算产出
-  name: 'msites', // 配置名称
+  name: 'reactWeb', // 配置名称
   context: appDir, // 根目录
   entry: {
     app: Arrays.filterEmpty([
@@ -129,19 +129,7 @@ module.exports = {
     modules: [path.resolve('node_modules')]
   },
   resolve: {
-    alias: {
-      'react': path.resolve('node_modules/react'),
-      'react-dom': path.resolve('node_modules/react-dom'),
-      'babel-polyfill': path.resolve('node_modules/babel-polyfill'),
-      'NativeModules': path.resolve('node_modules/react-native-on-web'),
-      'react-native': path.resolve('node_modules/react-native-on-web'),
-      'logger': path.resolve('server/logger'),
-      'app-context': path.resolve('server/env/enviroment.js'),
-      'dantejs': path.resolve('node_modules/dantejs'),
-      'react-native-web': path.resolve('node_modules/react-native-web'),
-      'react-router': path.resolve('node_modules/react-router'),
-      'whatwg-fetch': path.resolve('node_modules/whatwg-fetch')
-    },
+    alias: config.alias,
     extensions: babelRc.extensions
   }
 }

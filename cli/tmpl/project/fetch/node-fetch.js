@@ -6,6 +6,4 @@
 
 import fetch from "node-fetch";
 
-import initFetch from "./wrap-fetch.js";
-
-module.exports = initFetch(fetch);
+export default require('./wrap-fetch.js')(fetch);

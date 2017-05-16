@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
   }
 })
 
-AppRegistry.registerComponent('app', () => hello,()=><Route path='/' key='index' component={DefaultComponent}></Route>)
+AppRegistry.registerComponent('app',()=>hello)

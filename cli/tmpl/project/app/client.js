@@ -4,53 +4,44 @@
  * 描述：将服务器返回的页面的数据在浏览器进行本地初始化，以实现同构
  */
 
-//加载依赖
-import "babel-polyfill";
-import "../../index.web.js";
-import React from 'react';
-import WebAppRegistry from "./registry";
-import { render } from 'react-dom';
-import fetch from './modules/fetch/browser-fetch.js';
+// 加载依赖
+import 'babel-polyfill'
+import "../fetch/browser-fetch.js";
+import '../../index.web.js'
+import React from 'react'
+import { AppRegistry } from 'react-native'
 
 /**
  * React App类
  */
 class ReactClientApp {
 
-    /**
-     * 构造函数
-     */
-    constructor(...params) {
-        this.initialize(...params);
-    }
+  /**
+   * 构造函数
+   */
+  constructor (...params) {
+    this.initialize(...params)
+  }
 
-    /**
-     * 初始化应用程序
-     */
-    initialize() {
-        window.__CLIENT__ = true;
-        const reactAppContext = this.reactAppContext = window['@@__reactAppContext__@@'];
-        const {appName,initialState} = reactAppContext;
-        //启动appName
-        this.registerApplication = WebAppRegistry.getApplication(appName);
-        //获取服务器同构数据
-        this.initialState = initialState;
-        //开始执行本地渲染
-        render(this.render(), document.getElementById('app'));
-    }
+  /**
+   * 初始化应用程序
+   */
+  initialize () {
+    window.__CLIENT__ = true
+    this.reactAppContext = window['@@__reactAppContext__@@']
+  }
 
-    /**
-     * 本地渲染
-     */
-    render() {
-        let {registerComponent:App,registerRoutes} =this.registerApplication;
-        return (
-            <App>{registerRoutes}</App>
-        );
-    }
+  /**
+   * 启动应用程序
+   */
+  runApplication () {
+    const {appName} = this.reactAppContext
+    AppRegistry.runApplication(appName, { rootTag: document.getElementById('app') })
+  }
 }
 
-//初始化客户端实例
+// 初始化客户端实例
 let clientReactApplication = new ReactClientApp();
 
-
+//启动程序
+clientReactApplication.runApplication();

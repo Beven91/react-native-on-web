@@ -11,14 +11,12 @@ var imageWeb = require('image-web-loader');
 var originRequire = module.constructor.prototype.require
 // 配置
 var config = require('../config.js');
-// 获取webpack配置
-var webpack = require('../webpack/webpack.client.js')
 
 //RequireImageXAssetPlugin 用于支持require('image!x')
 var xAssetsPlugin = new (imageWeb.RequireImageXAssetPlugin)(config.imageAssets);
 
 // 别名模块
-var ReactNativeWebAlias = webpack.resolve.alias || {
+var ReactNativeWebAlias = config.alias || {
   'react-native': 'react-native-on-web'
 }
 

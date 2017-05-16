@@ -6,6 +6,4 @@
 
 import "whatwg-fetch";
 
-import initFetch from "./wrap-fetch.js";
-
-module.exports = initFetch(self.fetch);
+export default require('./wrap-fetch.js')(fetch);

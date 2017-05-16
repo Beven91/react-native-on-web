@@ -6,9 +6,9 @@
 
 // 加载依赖
 import "../../index.web.js";
+import "../fetch/node-fetch";
+import { AppRegistry } from 'react-native'
 import ReactServerRequest from './request'
-import WebAppRegistry from "./registry";
-import fetch from './modules/fetch/node-fetch.js'
 
 /**
  * React 服务端 Application类
@@ -21,17 +21,11 @@ export default class ReactWebServerApplication {
    */
   constructor (context) {
     //启动应用名称
-    const reactRunAppName = context.getRunReactAppName();    
-    //设置要启动的react应用
-    const registerApplication = WebAppRegistry.getApplication(reactRunAppName);
+    const reactRunAppName = context.getRunReactAppName() || AppRegistry.getAppKeys()[0];
     // 附加上下文
     this.appContext = context
     //设置当前运行react app名称
-    this.reactRunAppName = registerApplication.appName;
-    //要启动的App组件
-    this.registerComponent = registerApplication.registerComponent; 
-    //设置路由
-    this.registerRoutes = registerApplication.registerRoutes;
+    this.reactRunAppName = reactRunAppName;
   }
 
   /**
