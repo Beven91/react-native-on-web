@@ -4,20 +4,20 @@
  * 描述：用于进行客户端代码打包，或者开发时使用热部署，进行自动更新
  */
 
-var os = require('os')
 var path = require('path')
-var fse = require('fs-extra')
 var webpack = require('webpack')
 var envAdapter = require('../../server/env/enviroment')
 var dantejs = require('dantejs')
 var config = require('../config.js')
 var Arrays = dantejs.Array
+
+//webpack plugins
 var RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlugin
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 var HappyPack = require('happypack')
-var happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
-
-// 
+var ProgressBarPlugin = require('progress-bar-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin')
+var CopyWebpackPlugin = require('copy-webpack-plugin')
 
 // 工程根目录
 var rootDir = config.rootDir
@@ -26,7 +26,8 @@ var appDir = path.join(rootDir, 'app')
 // 发布目录
 var releaseDir = config.releaseDir
 // 公用资源存放目录
-var assetDir = path.join(releaseDir, 'assets')
+var assetDir = path.join(config.releaseDir, 'assets')
+ 
 // babel 配置
 var babelRc = require('../babelRC.js')
 
@@ -55,8 +56,9 @@ var proPlugins = [
 
 module.exports = {
   devtool: envAdapter.valueOf('eval', undefined), // 打包后每个模块内容使用eval计算产出
-  name: 'reactWeb', // 配置名称
+  name: 'react-native-web client-side', // 配置名称
   context: appDir, // 根目录
+  stats: envAdapter.valueOf("errors-only", undefined),
   entry: {
     app: Arrays.filterEmpty([
       './client.js',
@@ -74,24 +76,15 @@ module.exports = {
     ]
   },
   output: {
-    path: assetDir,
+    path: path.join(assetDir,'app'),
     filename: '[name].js',
-    publicPath: '/'
+    publicPath: '/app/'
   },
   plugins: [
-    new HappyPack({
-      id: 'babel',
-      loaders: [{
-        path:'babel-loader',
-        query: {
-          presets: babelRc.presets,
-          plugins: babelRc.plugins
-        }
-      }],
-      threadPool: happyThreadPool,
-      cache: true,
-      verbose: true
-    }),
+    new ProgressBarPlugin(),
+    new HappyPack(config.happyPack),
+    new CleanWebpackPlugin(assetDir),
+    new CopyWebpackPlugin([{from:path.resolve('assets'),to:assetDir,toType:'dir'}]),
     new RequireImageXAssetPlugin(config.imageAssets),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin('common')

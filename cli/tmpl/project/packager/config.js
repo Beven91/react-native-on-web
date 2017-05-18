@@ -2,37 +2,77 @@
  * 网站打包配置
  */
 
-//引入依赖>>
-var path = require('path');
-var fs = require('fs-extra');
+// 引入依赖>>
+var path = require('path')
+var fs = require('fs-extra')
+var os = require('os')
+var dantejs = require('dantejs')
+var HappyPack = require('happypack')
 
-//工程根目录
-var rootDir = path.join(__dirname, '..');
-//发布目录
-var releaseDir = path.join(rootDir, '../release/react-web/');
+// 工程根目录
+var rootDir = path.join(__dirname, '..')
+// 发布目录
+var releaseDir = path.join(rootDir, '../release/react-web/')
+// 服务端express代码目录
+var serverDir = path.resolve('server')
+var targetServerDir = path.join(releaseDir, 'server')
+// pgk
+var pgk = require('../package.json')
+var babelRc = require('./babelRC.js')
+
+// 依赖模块名称
+var dependencies = Object.keys(pgk.dependencies)
+var devDependencies = Object.keys(pgk.devDependencies)
+var targetNodeModulesDir = path.join(releaseDir, 'node_modules')
 
 // 默认本地图片路径
 var imageAssets = [
-  path.join(path.resolve(''),'..','android/app/src/main/res/drawable/'),
-  path.join(path.resolve(''),'..','ios/SampleAppMovies/Images.xcassets/AppIcon.appiconset'),
+  path.join(path.resolve(''), '..', 'android/app/src/main/res/drawable/'),
+  path.join(path.resolve(''), '..', 'ios/SampleAppMovies/Images.xcassets/AppIcon.appiconset'),
   path.resolve('assets/images')
 ]
 
 module.exports = {
-    rootDir: rootDir,
-    releaseDir: releaseDir,
-    imageAssets:imageAssets,
-    alias: {
-      'react': path.resolve('node_modules/react'),
-      'react-dom': path.resolve('node_modules/react-dom'),
-      'babel-polyfill': path.resolve('node_modules/babel-polyfill'),
-      'NativeModules': path.resolve('node_modules/react-native-on-web'),
-      'react-native': path.resolve('node_modules/react-native-on-web'),
-      'logger': path.resolve('server/logger'),
-      'app-context': path.resolve('server/env/enviroment.js'),
-      'dantejs': path.resolve('node_modules/dantejs'),
-      'react-native-web': path.resolve('node_modules/react-native-web'),
-      'react-router': path.resolve('node_modules/react-router'),
-      'whatwg-fetch': path.resolve('node_modules/whatwg-fetch')
+  // 工程根目录
+  rootDir: rootDir,
+  // 打包发布后的目录
+  releaseDir: releaseDir,
+  // 图片寻找默认环境目录
+  imageAssets: imageAssets,
+  // 需要拆分打包的服务端代码
+  vendor: [
+    'dantejs',
+    'node-fetch',
+    'react',
+    'react-dom',
+    'react-native-on-web',
+    'react-router'
+  ],
+  targetNodeModulesDir: targetNodeModulesDir,
+  // 服务端express部分代码babel转码
+  serverCompile: dantejs.String.format('babel {0} -D -q --out-dir={1}', serverDir, targetServerDir),
+  // 服务端打包复制配置
+  serverSideCopy: [
+    {
+      from: path.resolve('node_modules'),
+      to: targetNodeModulesDir,toType: 'dir',
+      ignore: devDependencies.map(function (v) {return '/' + v + '/';})
     }
-};
+  ],
+  // 快速构建插件配置
+  happyPack: {
+    id: 'babel',
+    loaders: [{
+      path: 'babel-loader',
+      query: {
+        presets: babelRc.presets,
+        plugins: babelRc.plugins
+      }
+    }],
+    threadPool: HappyPack.ThreadPool({ size: os.cpus().length }),
+    cache: true,
+    verbose: true
+  },
+  // 别名配置
+  alias: require('./alias.js')
+}
