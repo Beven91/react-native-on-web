@@ -6,7 +6,6 @@
 
 //加载依赖
 import React from "react";
-import logger from "logger";
 import { AppRegistry } from 'react-native'
 import ReactDOMServer from 'react-dom/server';
 

@@ -105,9 +105,12 @@ ReleasePackageJson.prototype.targetRequireAlias = function () {
 function PackageJsonPlugin () {
 }
 
-PackageJsonPlugin.prototype.apply = function () {
-  var maker = new ReleasePackageJson()
-  maker.make()
+PackageJsonPlugin.prototype.apply = function (compiler) {
+  compiler.plugin('after-emit', function (compilation, callback) {
+    var maker = new ReleasePackageJson()
+    maker.make()
+    callback();
+  })
 }
 
 module.exports = PackageJsonPlugin
