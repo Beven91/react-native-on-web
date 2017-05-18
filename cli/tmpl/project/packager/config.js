@@ -40,14 +40,15 @@ module.exports = {
   // 图片寻找默认环境目录
   imageAssets: imageAssets,
   // 需要拆分打包的服务端代码
-  vendor: [
-    'dantejs',
-    'node-fetch',
-    'react',
-    'react-dom',
-    'react-native-on-web',
-    'react-router'
-  ],
+  serverEntry: {
+    'server': ['./server.js'],
+    'dantejs': 'dantejs',
+    'node-fetch': ['node-fetch'],
+    'react': ['react'],
+    'react-dom': ['react-dom'],
+    'react-native-on-web': ['react-native-on-web'],
+    'react-router': ['react-router']
+  },
   targetNodeModulesDir: targetNodeModulesDir,
   // 服务端express部分代码babel转码
   serverCompile: dantejs.String.format('babel {0} -D -q --out-dir={1}', serverDir, targetServerDir),
@@ -56,7 +57,7 @@ module.exports = {
     {
       from: path.resolve('node_modules'),
       to: targetNodeModulesDir,toType: 'dir',
-      ignore: devDependencies.map(function (v) {return '/' + v + '/';})
+      ignore: devDependencies.map(mapIgnoreNodeModule)
     }
   ],
   // 快速构建插件配置
@@ -75,4 +76,8 @@ module.exports = {
   },
   // 别名配置
   alias: require('./alias.js')
+}
+
+function mapIgnoreNodeModule (v) {
+  return '/' + v + '/'
 }

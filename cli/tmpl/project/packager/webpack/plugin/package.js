@@ -37,7 +37,7 @@ ReleasePackageJson.prototype.configPackage = function () {
   pgk.scripts = {
     'init': 'npm install --registry=https://registry.npm.taobao.org',
     'pm2': 'pm2 start pm2.json',
-    'start': 'npm run init && cross-env NODE_ENV=production node ./server/index.js'
+    'start': 'cross-env NODE_ENV=production node ./server/index.js'
   }
   this.writeJson(pgkfile, pgk)
 }

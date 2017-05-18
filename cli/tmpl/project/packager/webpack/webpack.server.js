@@ -39,10 +39,7 @@ module.exports = {
   stats: "errors-only",
   name: 'react-native-web server-side', // 配置名称
   context: appDir, // 根目录
-  entry: {
-    'server': ['./server.js'],
-    'vendor':config.vendor
-  },
+  entry:  config.serverEntry,
   output: {
     path: assetDir,
     filename: '[name].js',

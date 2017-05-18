@@ -35,7 +35,7 @@ const logger = new(winston.Logger)({
         }),
         new(winston.transports.File)({
             formatter: formatter,
-            filename: path.join(logDirectory, 'msite.log'),
+            filename: path.join(logDirectory, 'out.log'),
             timestamp: 'true',
             maxsize: 10485760,
             maxFiles: 10,
