@@ -4,7 +4,7 @@
 
 // 引入依赖>>
 var path = require('path')
-var fs = require('fs-extra')
+var fse = require('fs-extra')
 var os = require('os')
 var dantejs = require('dantejs')
 var HappyPack = require('happypack')
@@ -25,12 +25,21 @@ var dependencies = Object.keys(pgk.dependencies)
 var devDependencies = Object.keys(pgk.devDependencies)
 var targetNodeModulesDir = path.join(releaseDir, 'node_modules')
 
+// 控制台输入配置
+var processArgs = {}
+var packagerfile = path.resolve('.packager')
+if (fse.existsSync(packagerfile)) {
+  processArgs = fse.readJsonSync(packagerfile)
+}
+
 // 默认本地图片路径
 var imageAssets = [
   path.join(path.resolve(''), '..', 'android/app/src/main/res/drawable/'),
   path.join(path.resolve(''), '..', 'ios/SampleAppMovies/Images.xcassets/AppIcon.appiconset'),
   path.resolve('assets/images')
 ]
+
+releaseDir = processArgs.releaseDir || releaseDir;
 
 module.exports = {
   // 工程根目录

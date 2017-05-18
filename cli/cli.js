@@ -64,14 +64,28 @@ ReactNativeOnWebCli.prototype.remove = function () {
   var runRoot = process.cwd()
   var projectRoot = path.join(runRoot, 'web')
   var indexWeb = path.join(projectRoot, '..', 'index.web.js')
-  logger.error('ReactNativeOnWeb: remove web platform ......')
+  logger.info('ReactNativeOnWeb: remove web platform ......')
   if (fse.existsSync(projectRoot)) {
     fse.removeSync(projectRoot)
   }
   if (fse.existsSync(indexWeb)) {
     fse.removeSync(indexWeb)
   }
-  logger.error('ReactNativeOnWeb: remove web platform successful!')
+  logger.info('ReactNativeOnWeb: remove web platform successful!')
+}
+
+/**
+ * 打包发布
+ */
+ReactNativeOnWebCli.prototype.package  =function(){
+   var runRoot = process.cwd()
+  var projectRoot = path.join(runRoot, 'web')
+  if (!fse.existsSync(projectRoot)) {
+    return logger.error('ReactNativeOnWeb: there has not web platform you can invoke <react-native-on-web init> to create web platform')
+  }else {
+    logger.info('ReactNativeOnWeb: Running packager .......')
+    new Npm(projectRoot).run('build');
+  }
 }
 
 // 公布cli

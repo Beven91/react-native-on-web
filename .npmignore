@@ -3,6 +3,10 @@
 .idea
 .npmignore
 node_modules
+release/
+.happypack/
+cli/tmpl/project/release/
+cli/tmpl/project/.happypack/
 .vscode
 .idea/
 out/
