@@ -31,6 +31,12 @@ module.exports = function (argv) {
     .description('启动web平台')
 
   program
+    .command('bundle')
+    .allowUnknownOption()
+    .action(cli.run('bundle'))
+    .description('打包Web平台工程，例如:react-native-on-web bundle releaseDir=d:/release')
+
+  program
     .command('remove')
     .action(cli.run('remove'))
     .description('删除web平台工程')

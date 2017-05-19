@@ -4,13 +4,20 @@
  * 描述：包裹fetch 设置baseUrl
  */
 
-module.exports = (fetch) => {
+module.exports = (fetch, proxy) => {
   if (typeof global == 'undefined') {
     window.global = window
   }
-  const myfetch = (url, ...others) => {
+  const myfetch = (url, config) => {
     url = /^(http:|https:)/.test(url.trim()) ? (global.fetch.baseUri || '') + url : url
-    return fetch(url, ...others)
+    if (proxy) {
+      config = config || {}
+      config.headers = config.headers || {}
+      config.headers['___originUrl__'] = url
+      return fetch('/fetch', config)
+    }else {
+      return fetch(url, config)
+    }
   }
   global.fetch = myfetch
   global.Response = myfetch.Response = fetch.Response

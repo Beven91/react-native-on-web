@@ -51,5 +51,19 @@ Npm.prototype[run] = function (args) {
   })
 }
 
+/**
+ * 执行包下指定js文件
+ * @param {String} js 要执行的js文件路径
+ * @param  {Array} args 参数
+ */
+Npm.prototype.node = function(js,args){
+  args  = args || [];
+  args.unshift(js);
+  require('child_process').spawnSync("node", args, {
+    cwd: this.cwd,
+    stdio: [process.stdin, process.stdout, process.stderr]
+  })
+}
+
 // 公布引用
 module.exports = Npm

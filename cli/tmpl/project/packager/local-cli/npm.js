@@ -7,7 +7,7 @@
 var run = '@@__run__@@'
 
 function Npm (cwd) {
-  this.cwd = cwd || process.cwd
+  this.cwd = cwd || process.cwd();
 }
 
 /**

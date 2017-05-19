@@ -8,29 +8,25 @@ var fse = require('fs-extra')
 var os = require('os')
 var dantejs = require('dantejs')
 var HappyPack = require('happypack')
+var Configuration = require('./local-cli/config.js');
+
+// 工程包配置对象
+var pgk = require('../package.json')
+//babel转码配置
+var babelRc = require('./babelRC.js')
+//命令行发布配置对象
+var processConfig = Configuration.get();
 
 // 工程根目录
 var rootDir = path.join(__dirname, '..')
 // 发布目录
-var releaseDir = path.join(rootDir, '../release/react-web/')
+var releaseDir =processConfig.releaseDir || path.join(rootDir, '../release/react-web/')
 // 服务端express代码目录
 var serverDir = path.resolve('server')
+// 发布后目标服务端代码目录
 var targetServerDir = path.join(releaseDir, 'server')
-// pgk
-var pgk = require('../package.json')
-var babelRc = require('./babelRC.js')
-
-// 依赖模块名称
-var dependencies = Object.keys(pgk.dependencies)
-var devDependencies = Object.keys(pgk.devDependencies)
+// 发布后目标node_modules目录
 var targetNodeModulesDir = path.join(releaseDir, 'node_modules')
-
-// 控制台输入配置
-var processArgs = {}
-var packagerfile = path.resolve('.packager')
-if (fse.existsSync(packagerfile)) {
-  processArgs = fse.readJsonSync(packagerfile)
-}
 
 // 默认本地图片路径
 var imageAssets = [
@@ -38,8 +34,6 @@ var imageAssets = [
   path.join(path.resolve(''), '..', 'ios/SampleAppMovies/Images.xcassets/AppIcon.appiconset'),
   path.resolve('assets/images')
 ]
-
-releaseDir = processArgs.releaseDir || releaseDir;
 
 module.exports = {
   // 工程根目录
@@ -66,7 +60,7 @@ module.exports = {
     {
       from: path.resolve('node_modules'),
       to: targetNodeModulesDir,toType: 'dir',
-      ignore: devDependencies.map(mapIgnoreNodeModule)
+      ignore: Object.keys(pgk.devDependencies).map(mapIgnoreNodeModule)
     }
   ],
   // 快速构建插件配置

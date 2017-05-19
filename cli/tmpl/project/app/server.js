@@ -5,8 +5,8 @@
  */
 
 // 加载依赖
-import "../../index.web.js";
 import "../fetch/node-fetch";
+import "../../index.web.js";
 import { AppRegistry } from 'react-native'
 import ReactServerRequest from './request'
 
