@@ -12,12 +12,6 @@ class DefaultComponent extends Component{
 
 }
 
-fetch('https://api.douban.com/v2/movie/in_theaters')
-.then((response) => response.json())
-.then((responseData) => {
-  console.log(responseData);
-});
-
 export default class hello extends Component {
   render () {
     return (

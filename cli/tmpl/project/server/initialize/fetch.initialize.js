@@ -67,6 +67,7 @@ class ProxyPool {
    */
   onStartProxy (proxy) {
     clearTimeout(proxy[VARTIMER])
+    proxy.isUsing = true;
   }
 
   /**
