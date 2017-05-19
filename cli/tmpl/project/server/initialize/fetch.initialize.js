@@ -10,7 +10,7 @@ import appContext from 'app-context'
 import logger from 'logger'
 import urlParser from 'url'
 import httpProxy from 'http-proxy'
-import {EventEmitter2} from 'eventemitter2';
+import { EventEmitter2 } from 'eventemitter2'
 
 // 获取express app对象
 const app = appContext.getParam('app')
@@ -20,6 +20,8 @@ const VARTIMER = '@proxy_clean_timer@'
 const VARUSING = '@proxy_is_using@'
 
 const CLEANTIME = 2 * 60 * 1000
+
+const VARORIGINURL = '___originurl__'
 
 /**
  * 代理池
@@ -47,14 +49,14 @@ class ProxyPool {
       let target = this.proxyTarget(url)
       let proxyOptions = {
         target: target,
-        changeOrigin:true
+        changeOrigin: true
       }
       let proxy = this.pool[target]
       if (!proxy) {
         this.pool[target] = proxy = httpProxy.createProxyServer(proxyOptions)
         proxy.on('error', () => this.onEndProxy(proxy))
-        proxy.on('proxyReq', () => this.onEndProxy(proxy))
-        proxy.on('proxyRes', () => this.onStartProxy(proxy))
+        proxy.on('proxyReq', () => this.onStartProxy(proxy))
+        proxy.on('proxyRes', () => this.onEndProxy(proxy))
       }
       resolve(proxy)
     })
@@ -118,11 +120,14 @@ class ProxyPool {
 const proxyPool = new ProxyPool(10)
 
 app.use('/fetch', (req, resp, next) => {
-  let proxyUrl = req.headers['___originurl__']
+  let proxyUrl = req.headers[VARORIGINURL];
+  req.baseUrl = proxyUrl;
+  req.originalUrl = proxyUrl;
+  req.url = proxyUrl;
   proxyPool
     .createProxy(proxyUrl)
     .then((proxy) => {
-      proxy.web(req, resp, {}, (ex, a, b, c) => next(ex))
+       proxy.web(req, resp, {}, (ex, a, b, c) => next(ex));
     })
     .catch((ex) => {
       logger.error(ex)

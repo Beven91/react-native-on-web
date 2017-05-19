@@ -19,8 +19,6 @@ import appContext from 'app-context'
 import childProcess from 'child_process'
 import express from 'express'
 import logger from 'logger'
-import bodyParser from 'body-parser'
-import cookieParser from 'cookie-parser'
 
 // 获取webconfig数据
 const config = appContext.getParam('web')
@@ -32,24 +30,20 @@ appContext.setParam('app', app)
 // 设置react启动appName  如果不传递 ，则默认使用注册第一个app应用程序
 appContext.setRunReactAppName()
 
-app.use(bodyParser.json())
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true }))
-
+// fetch跨域配置
+require('./initialize/fetch.initialize.js')
 // 优先初始化request上下文信息
 require('./initialize/context.initialize.js')
 // 性能优化初始化
 require('./initialize/perfermance.initialize.js')
-// 初始化静态资源
-require('./initialize/static.initialize.js')
 // 初始化日志配置
 require('./initialize/logger.initialize.js')
 // 热部署配置
 require('./initialize/bundle.initialize.js')
-// mvc路由配置
-require('./initialize/fetch.initialize.js')
 // 初始化react配置
 require('./initialize/react.initialize.js')
+// 初始化静态资源
+require('./initialize/static.initialize.js')
 // 初始化视图引擎，以及静态资源配置
 require('./initialize/view.initialize.js')
 /*----->其他初始化写这里 ----------------->*/
