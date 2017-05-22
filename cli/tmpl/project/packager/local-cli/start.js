@@ -11,8 +11,7 @@ var yargs = require('yargs')
 var Npm = require('./npm.js')
 var Configuration = require('./config.js');
 
-var argv  = process.argv;
-
+var argv  = process.title=="npm"? JSON.parse(process.env.npm_config_argv).original : process.argv;
 
 // 定义用例
 yargs.usage('\nUsage: react-native-on-web --releaseDir=targetdir').help()
@@ -27,7 +26,7 @@ yargs.options({
 })
 
 // // 解析参数
-yargs.parse(process.argv)
+yargs.parse(argv)
 
 if(argv.length<=2){
    return yargs.showHelp();

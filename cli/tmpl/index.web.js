@@ -6,11 +6,7 @@
 
 import React, { Component } from 'react'
 import { Route } from 'react-router'
-import { AppRegistry, StyleSheet, Text, View } from 'react-native'
-
-class DefaultComponent extends Component{
-
-}
+import { AppRegistry, StyleSheet, Text, View,Image } from 'react-native'
 
 export default class hello extends Component {
   render () {
@@ -22,6 +18,9 @@ export default class hello extends Component {
         <Text style={styles.instructions}>
           To get started, edit index.ios.js
         </Text>
+        <Image  source={require('image!error_bg')}
+            style={{height: 300,width: 400}}
+        />
         <Text style={styles.instructions}>
           Press Cmd+R to reload,
           {'\n'} Cmd+D or shake for dev menu

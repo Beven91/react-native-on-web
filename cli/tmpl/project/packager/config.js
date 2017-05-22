@@ -13,7 +13,7 @@ var Configuration = require('./local-cli/config.js');
 // 工程包配置对象
 var pgk = require('../package.json')
 //babel转码配置
-var babelRc = require('./babelRC.js')
+var babelRc = require('./babelRC.js').getRC();
 //命令行发布配置对象
 var processConfig = Configuration.get();
 
@@ -42,16 +42,6 @@ module.exports = {
   releaseDir: releaseDir,
   // 图片寻找默认环境目录
   imageAssets: imageAssets,
-  // 需要拆分打包的服务端代码
-  serverEntry: {
-    'server': ['./server.js'],
-    'dantejs': 'dantejs',
-    'node-fetch': ['node-fetch'],
-    'react': ['react'],
-    'react-dom': ['react-dom'],
-    'react-native-on-web': ['react-native-on-web'],
-    'react-router': ['react-router']
-  },
   targetNodeModulesDir: targetNodeModulesDir,
   // 服务端express部分代码babel转码
   serverCompile: dantejs.String.format('babel {0} -D -q --out-dir={1}', serverDir, targetServerDir),

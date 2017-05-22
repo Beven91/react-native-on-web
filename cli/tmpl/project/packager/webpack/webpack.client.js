@@ -29,7 +29,7 @@ var releaseDir = config.releaseDir
 var assetDir = path.join(config.releaseDir, 'assets')
  
 // babel 配置
-var babelRc = require('../babelRC.js')
+var babelRc = require('../babelRC.js').getRC();
 
 // 开发环境plugins
 var devPlugins = [
@@ -100,12 +100,12 @@ module.exports = {
       {
         // 图片类型模块资源访问
         test: /\.(png|jpg|jpeg|gif)$/,
-        loader: 'image-web-loader!file'
+        loader: 'image-web-loader!file-loader'
       },
       {
         // url类型模块资源访问
         test: /\.(ico|svg|woff|woff2)$/,
-        loader: 'url',
+        loader: 'url-loader',
         query: {
           name: '[hash].[ext]',
           limit: 10000
@@ -114,7 +114,7 @@ module.exports = {
       {
         // json类型模块处理
         test: /\.json$/,
-        loader: 'json'
+        loader: 'json-loader'
       }
     ]
   },

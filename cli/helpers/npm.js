@@ -56,11 +56,11 @@ Npm.prototype[run] = function (args) {
  * @param {String} js 要执行的js文件路径
  * @param  {Array} args 参数
  */
-Npm.prototype.node = function(js,args){
+Npm.prototype.node = function(js,args,cwd){
   args  = args || [];
   args.unshift(js);
   require('child_process').spawnSync("node", args, {
-    cwd: this.cwd,
+    cwd: cwd || this.cwd,
     stdio: [process.stdin, process.stdout, process.stderr]
   })
 }

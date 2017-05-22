@@ -40,10 +40,10 @@ require('./initialize/perfermance.initialize.js')
 require('./initialize/logger.initialize.js')
 // 热部署配置
 require('./initialize/bundle.initialize.js')
-// 初始化react配置
-require('./initialize/react.initialize.js')
 // 初始化静态资源
 require('./initialize/static.initialize.js')
+// 初始化react配置
+require('./initialize/react.initialize.js')
 // 初始化视图引擎，以及静态资源配置
 require('./initialize/view.initialize.js')
 /*----->其他初始化写这里 ----------------->*/

@@ -80,13 +80,13 @@ ReactNativeOnWebCli.prototype.remove = function () {
 ReactNativeOnWebCli.prototype.bundle  =function(){
    var runRoot = process.cwd()
   var projectRoot = path.join(runRoot, 'web')
-  // if (!fse.existsSync(projectRoot)) {
-  //   return logger.error('ReactNativeOnWeb: there has not web platform you can invoke <react-native-on-web init> to create web platform')
-  // }else {
+  if (!fse.existsSync(projectRoot)) {
+    return logger.error('ReactNativeOnWeb: there has not web platform you can invoke <react-native-on-web init> to create web platform')
+  }else {
     logger.info('ReactNativeOnWeb: Running bundle .......')
     var argv = process.argv.slice(3);
-    new Npm(runRoot).node('./packager/local-cli/start.js',argv);
-  //}
+    new Npm(runRoot).node('./packager/local-cli/start.js',argv,projectRoot);
+  }
 }
 
 // 公布cli

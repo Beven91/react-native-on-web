@@ -9,7 +9,7 @@
 require('babel-polyfill')
 
 //2.启用babel-register
-require('babel-register')(require('../babelRC.js'))
+require('babel-register')(require('../babelRC.js').getRC());
 
 //3.静态资源加载
 require('./url-register.js');
