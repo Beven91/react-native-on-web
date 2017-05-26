@@ -18,9 +18,6 @@ export default class hello extends Component {
         <Text style={styles.instructions}>
           To get started, edit index.ios.js
         </Text>
-        <Image  source={require('image!error_bg')}
-            style={{height: 300,width: 400}}
-        />
         <Text style={styles.instructions}>
           Press Cmd+R to reload,
           {'\n'} Cmd+D or shake for dev menu
