@@ -38,13 +38,11 @@ var babelRc = BabelRCMaker.getRC()
 var externalsNodeModules = {}
 fs.readdirSync('node_modules')
   .filter(function (x) {
-    return (!BabelRCMaker.isNodeModuleCompile(x) || ['.bin'].indexOf(x) === -1)
+    return (['.bin'].indexOf(x) === -1 && !BabelRCMaker.isNodeModuleCompile(x))
   })
   .forEach(function (mod) {
     externalsNodeModules[mod] = 'commonjs ' + mod
   })
-
-  console.log(Object.keys(externalsNodeModules).length)
 
 module.exports = {
   target: 'node',
@@ -66,7 +64,7 @@ module.exports = {
     new WebpackShellPlugin({onBuildStart: [config.serverCompile]}),
     new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify('production')}}),
     new HappyPack(config.happyPack),
-    new CopyWebpackPlugin(config.serverSideCopy,{copyUnmodified: true,debug:'warning'}),
+    new CopyWebpackPlugin(config.serverSideCopy, {copyUnmodified: true,debug: 'warning'}),
     new RequireImageXAssetPlugin(config.imageAssets),
     new webpack.NoEmitOnErrorsPlugin(),
     new PackageJsonPlugin()
