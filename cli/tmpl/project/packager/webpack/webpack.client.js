@@ -18,7 +18,6 @@ var HappyPack = require('happypack')
 var ProgressBarPlugin = require('progress-bar-webpack-plugin')
 var CleanWebpackPlugin = require('clean-webpack-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
-var CompressionPlugin = require('compression-webpack-plugin')
 
 // 工程根目录
 var rootDir = config.rootDir

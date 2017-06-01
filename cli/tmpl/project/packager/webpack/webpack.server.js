@@ -22,7 +22,6 @@ var HappyPack = require('happypack')
 var ProgressBarPlugin = require('progress-bar-webpack-plugin')
 var PackageJsonPlugin = require('./plugin/package.js')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
-var SplitByPathPlugin = require('webpack-split-by-path')
 
 gracefulFs.gracefulify(fs)
 
