@@ -15,15 +15,28 @@ var config = require('../../config.js')
 /**
  * 发布后处理插件
  */
-function ReleasePackageJson () {}
+function ReleasePackageJson (outputOptions) {
+  this.outputOptions = outputOptions
+}
 
 /**
  * 发布结尾处理
  */
 ReleasePackageJson.prototype.make = function () {
+  this.compile();
   this.configPackage()
   this.configWeb()
   this.configIndex()
+}
+
+/**
+ * 编译server目录es6
+ */
+ReleasePackageJson.prototype.compile = function () {
+  require('child_process').execSync(config.serverCompile, [], {
+    cwd: config.rootDir,
+    stdio: [process.stdin, process.stdout, process.stderr]
+  })
 }
 
 /**
@@ -51,7 +64,12 @@ ReleasePackageJson.prototype.configWeb = function () {
   var file = path.resolve('web.json')
   var outfile = path.join(config.releaseDir, 'web.json')
   var webConfig = fse.readJsonSync(file)
+  var outputOptions = this.outputOptions
+  var dir = path.dirname(outputOptions.filename)
+  var originIndexWeb = webConfig.indexWeb
+  var targetIndexWeb = path.join(outputOptions.path, dir, path.basename(originIndexWeb))
   webConfig.port = 8080
+  webConfig.indexWeb = path.relative(path.join(config.releaseDir), targetIndexWeb)
   webConfig.version = new Date().getTime()
   this.writeJson(outfile, webConfig)
 }
@@ -107,9 +125,10 @@ function PackageJsonPlugin () {
 
 PackageJsonPlugin.prototype.apply = function (compiler) {
   compiler.plugin('after-emit', function (compilation, callback) {
-    var maker = new ReleasePackageJson()
+    var outputOptions = this.options.output
+    var maker = new ReleasePackageJson(outputOptions)
     maker.make()
-    callback();
+    callback()
   })
 }
 

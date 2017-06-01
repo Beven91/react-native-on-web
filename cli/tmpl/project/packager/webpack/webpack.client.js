@@ -11,25 +11,25 @@ var dantejs = require('dantejs')
 var config = require('../config.js')
 var Arrays = dantejs.Array
 
-//webpack plugins
+// webpack plugins
 var RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlugin
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 var HappyPack = require('happypack')
-var ProgressBarPlugin = require('progress-bar-webpack-plugin');
+var ProgressBarPlugin = require('progress-bar-webpack-plugin')
 var CleanWebpackPlugin = require('clean-webpack-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
+var CompressionPlugin = require('compression-webpack-plugin')
 
 // 工程根目录
 var rootDir = config.rootDir
-// app代码根目录
-var appDir = path.join(rootDir, 'app')
 // 发布目录
 var releaseDir = config.releaseDir
 // 公用资源存放目录
-var assetDir = path.join(config.releaseDir, 'assets')
- 
+var assetDir = config.assetsDir;
+
+
 // babel 配置
-var babelRc = require('../babelRC.js').getRC();
+var babelRc = require('../babelRC.js').getRC()
 
 // 开发环境plugins
 var devPlugins = [
@@ -57,8 +57,8 @@ var proPlugins = [
 module.exports = {
   devtool: envAdapter.valueOf('eval', undefined), // 打包后每个模块内容使用eval计算产出
   name: 'react-native-web client-side', // 配置名称
-  context: appDir, // 根目录
-  stats: envAdapter.valueOf("errors-only", undefined),
+  context: config.contextPath, // 根目录
+  stats: envAdapter.valueOf('errors-only', undefined),
   entry: {
     app: Arrays.filterEmpty([
       './client.js',
@@ -76,15 +76,16 @@ module.exports = {
     ]
   },
   output: {
-    path: path.join(assetDir,'app'),
+    pathinfo:true,
+    path: config.assetsAppDir,
     filename: '[name].js',
-    publicPath: '/app/'
+    publicPath: config.publicPath
   },
   plugins: [
     new ProgressBarPlugin(),
     new HappyPack(config.happyPack),
     new CleanWebpackPlugin(assetDir),
-    new CopyWebpackPlugin([{from:path.resolve('assets'),to:assetDir,toType:'dir'}]),
+    new CopyWebpackPlugin([{from: path.resolve('assets'),to: assetDir,toType: 'dir'}]),
     new RequireImageXAssetPlugin(config.imageAssets),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin('common')

@@ -8,8 +8,12 @@
             "type": "node",
             "request": "launch",
             "name": "启动程序",
-            "program": "${workspaceRoot}\\cli\\tmpl\\project\\server\\index.js",
-            "cwd":"${workspaceRoot}\\cli\\tmpl\\project\\"
+            "program": "${workspaceRoot}\\cli\\tmpl\\project\\node_modules\\webpack\\bin\\webpack.js",
+            "cwd":"${workspaceRoot}\\cli\\tmpl\\project\\",
+            "args": [
+                "--config",
+                "./packager/webpack/webpack.server.js"
+            ]
         },
         {
             "type": "node",

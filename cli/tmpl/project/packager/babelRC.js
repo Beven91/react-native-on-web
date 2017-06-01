@@ -29,16 +29,16 @@ module.exports.getRC = function () {
   }
 }
 
-//是否node_modules需要webpack打包编译
-module.exports.isNodeModuleCompile = isNodeModuleCompile;
+// 是否node_modules需要webpack打包编译
+module.exports.isNodeModuleCompile = isNodeModuleCompile
 
 function isNodeModuleCompile (file) {
   var regexp = null
   var isCompile = false
-  file = file.split('node_modules')[1] || ''
+  file = file.indexOf('node_modules') > -1 ? file.split('node_modules')[1] : file
   for (var i = 0,k = es6NodeModules.length;i < k;i++) {
     regexp = es6NodeModules[i]
-    if (regexp.test(file)) {
+    if (file.indexOf('react-native-on-web') < 0 && regexp.test(file)) {
       isCompile = true
       break
     }

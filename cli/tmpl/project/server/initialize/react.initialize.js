@@ -7,7 +7,7 @@
 //引入依赖>>
 import appContext from 'app-context';
 //引入ReactApplication
-import ReactWebServerApplication from "../../app/server";
+import ReactWebServerApplication from "../react/server";
 
 //获取express app对象
 const app = appContext.getParam('app');

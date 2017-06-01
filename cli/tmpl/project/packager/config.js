@@ -36,6 +36,13 @@ var imageAssets = [
 ]
 
 module.exports = {
+  //webpack静态资源访问目录
+  publicPath: '/app/',
+  contextPath:path.join(rootDir,'server/react/'),
+  //webpack打包静态资源存放目录
+  assetsDir:path.join(releaseDir, 'assets'),
+  //webpack.client 输出目录
+  assetsAppDir:path.join(releaseDir, 'assets','app'),
   // 工程根目录
   rootDir: rootDir,
   // 打包发布后的目录

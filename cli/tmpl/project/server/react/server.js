@@ -5,8 +5,8 @@
  */
 
 // 加载依赖
-import "../fetch/node-fetch";
-import "../../index.web.js";
+import path from "path";
+import "./fetch/node-fetch";
 import { AppRegistry } from 'react-native'
 import ReactServerRequest from './request'
 
@@ -20,6 +20,8 @@ export default class ReactWebServerApplication {
    * @param {Object} context 上下文信息
    */
   constructor (context) {
+    const web = context.getParam('web');
+    require(path.resolve(web.indexWeb));
     //启动应用名称
     const reactRunAppName = context.getRunReactAppName() || AppRegistry.getAppKeys()[0];
     // 附加上下文
