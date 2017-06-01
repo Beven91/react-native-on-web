@@ -63,7 +63,7 @@ module.exports = {
   },
   plugins: [
     new ProgressBarPlugin(),
-    new CleanWebpackPlugin([targetAppDir, config.targetNodeModulesDir]),
+    new CleanWebpackPlugin([targetAppDir, config.targetNodeModulesDir],{root:config.releaseDir}),
     new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify('production')}}),
     new HappyPack(config.happyPack),
     new CopyWebpackPlugin(config.serverSideCopy, {copyUnmodified: true,debug: 'warning'}),

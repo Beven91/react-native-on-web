@@ -79,7 +79,7 @@ module.exports = {
   plugins: [
     new ProgressBarPlugin(),
     new HappyPack(config.happyPack),
-    new CleanWebpackPlugin(assetDir),
+    new CleanWebpackPlugin(assetDir,{root:config.releaseDir}),
     new CopyWebpackPlugin([{from: path.resolve('assets'),to: assetDir,toType: 'dir'}]),
     new RequireImageXAssetPlugin(config.imageAssets),
     new webpack.NoEmitOnErrorsPlugin(),
