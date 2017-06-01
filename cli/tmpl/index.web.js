@@ -5,7 +5,6 @@
  */
 
 import React, { Component } from 'react'
-import { Route } from 'react-router'
 import { AppRegistry, StyleSheet, Text, View,Image } from 'react-native'
 
 export default class hello extends Component {

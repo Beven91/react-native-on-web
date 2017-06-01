@@ -93,7 +93,15 @@ module.exports = {
       {
         // 图片类型模块资源访问
         test: /\.(png|jpg|jpeg|gif)$/,
-        loader: 'image-web-loader!file-loader'
+        loader: [
+          {
+            loader: 'image-web-loader',
+            options:config.minOptions
+          },
+          {
+            loader: 'file-loader'
+          }
+        ]
       },
       {
         // url类型模块资源访问

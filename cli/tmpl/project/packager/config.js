@@ -8,19 +8,19 @@ var fse = require('fs-extra')
 var os = require('os')
 var dantejs = require('dantejs')
 var HappyPack = require('happypack')
-var Configuration = require('./local-cli/config.js');
+var Configuration = require('./local-cli/config.js')
 
 // 工程包配置对象
 var pgk = require('../package.json')
-//babel转码配置
-var babelRc = require('./babelRC.js').getRC();
-//命令行发布配置对象
-var processConfig = Configuration.get();
+// babel转码配置
+var babelRc = require('./babelRC.js').getRC()
+// 命令行发布配置对象
+var processConfig = Configuration.get()
 
 // 工程根目录
 var rootDir = path.join(__dirname, '..')
 // 发布目录
-var releaseDir =processConfig.releaseDir || path.join(rootDir, '../release/react-web/')
+var releaseDir = processConfig.releaseDir || path.join(rootDir, '../release/react-web/')
 // 服务端express代码目录
 var serverDir = path.resolve('server')
 // 发布后目标服务端代码目录
@@ -36,13 +36,13 @@ var imageAssets = [
 ]
 
 module.exports = {
-  //webpack静态资源访问目录
+  // webpack静态资源访问目录
   publicPath: '/app/',
-  contextPath:path.join(rootDir,'server/react/'),
-  //webpack打包静态资源存放目录
-  assetsDir:path.join(releaseDir, 'assets'),
-  //webpack.client 输出目录
-  assetsAppDir:path.join(releaseDir, 'assets','app'),
+  contextPath: path.join(rootDir, 'server/react/'),
+  // webpack打包静态资源存放目录
+  assetsDir: path.join(releaseDir, 'assets'),
+  // webpack.client 输出目录
+  assetsAppDir: path.join(releaseDir, 'assets', 'app'),
   // 工程根目录
   rootDir: rootDir,
   // 打包发布后的目录
@@ -73,6 +73,23 @@ module.exports = {
     threadPool: HappyPack.ThreadPool({ size: os.cpus().length }),
     cache: true,
     verbose: true
+  },
+  // 图片压缩配置
+  minOptions: {
+    gifsicle: {
+      interlaced: false
+    },
+    optipng: {
+      optimizationLevel: 7
+    },
+    pngquant: {
+      quality: '65-90',
+      speed: 4
+    },
+    mozjpeg: {
+      progressive: true,
+      quality: 65
+    }
   },
   // 别名配置
   alias: require('./alias.js')

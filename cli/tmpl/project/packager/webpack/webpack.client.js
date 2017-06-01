@@ -24,8 +24,7 @@ var rootDir = config.rootDir
 // 发布目录
 var releaseDir = config.releaseDir
 // 公用资源存放目录
-var assetDir = config.assetsDir;
-
+var assetDir = config.assetsDir
 
 // babel 配置
 var babelRc = require('../babelRC.js').getRC()
@@ -54,7 +53,7 @@ var proPlugins = [
 ]
 
 module.exports = {
-  devtool: envAdapter.valueOf('eval', undefined), // 打包后每个模块内容使用eval计算产出
+  devtool: envAdapter.valueOf('eval', 'cheap-module-source-map'), // 打包后每个模块内容使用eval计算产出
   name: 'react-native-web client-side', // 配置名称
   context: config.contextPath, // 根目录
   stats: envAdapter.valueOf('errors-only', undefined),
@@ -64,18 +63,15 @@ module.exports = {
       envAdapter.onDev('webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true')
     ]),
     common: [
-      'dantejs',
       'react',
       'react-dom',
       'react-native-web',
       'react-native-on-web',
-      'react-router',
       'whatwg-fetch',
       'babel-polyfill'
     ]
   },
   output: {
-    pathinfo:true,
     path: config.assetsAppDir,
     filename: '[name].js',
     publicPath: config.publicPath
@@ -100,7 +96,15 @@ module.exports = {
       {
         // 图片类型模块资源访问
         test: /\.(png|jpg|jpeg|gif)$/,
-        loader: 'image-web-loader!file-loader'
+        loader: [
+          {
+            loader: 'image-web-loader',
+            options:config.minOptions
+          },
+          {
+            loader: 'file-loader'
+          }
+        ]
       },
       {
         // url类型模块资源访问
