@@ -3,7 +3,6 @@
 .idea
 .idea/
 .happypack
-release/
 .vscode/
 out/
 dist/
@@ -13,9 +12,7 @@ logs/
 yarn.lock
 __tests__/
 node_modules
-cli/node_modules/
 bower_modules/
-cli/tmpl/logs
 .sass-cache/
 /release/
 npm-debug.log
