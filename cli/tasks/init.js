@@ -61,6 +61,7 @@ ReactNativeWeb.prototype.copyIndexWeb = function () {
     fse.copySync(path.join(this.projectRoot, '..', 'index.web.js'), indexWeb)
     logger.info('ReactNativeOnWeb: make index.web.js successful !')
   }
+  fse.moveSync(path.join(this.targetProjectRoot,'.gitignore.keep'),path.join(this.targetProjectRoot,'.gitignore');
 }
 
 /**
