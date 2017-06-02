@@ -7,7 +7,7 @@
 // 加载依赖
 import 'babel-polyfill'
 import "./fetch/browser-fetch.js";
-import '../../../index.web.js'
+import 'react-native-on-web-index-web-js'
 import React from 'react'
 import { AppRegistry } from 'react-native'
 

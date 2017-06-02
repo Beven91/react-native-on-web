@@ -7,6 +7,7 @@
 // 加载依赖
 import path from "path";
 import "./fetch/node-fetch";
+import "react-native-on-web-index-web-js";
 import { AppRegistry } from 'react-native'
 import ReactServerRequest from './request'
 

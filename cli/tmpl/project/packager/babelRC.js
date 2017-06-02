@@ -14,7 +14,7 @@ var es6NodeModules = [
 
 module.exports.getRC = function () {
   return {
-    presets: ['react-native'],
+    presets: [require.resolve('babel-preset-react-native')],
     ignore: function (file) {
       var isNodeModules = /node_modules/.test(file)
       return (isNodeModules && !isNodeModuleCompile(file))

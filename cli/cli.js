@@ -9,10 +9,13 @@
 var path = require('path')
 var fse = require('fs-extra')
 var logger = require('./logger.js')
-var Npm = require('./helpers/npm.js');
+var Npm = require('./helpers/npm.js')
+var pgk = require('../package.json')
 
 // 构建任务黑名单
 var blackList = ['run']
+var runRoot = process.cwd()
+var projectRoot = path.join(runRoot, 'web')
 
 /**
  * CLI 构造函数
@@ -48,12 +51,8 @@ ReactNativeOnWebCli.prototype.initReactWeb = function () {
  * 启动web 
  */
 ReactNativeOnWebCli.prototype.start = function () {
-  var runRoot = process.cwd()
-  var projectRoot = path.join(runRoot, 'web')
-  if (!fse.existsSync(projectRoot)) {
-    return logger.error('ReactNativeOnWeb: there has not web platform you can invoke <react-native-on-web init> to create web platform')
-  }else {
-    new Npm(projectRoot).run('start');
+  if (hasWebPlatform()) {
+    new Npm(projectRoot).run('start')
   }
 }
 
@@ -61,32 +60,38 @@ ReactNativeOnWebCli.prototype.start = function () {
  * 删除web工程
  */
 ReactNativeOnWebCli.prototype.remove = function () {
-  var runRoot = process.cwd()
-  var projectRoot = path.join(runRoot, 'web')
-  var indexWeb = path.join(projectRoot, '..', 'index.web.js')
-  logger.info('ReactNativeOnWeb: remove web platform ......')
-  if (fse.existsSync(projectRoot)) {
-    fse.removeSync(projectRoot)
+  if (hasWebPlatform()) {
+    var indexWeb = path.join(projectRoot, '..', 'index.web.js')
+    logger.info('ReactNativeOnWeb: remove web platform ......')
+    if (fse.existsSync(projectRoot)) {
+      fse.removeSync(projectRoot)
+    }
+    if (fse.existsSync(indexWeb)) {
+      fse.removeSync(indexWeb)
+    }
+    logger.info('ReactNativeOnWeb: remove web platform successful!')
   }
-  if (fse.existsSync(indexWeb)) {
-    fse.removeSync(indexWeb)
-  }
-  logger.info('ReactNativeOnWeb: remove web platform successful!')
 }
 
 /**
  * 打包发布
  */
-ReactNativeOnWebCli.prototype.bundle  =function(){
-   var runRoot = process.cwd()
-  var projectRoot = path.join(runRoot, 'web')
-  if (!fse.existsSync(projectRoot)) {
-    return logger.error('ReactNativeOnWeb: there has not web platform you can invoke <react-native-on-web init> to create web platform')
-  }else {
+ReactNativeOnWebCli.prototype.bundle = function () {
+  if (hasWebPlatform()) {
     logger.info('ReactNativeOnWeb: Running bundle .......')
-    var argv = process.argv.slice(3);
-    new Npm(runRoot).node('./packager/local-cli/start.js',argv,projectRoot);
+    var argv = process.argv.slice(3)
+    new Npm(runRoot).node('./packager/local-cli/start.js', argv, projectRoot)
   }
+}
+
+function hasWebPlatform () {
+  var packageJsonPath = path.join(projectRoot, 'package.json')
+  var dependencies = fse.existsSync(packageJsonPath) ? Object.keys(require(packageJsonPath).dependencies) : []
+  var hasPlatform = (fse.existsSync(projectRoot) && dependencies.indexOf(pgk.name) > -1)
+  if (!hasPlatform) {
+    logger.error('ReactNativeOnWeb: there has not web platform you can invoke <react-native-on-web init> to create web platform')
+  }
+  return hasPlatform
 }
 
 // 公布cli
