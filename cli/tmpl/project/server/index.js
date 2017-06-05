@@ -4,7 +4,7 @@
  * 描述：用于初始化相关环境配置
  */
 
-//启用register
-require('../packager/register/');
+//启用非打包模式react-native支持
+require('react-native-on-web/cli/packager/register');
 //开始启动网站
 require('./www.js');

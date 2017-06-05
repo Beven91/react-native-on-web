@@ -15,7 +15,7 @@ var pgk = require('../package.json')
 // 构建任务黑名单
 var blackList = ['run']
 var runRoot = process.cwd()
-var projectRoot = path.join(runRoot, 'web')
+var projectRoot = hasPackageReactOnWeb(runRoot) ? runRoot : path.join(runRoot, 'web')
 
 /**
  * CLI 构造函数
@@ -79,19 +79,30 @@ ReactNativeOnWebCli.prototype.remove = function () {
 ReactNativeOnWebCli.prototype.bundle = function () {
   if (hasWebPlatform()) {
     logger.info('ReactNativeOnWeb: Running bundle .......')
-    var argv = process.argv.slice(3)
-    new Npm(runRoot).node('./packager/local-cli/start.js', argv, projectRoot)
+    var selfRoot = path.join(__dirname, 'tmpl', 'project', 'web')
+    var inProject = selfRoot.indexOf(projectRoot) > -1
+    if (projectRoot == selfRoot || inProject) {
+      require('./packager/local-cli/start.js')
+    }else {
+      var argv = process.argv.slice(3)
+      var js = 'node_modules/react-native-on-web/cli/packager/local-cli/start.js'
+      new Npm(runRoot).node(js, argv)
+    }
   }
 }
 
 function hasWebPlatform () {
-  var packageJsonPath = path.join(projectRoot, 'package.json')
-  var dependencies = fse.existsSync(packageJsonPath) ? Object.keys(require(packageJsonPath).dependencies) : []
-  var hasPlatform = (fse.existsSync(projectRoot) && dependencies.indexOf(pgk.name) > -1)
+  var hasPlatform = hasPackageReactOnWeb(runRoot) || hasPackageReactOnWeb(projectRoot)
   if (!hasPlatform) {
     logger.error('ReactNativeOnWeb: there has not web platform you can invoke <react-native-on-web init> to create web platform')
   }
   return hasPlatform
+}
+
+function hasPackageReactOnWeb (dir) {
+  var packageJsonPath = path.join(dir, 'package.json')
+  var dependencies = fse.existsSync(packageJsonPath) ? Object.keys(require(packageJsonPath).dependencies) : []
+  return dependencies.indexOf(pgk.name) > -1
 }
 
 // 公布cli

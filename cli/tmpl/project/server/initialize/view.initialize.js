@@ -5,10 +5,11 @@
  */
 
 //引入依赖>>
-import appContext from 'app-context';
 import path from "path";
+import appContext from 'app-context';
 import exphbs from 'express-handlebars';
 import dantejs from "dantejs";
+import packager from "../../.packager.js"
 
 //获取express app对象
 const app = appContext.getParam('app');
@@ -22,7 +23,6 @@ const handlebars = exphbs.create({
     layoutsDir: path.join(__dirname, '..', 'webapp/views/layout'),
     defaultLayout: 'layout',
     extname: '.hbs'
-
 })
 
 //设置视图引擎
@@ -34,8 +34,8 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, '..', 'webapp/views'));
 
 //设置全局编译数据
-locals.version = webConfig.version;
-locals.env = appContext.env;
-locals.isDevelopment = appContext.isDev;
-locals.hasBaidu = webConfig.baidu;
-locals.lion = {};
+locals.__version__ = webConfig.version;
+locals.__env__ = appContext.env;
+locals.__isDevelopment__ = appContext.isDev;
+locals.__cdnUrl__=webConfig.cdnUrl || "/";
+locals.__cdnUrlName__  =  packager.minOptions.contextName;

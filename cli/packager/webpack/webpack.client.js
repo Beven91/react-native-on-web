@@ -4,12 +4,15 @@
  * 描述：用于进行客户端代码打包，或者开发时使用热部署，进行自动更新
  */
 
+// 添加搜索路径
+module.paths.unshift(require('path').resolve('node_modules'));
+
 var path = require('path')
 var webpack = require('webpack')
-var envAdapter = require('../../server/env/enviroment')
 var dantejs = require('dantejs')
 var config = require('../config.js')
 var Arrays = dantejs.Array
+var isProudction = process.env.NODE_ENV == 'production'
 
 // webpack plugins
 var RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlugin
@@ -53,14 +56,14 @@ var proPlugins = [
 ]
 
 module.exports = {
-  devtool: envAdapter.valueOf('eval', 'cheap-module-source-map'), // 打包后每个模块内容使用eval计算产出
+  devtool: isProudction ? 'cheap-module-source-map' : 'eval', // 打包后每个模块内容使用eval计算产出
   name: 'react-native-web client-side', // 配置名称
-  context: config.contextPath, // 根目录
-  stats: envAdapter.valueOf('errors-only', undefined),
+  context: path.dirname(config.clientContextEntry), // 根目录
+  stats: isProudction ? undefined : 'errors-only',
   entry: {
     app: Arrays.filterEmpty([
-      './client.js',
-      envAdapter.onDev('webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true')
+      './' + path.basename(config.clientContextEntry),
+      isProudction ? undefined : 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true'
     ]),
     common: [
       'react',
@@ -79,12 +82,14 @@ module.exports = {
   plugins: [
     new ProgressBarPlugin(),
     new HappyPack(config.happyPack),
-    new CleanWebpackPlugin(assetDir,{root:config.releaseDir}),
+    new CleanWebpackPlugin(assetDir, {root: config.releaseDir}),
     new CopyWebpackPlugin([{from: path.resolve('assets'),to: assetDir,toType: 'dir'}]),
     new RequireImageXAssetPlugin(config.imageAssets),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin('common')
-  ].concat(envAdapter.valueOf(devPlugins, proPlugins)),
+  ]
+    .concat(isProudction ? proPlugins : devPlugins)
+    .concat(config.plugins),
   module: {
     loaders: [
       {
@@ -99,7 +104,7 @@ module.exports = {
         loader: [
           {
             loader: 'image-web-loader',
-            options:config.minOptions
+            options: config.minOptions
           },
           {
             loader: 'file-loader'
@@ -120,13 +125,13 @@ module.exports = {
         test: /\.json$/,
         loader: 'json-loader'
       }
-    ]
+    ].concat(config.loaders)
   },
   resolveLoader: {
     modules: [path.resolve('node_modules')]
   },
   resolve: {
     alias: config.alias,
-    extensions: babelRc.extensions
+    extensions: babelRc.extensions.concat(config.extensions)
   }
 }

@@ -4,10 +4,12 @@
  * 描述：通过代码方式执行npm命令
  */
 
+var path  =require('path');
+
 var run = '@@__run__@@'
 
 function Npm (cwd) {
-  this.cwd = cwd || process.cwd
+  this.cwd = cwd || process.cwd()
 }
 
 /**
@@ -21,7 +23,7 @@ Npm.prototype.start = function () {
  * 执行npm install
  */
 Npm.prototype.install = function (script) {
-  var args = (script||'').split(' ')
+  var args = (script || '').split(' ')
   args.unshift('install')
   this[run](args)
 }
@@ -56,11 +58,26 @@ Npm.prototype[run] = function (args) {
  * @param {String} js 要执行的js文件路径
  * @param  {Array} args 参数
  */
-Npm.prototype.node = function(js,args,cwd){
-  args  = args || [];
-  args.unshift(js);
-  require('child_process').spawnSync("node", args, {
+Npm.prototype.node = function (js, args, cwd) {
+  args = args || []
+  args.unshift(js)
+  require('child_process').spawnSync('node', args, {
     cwd: cwd || this.cwd,
+    stdio: [process.stdin, process.stdout, process.stderr]
+  })
+}
+
+/**
+ * 执行指定命令
+ * @param  {String} name 命令名称 例如: node
+ * @param  {Array} args 参数
+ */
+Npm.prototype.exec = function (name, args) {
+  args = args || []
+  name = path.join(this.cwd,'node_modules/.bin/', name);
+  name = process.platform === 'win32' ? name + '.cmd' : name
+  require('child_process').spawnSync(name, args, {
+    cwd: this.cwd,
     stdio: [process.stdin, process.stdout, process.stderr]
   })
 }

@@ -34,12 +34,12 @@ module.exports = function (argv) {
     .command('bundle')
     .allowUnknownOption()
     .action(cli.run('bundle'))
-    .description('打包Web平台工程，例如:react-native-on-web bundle releaseDir=d:/release')
+    .description('打包Web平台工程，例如:react-native-on-web bundle releaseDir=d:/release --client(仅打包客户端代码) --server(仅打包服务端代码) (默认全部)')
 
-  program
-    .command('remove')
-    .action(cli.run('remove'))
-    .description('删除web平台工程')
+  // program
+  //   .command('remove')
+  //   .action(cli.run('remove'))
+  //   .description('删除web平台工程')
   
   // 解析参数
   program.parse(argv)

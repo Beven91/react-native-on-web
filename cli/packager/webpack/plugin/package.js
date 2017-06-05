@@ -7,10 +7,14 @@
 // 引入依赖>>
 var fse = require('fs-extra')
 var path = require('path')
-var dantejs = require('dantejs')
+var Npm = require('../../../helpers/npm.js')
 
 // 配置文件
 var config = require('../../config.js')
+// babel 配置
+var babelRc = require('../../babelRC.js').getRC()
+// .babelrc 文件路径
+var babelrcfile = path.resolve('.babelrc')
 
 /**
  * 发布后处理插件
@@ -23,7 +27,7 @@ function ReleasePackageJson (outputOptions) {
  * 发布结尾处理
  */
 ReleasePackageJson.prototype.make = function () {
-  this.compile();
+  this.compile()
   this.configPackage()
   this.configWeb()
   this.configIndex()
@@ -33,10 +37,44 @@ ReleasePackageJson.prototype.make = function () {
  * 编译server目录es6
  */
 ReleasePackageJson.prototype.compile = function () {
-  require('child_process').execSync(config.serverCompile, [], {
-    cwd: config.rootDir,
-    stdio: [process.stdin, process.stdout, process.stderr]
-  })
+  try {
+    this.writeBabelRc()
+    var r = (new Npm()).exec('babel', [
+      path.join(config.rootDir, 'server'),
+      '-D',
+      '-q',
+      '--out-dir=' + path.join(config.releaseDir, 'server')
+    ])
+  } finally {
+    this.removeBabelRc()
+  }
+}
+
+/**
+ * 移除babelrc文件
+ */
+ReleasePackageJson.prototype.removeBabelRc = function () {
+  if (fse.existsSync(babelrcfile)) {
+    fse.removeSync(babelrcfile)
+  }
+}
+
+/**
+ * 写出临时.babelrc文件
+ */
+ReleasePackageJson.prototype.writeBabelRc = function () {
+  var config = {
+    'presets': babelRc.presets,
+    'plugins': [
+      ['module-resolver', {
+        'alias': {
+          'react-native-on-web/cli/packager/register': 'react-native-on-web/empty',
+          'react-native-on-web/cli/packager/webpack/middleware/hot.bundle.js': 'react-native-on-web/empty'
+        }
+      }]
+    ]
+  }
+  fse.writeJSONSync(babelrcfile, config)
 }
 
 /**
@@ -78,13 +116,13 @@ ReleasePackageJson.prototype.configWeb = function () {
  * 覆写server/index.js
  */
 ReleasePackageJson.prototype.configIndex = function () {
-  var file = path.resolve('server/index.js')
   var releaseDir = config.releaseDir
+  var file = path.join(releaseDir, 'server/index.js')
   var outfile = path.join(releaseDir, 'server/index.js')
   var indexContent = fse.readFileSync(file).toString()
   var indexRequire = '(' + this.targetRequireAlias.toString() + ')()'
-  indexContent = indexContent.replace("require('../packager/register/');", indexRequire)
-  fse.copySync(path.resolve('packager/alias.js'), path.join(releaseDir, 'server/alias.js'))
+  indexContent = indexRequire + indexContent
+  fse.copySync(path.join(__dirname, '../../alias.js'), path.join(releaseDir, 'server/alias.js'))
   this.write(outfile, indexContent)
 }
 

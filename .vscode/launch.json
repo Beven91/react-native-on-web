@@ -12,7 +12,7 @@
             "cwd":"${workspaceRoot}\\cli\\tmpl\\project\\",
             "args": [
                 "--config",
-                "./packager/webpack/webpack.server.js"
+                "../../packager/webpack/webpack.server.js"
             ]
         },
         {

@@ -53,7 +53,29 @@ Configuration.remove = function (e) {
  * 获取整个配置对象数据
  */
 Configuration.get = function () {
-  return fse.existsSync(configfile) ? fse.readJSONSync(configfile) : {}
+   var file = path.resolve('.packager.js')
+   var customConfig =  fse.existsSync(file) ? require(file) : {}
+   var config = fse.existsSync(configfile) ? fse.readJSONSync(configfile) : {
+     //require('image!xx') 寻址目录列表
+     imageAssets:[],
+     //静态资源打包后通过express访问的路径前缀  例如: static/
+     publicPath:null,
+     //客户端代码打包入口文件
+     clientContextEntry:null,
+      //服务端代码打包入口文件
+     serverContextEntry:null,
+     //图片压缩配置
+     minOptions:null,
+     //webpack loaders
+     loaders:[],
+     //webpack plugins
+     plugins:[],
+     //webpack resovle.extensions
+     extensions:[]
+
+   };
+   config.customConfig = customConfig;
+   return config
 }
 
 /**
