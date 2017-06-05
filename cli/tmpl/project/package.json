@@ -6,11 +6,7 @@
     "test": "mocha",
     "init": "npm install --registry=https://registry.npm.taobao.org",
     "dev": "cross-env  NODE_ENV=development node ./server/index.js",
-    "start": "cross-env  NODE_ENV=development node ./server/index.js",
-    "webpack:server": "cross-env NODE_ENV=production webpack --colors --config ./packager/webpack/webpack.server.js",
-    "webpack:client": "cross-env NODE_ENV=production webpack --colors --config ./packager/webpack/webpack.client.js",
-    "webpack": "npm run webpack:client && npm run webpack:server ",
-    "build": "node ./packager/local-cli/start.js"
+    "start": "cross-env  NODE_ENV=development node ./server/index.js"
   },
   "author": "",
   "license": "MIT",
@@ -31,7 +27,7 @@
     "node-fetch": "^1.6.3",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-native-on-web": "^2.0.1",
+    "react-native-on-web": "^2.0.2",
     "whatwg-fetch": "^1.0.0",
     "winston": "^2.3.0"
   },
