@@ -1,5 +1,5 @@
 {
-    "name": "node-msites", // 应用名称
+    "name": "web", // 应用名称
     "script": "./server/index.js", // 实际启动脚本
     "cwd": "./", // 当前工作路径
     "watch": [ // 监控变化的目录，一旦变化，自动重启
@@ -10,8 +10,8 @@
         "logs",
         "assets"
     ],
-    "error_file": "./logs/pm2/msites-error.log", // 错误日志路径
-    "out_file": "./logs/pm2/msites-out.log", // 普通日志路径
+    "error_file": "./logs/pm2/web-error.log", // 错误日志路径
+    "out_file": "./logs/pm2/web-out.log", // 普通日志路径
     "env": {
         "NODE_ENV": "production" // 环境参数，当前指定为生产环境
     }

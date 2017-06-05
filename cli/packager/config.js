@@ -3,7 +3,7 @@
  */
 
 // 引入依赖>>
-var path  =require('path');
+var path = require('path')
 var fse = require('fs-extra')
 var os = require('os')
 var HappyPack = require('happypack')
@@ -32,8 +32,8 @@ var imageAssets = [
   path.resolve('assets/images')
 ].concat(customPackager.imageAssets)
 
-//资源路径
-var publicPath = customPackager.publicPath || '/app/';
+// 资源路径
+var publicPath = customPackager.publicPath || '/app/'
 
 module.exports = {
   // webpack静态资源访问目录
@@ -63,9 +63,13 @@ module.exports = {
   extensions: customPackager.extensions || [],
   // 服务端打包复制配置
   serverSideCopy: [
-     {
+    {
       from: path.resolve('.packager.js'),
-      to: path.join(releaseDir,'.packager.js'),toType: 'file',
+      to: path.join(releaseDir, '.packager.js'),toType: 'file'
+    },
+    {
+      from: path.resolve('pm2.json'),
+      to: path.join(releaseDir, 'pm2.json'),toType: 'file'
     },
     {
       from: path.resolve('node_modules'),
