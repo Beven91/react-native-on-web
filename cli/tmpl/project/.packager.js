@@ -1,5 +1,5 @@
 var path = require('path')
-var webConfig  =require('./web.json');
+var webConfig = require('./web.json')
 
 module.exports = {
   // require('image!xx') 寻址目录列表
@@ -15,14 +15,8 @@ module.exports = {
     'logger': path.resolve('server/logger/index.js'),
     'app-context': path.resolve('server/env/enviroment.js')
   },
-  //发布后复制信息
-  copy:[
-     {
-      from: path.resolve(''),
-      to: releaseDir,toType: 'dir',
-      ignore: ['/node_modules/','/logs/','/.happypack/']
-    }
-  ],
+  // 需要忽略的复制的项
+  ignoreCopy: ['/node_modules/', '/logs/', '/.happypack/'],
   // 图片压缩配置
   minOptions: {
     contextName: '__cdnUrl__',

@@ -63,6 +63,11 @@ module.exports = {
   extensions: customPackager.extensions || [],
   // 服务端打包复制配置
   serverSideCopy: [
+     {
+      from: path.resolve(''),
+      to: releaseDir,toType: 'dir',
+      ignore:customPackager.ignoreCopy ||  ['/node_modules/','/logs/','/.happypack/']
+    },
     {
       from: path.resolve('node_modules'),
       to: targetNodeModulesDir,toType: 'dir',
