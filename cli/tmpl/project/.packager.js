@@ -15,6 +15,14 @@ module.exports = {
     'logger': path.resolve('server/logger/index.js'),
     'app-context': path.resolve('server/env/enviroment.js')
   },
+  // 发布忽略列表
+  ignores: [
+    '.git/**/*',
+    '.packager',
+    '.vscode/**/*',
+    '.happypack/**/*',
+    'logs/**/*'
+  ],
   // 图片压缩配置
   minOptions: {
     contextName: '__cdnUrl__',

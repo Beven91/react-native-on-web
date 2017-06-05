@@ -64,19 +64,12 @@ module.exports = {
   // 服务端打包复制配置
   serverSideCopy: [
     {
-      from: path.resolve('.packager.js'),
-      to: path.join(releaseDir, '.packager.js'),toType: 'file'
-    },
-    {
-      from: path.resolve('pm2.json'),
-      to: path.join(releaseDir, 'pm2.json'),toType: 'file'
-    },
-    {
-      from: path.resolve('node_modules'),
-      to: targetNodeModulesDir,toType: 'dir',
-      ignore: Object.keys(pgk.devDependencies).map(mapIgnoreNodeModule)
+      from: path.resolve(''),
+      to: releaseDir,
+      toType: 'dir',
+      ignore: Object.keys(pgk.devDependencies).map(mapIgnoreNodeModule).concat(customPackager.ignores)
     }
-  ].concat(customPackager.copy),
+  ],
   // 快速构建插件配置
   happyPack: {
     id: 'babel',
