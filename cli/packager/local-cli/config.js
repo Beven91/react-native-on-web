@@ -71,7 +71,9 @@ Configuration.get = function () {
      //webpack plugins
      plugins:[],
      //webpack resovle.extensions
-     extensions:[]
+     extensions:[],
+     //发布复制信息
+     copy:[]
 
    };
    config.customConfig = customConfig;

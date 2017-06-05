@@ -15,6 +15,14 @@ module.exports = {
     'logger': path.resolve('server/logger/index.js'),
     'app-context': path.resolve('server/env/enviroment.js')
   },
+  //发布后复制信息
+  copy:[
+     {
+      from: path.resolve(''),
+      to: releaseDir,toType: 'dir',
+      ignore: ['/node_modules/','/logs/','/.happypack/']
+    }
+  ],
   // 图片压缩配置
   minOptions: {
     contextName: '__cdnUrl__',

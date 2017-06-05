@@ -68,7 +68,7 @@ module.exports = {
       to: targetNodeModulesDir,toType: 'dir',
       ignore: Object.keys(pgk.devDependencies).map(mapIgnoreNodeModule)
     }
-  ],
+  ].concat(customPackager.copy),
   // 快速构建插件配置
   happyPack: {
     id: 'babel',
