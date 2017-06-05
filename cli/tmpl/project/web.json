@@ -1,5 +1,5 @@
 {
     "port": 8080,
-    "cdnUrl":"/",
+    "cdnUrl":"",
     "indexWeb":"../index.web.js"
 }
