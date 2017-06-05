@@ -64,9 +64,8 @@ module.exports = {
   // 服务端打包复制配置
   serverSideCopy: [
      {
-      from: path.resolve(''),
-      to: releaseDir,toType: 'dir',
-      ignore:customPackager.ignoreCopy ||  ['/node_modules/','/logs/','/.happypack/']
+      from: path.resolve('.packager.js'),
+      to: path.join(releaseDir,'.packager.js'),toType: 'file',
     },
     {
       from: path.resolve('node_modules'),

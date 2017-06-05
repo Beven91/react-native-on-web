@@ -15,8 +15,6 @@ module.exports = {
     'logger': path.resolve('server/logger/index.js'),
     'app-context': path.resolve('server/env/enviroment.js')
   },
-  // 需要忽略的复制的项
-  ignoreCopy: ['/node_modules/', '/logs/', '/.happypack/'],
   // 图片压缩配置
   minOptions: {
     contextName: '__cdnUrl__',
