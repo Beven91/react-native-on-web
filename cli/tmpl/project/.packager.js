@@ -1,4 +1,5 @@
 var path = require('path')
+var webConfig  =require('./web.json');
 
 module.exports = {
   // require('image!xx') 寻址目录列表
@@ -8,7 +9,7 @@ module.exports = {
   // 客户端代码打包入口文件
   clientContextEntry: path.resolve('server/react/client.js'),
   // 服务端代码打包入口文件
-  serverContextEntry: path.resolve('../index.web.js'),
+  serverContextEntry: path.resolve(webConfig.indexWeb),
   // 别名配置
   alias: {
     'logger': path.resolve('server/logger/index.js'),
