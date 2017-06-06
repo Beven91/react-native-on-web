@@ -27,36 +27,9 @@
     "node-fetch": "^1.6.3",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-native-on-web": "^2.0.12",
+    "react-native-on-web": "^2.0.13",
     "whatwg-fetch": "^1.0.0",
     "winston": "^2.3.0"
   },
-  "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-loader": "^6.2.7",
-    "babel-plugin-module-resolver": "^2.7.1",
-    "babel-plugin-transform-react-remove-prop-types": "^0.2.11",
-    "babel-preset-react-native": "^1.9.1",
-    "babel-register": "^6.18.0",
-    "bundle-loader": "^0.5.4",
-    "clean-webpack-plugin": "^0.1.16",
-    "copy-webpack-plugin": "^4.0.1",
-    "file-loader": "^0.9.0",
-    "graceful-fs": "^4.1.11",
-    "happypack": "^3.0.3",
-    "image-web-loader": "^1.1.14",
-    "json-loader": "^0.5.4",
-    "progress-bar-webpack-plugin": "^1.9.3",
-    "react-hot-loader": "1.2.7",
-    "style-loader": "^0.13.0",
-    "url-loader": "^0.5.7",
-    "webpack": "^2.5.1",
-    "webpack-bundle-analyzer": "^2.8.1",
-    "webpack-dev-middleware": "^1.10.2",
-    "webpack-dev-server": "^2.4.5",
-    "webpack-hot-middleware": "^2.18.0",
-    "webpack-node-module-plugin": "^1.0.0",
-    "webpack-shell-plugin": "^0.5.0",
-    "yargs": "^8.0.1"
-  }
+  "devDependencies": {}
 }
