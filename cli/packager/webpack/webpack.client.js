@@ -41,7 +41,6 @@ var devPlugins = [
 var proPlugins = [
   new CleanWebpackPlugin(assetDir, {root: config.releaseDir}),
   new CopyWebpackPlugin([{from: path.resolve('assets'),to: assetDir,toType: 'dir'}]),
-  new RequireImageXAssetPlugin(config.imageAssets),
   new BundleAnalyzerPlugin({
     analyzerMode: 'static',
     openAnalyzer: false
@@ -84,6 +83,7 @@ module.exports = {
   },
   plugins: [
     new ProgressBarPlugin(),
+    new RequireImageXAssetPlugin(config.imageAssets),
     new HappyPack(config.happyPack),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin('common')

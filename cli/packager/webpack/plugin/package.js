@@ -66,7 +66,9 @@ ReleasePackageJson.prototype.compile = function () {
       '-q',
       '--out-dir=' + path.join(config.releaseDir, 'server')
     ])
-  } finally {
+  }catch(ex){
+    console.error(ex);
+  }finally {
     this.removeBabelRc()
   }
 }

@@ -53,12 +53,10 @@ if(argv.length<=2){
 var config = yargs.argv;
 
 //判断发布目录是否存在，如果存在 则修改发布目录为 config.releaseDir/react-web
-if(fse.existsSync(config.releaseDir)){
-  config.releaseDir  =path.join(config.releaseDir,'react-web');
-}
+config.releaseDir = path.join(config.releaseDir,'react-web');
 
 //设置install值
-config.install = config.install!==false;
+config.install = config.install!=undefined && config.install!==false;
 
 //安装配置
 Configuration.session(config);
@@ -74,34 +72,31 @@ if(config.server && config.client){
   fse.removeSync(config.releaseDir);
 }
 
+var env  ={NODE_ENV:'production'}
+
 //执行服务端打包
 if(null!=config.server){
-  logger.info("\n\nReactNativeOnWeb: Bundle server side .......");
-  (new Npm()).exec('cross-env',[
-      "NODE_ENV=production",
-      "webpack",
+  logger.info("\nReactNativeOnWeb: Bundle server side .......");
+  (new Npm()).exec('webpack',[
       "--colors",
       "--config",
       path.join(__dirname,'..','..',"packager/webpack/webpack.server.js")
-  ]);
+  ],env);
 }
 
 //执行客户端端打包
 if(null!=config.client){
-  logger.info("\n\nReactNativeOnWeb: Bundle client side .......");
-  (new Npm()).exec('cross-env',[
-      "NODE_ENV=production",
-      "webpack",
+  logger.info("\nReactNativeOnWeb: Bundle client side .......");
+  (new Npm()).exec('webpack',[
       "--colors",
       "--config",
       path.join(__dirname,'..','..',"packager/webpack/webpack.client.js")
-  ]);
+  ],env);
 }
 
 //如果采用npm install模式 构建发布后的node_modules
 if(config.install){
-  logger.info("\n\nReactNativeOnWeb: use npm install build node_mdoules ...........");
+  logger.info("\nReactNativeOnWeb: use npm install build node_mdoules ...........");
   (new Npm(config.releaseDir)).install('--production');
 }
-
-logger.info("\n\nReactNativeOnWeb: Congratulation bundle successful!");
+logger.info("\n\nReactNativeOnWeb:  Bundle complete!");
