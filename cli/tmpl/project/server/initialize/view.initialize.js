@@ -39,3 +39,4 @@ locals.__env__ = appContext.env;
 locals.__isDevelopment__ = appContext.isDev;
 locals.__cdnUrl__=webConfig.cdnUrl || "";
 locals.__cdnUrlName__  =  packager.minOptions.contextName;
+global[locals.__cdnUrlName__]  = locals.__cdnUrl__;

@@ -86,7 +86,7 @@ ReactNativeOnWebCli.prototype.bundle = function () {
     }else {
       var argv = process.argv.slice(3)
       var js = 'node_modules/react-native-on-web/cli/packager/local-cli/start.js'
-      new Npm(runRoot).node(js, argv)
+      new Npm(projectRoot).node(js, argv)
     }
   }
 }
