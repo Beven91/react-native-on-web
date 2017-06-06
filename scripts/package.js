@@ -11,4 +11,5 @@ var selfPackage = require('../package.json');
 var packagefile = path.resolve('cli/tmpl/project/package.json');
 var package = fse.readJSONSync(packagefile);
 package.dependencies['react-native-on-web'] ='^'+selfPackage.version;
+package.devDependencies = selfPackage.devDependencies;
 fse.writeJSONSync(packagefile,package);

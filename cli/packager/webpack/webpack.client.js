@@ -5,7 +5,7 @@
  */
 
 // 添加搜索路径
-module.paths.unshift(require('path').resolve('node_modules'));
+module.paths.unshift(require('path').resolve('node_modules'))
 
 var path = require('path')
 var webpack = require('webpack')
@@ -39,6 +39,9 @@ var devPlugins = [
 
 // 生产环境plugins
 var proPlugins = [
+  new CleanWebpackPlugin(assetDir, {root: config.releaseDir}),
+  new CopyWebpackPlugin([{from: path.resolve('assets'),to: assetDir,toType: 'dir'}]),
+  new RequireImageXAssetPlugin(config.imageAssets),
   new BundleAnalyzerPlugin({
     analyzerMode: 'static',
     openAnalyzer: false
@@ -82,9 +85,6 @@ module.exports = {
   plugins: [
     new ProgressBarPlugin(),
     new HappyPack(config.happyPack),
-    new CleanWebpackPlugin(assetDir, {root: config.releaseDir}),
-    new CopyWebpackPlugin([{from: path.resolve('assets'),to: assetDir,toType: 'dir'}]),
-    new RequireImageXAssetPlugin(config.imageAssets),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin('common')
   ]
