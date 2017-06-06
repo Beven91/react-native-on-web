@@ -5,6 +5,7 @@
  */
 
 var path = require('path')
+var logger = require('../../logger.js')
 var fse = require('fs-extra')
 
 // 配置文件存放位置
@@ -81,8 +82,8 @@ Configuration.get = function () {
   config.customConfig = customConfig
   customConfig.ignores = customConfig.ignores || []
   customConfig.ignores = customConfig.ignores.concat(this.gitIgnore())
-  if(config.install){
-    customConfig.ignores.push('node_modules/**/*');
+  if (config.install) {
+    customConfig.ignores.push('node_modules/**/*')
   }
   return config
 }
@@ -95,7 +96,7 @@ Configuration.gitIgnore = function () {
   var gitignore = fse.existsSync(file) ? new String(fse.readFileSync(file)) : ''
   var lines = gitignore.split('\n')
   lines = lines.map(function (line) { return line.trim().replace(/\t/g, ''); })
-  return lines.filter(function(line ){  line.indexOf("node_modules")<0; })
+  return lines.filter(function (line) {  line.indexOf('node_modules') < 0; })
 }
 
 /**
@@ -105,7 +106,7 @@ Configuration.check = function (config) {
   var releaseDir = config.releaseDir
   this.validateException(releaseDir, '发布目录必须填写,例如: -t=d:/release 或者 --releaseDir=d:/release')
   this.validateException(this.tryMakedir(releaseDir), '无效的目标目录路径(-t / --releaseDir) ---> ' + releaseDir)
-  console.log('Release target dir is:' + releaseDir)
+  logger.info('ReactNativeOnWeb: Release dir is :' + config.releaseDir)
 }
 
 /**
