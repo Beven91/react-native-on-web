@@ -8,6 +8,7 @@
 //依赖>>：
 var path  =require('path');
 var yargs = require('yargs')
+var fse  =require('fs-extra');
 var Npm = require('../../helpers/npm.js')
 var Configuration = require('./config.js');
 
@@ -49,6 +50,14 @@ var config = yargs.argv;
 if(config.client==undefined && config.server==undefined){
   config.client = config.server  =true;
 } 
+
+if(fse.existsSync(config.releaseDir)){
+  config.releaseDir  =path.join(config.releaseDir,'react-web');
+}
+
+if(config.server && config.client){
+  fse.removeSync(config.releaseDir);
+}
 
 if(null!=config.server){
   //执行服务端打包

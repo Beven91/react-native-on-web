@@ -24,7 +24,6 @@ var CleanWebpackPlugin = require('clean-webpack-plugin')
 var HappyPack = require('happypack')
 var ProgressBarPlugin = require('progress-bar-webpack-plugin')
 var PackageJsonPlugin = require('./plugin/package.js')
-var CopyWebpackPlugin = require('copy-webpack-plugin')
 
 gracefulFs.gracefulify(fs)
 
