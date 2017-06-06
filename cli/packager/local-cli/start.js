@@ -33,6 +33,12 @@ yargs.options({
     type: 'string',
     alias: 's',
     describe: 'release server side code'
+  },
+  'install': {
+    type: 'string',
+    alias: 'i',
+    defalt:false,
+    describe: 'release after use npm install build node_modules'
   }
 })
 
@@ -47,20 +53,24 @@ if(argv.length<=2){
 Configuration.session(yargs.argv);
 
 var config = yargs.argv;
+
+//模式判定 如果在没有传递--server 或者--client时 默认同时打包服务端客户端
 if(config.client==undefined && config.server==undefined){
   config.client = config.server  =true;
 } 
 
+//判断发布目录是否存在，如果存在 则修改发布目录为 config.releaseDir/react-web
 if(fse.existsSync(config.releaseDir)){
   config.releaseDir  =path.join(config.releaseDir,'react-web');
 }
 
+//如果是完全打包，则发布前执行删除发布目录
 if(config.server && config.client){
   fse.removeSync(config.releaseDir);
 }
 
+//执行服务端打包
 if(null!=config.server){
-  //执行服务端打包
   (new Npm()).exec('cross-env',[
       "NODE_ENV=production",
       "webpack",
@@ -70,8 +80,8 @@ if(null!=config.server){
   ]);
 }
 
+//执行客户端端打包
 if(null!=config.client){
-  //执行客户端端打包
   (new Npm()).exec('cross-env',[
       "NODE_ENV=production",
       "webpack",
@@ -79,4 +89,9 @@ if(null!=config.client){
       "--config",
       path.join(__dirname,'..','..',"packager/webpack/webpack.client.js")
   ]);
+}
+
+//如果采用npm install模式 构建发布后的node_modules
+if(config.install){
+  (new Npm(config.releaseDir)).install();
 }

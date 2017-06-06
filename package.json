@@ -1,6 +1,6 @@
 {
   "name": "react-native-on-web",
-  "version": "2.0.11",
+  "version": "2.0.12",
   "description": "React Native for Web",
   "main": "lib/index.js",
   "scripts": {
@@ -42,7 +42,6 @@
     "clean-webpack-plugin": "^0.1.16",
     "copy-webpack-plugin": "^4.0.1",
     "file-loader": "^0.9.0",
-    "graceful-fs": "^4.1.11",
     "happypack": "^3.0.3",
     "image-web-loader": "^1.1.15",
     "json-loader": "^0.5.4",
@@ -66,6 +65,7 @@
     "deep-assign": "^2.0.0",
     "fs-extra": "^2.1.2",
     "immutable": "^3.7.4",
+    "graceful-fs": "^4.1.11",
     "react-native-web": "^0.0.95"
   }
 }

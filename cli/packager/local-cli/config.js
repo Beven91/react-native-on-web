@@ -79,7 +79,23 @@ Configuration.get = function () {
 
   }
   config.customConfig = customConfig
+  customConfig.ignores = customConfig.ignores || []
+  customConfig.ignores = customConfig.ignores.concat(this.gitIgnore())
+  if(config.install){
+    customConfig.ignores.push('node_modules/**/*');
+  }
   return config
+}
+
+/**
+ * 读取gitignore
+ */
+Configuration.gitIgnore = function () {
+  var file = path.resolve('.gitignore')
+  var gitignore = fse.existsSync(file) ? new String(fse.readFileSync(file)) : ''
+  var lines = gitignore.split('\n')
+  lines = lines.map(function (line) { return line.trim().replace(/\t/g, ''); })
+  return lines.filter(function(line ){  line.indexOf("node_modules")<0; })
 }
 
 /**
