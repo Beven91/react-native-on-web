@@ -7,6 +7,7 @@
 // 引入依赖>>
 var fse = require('fs-extra')
 var path = require('path')
+var minimatch = require('minimatch')
 var Npm = require('../../../helpers/npm.js')
 
 // 配置文件
@@ -21,6 +22,26 @@ var babelrcfile = path.resolve('.babelrc')
  */
 function ReleasePackageJson (outputOptions) {
   this.outputOptions = outputOptions
+}
+
+/**
+ * 复制相关文件
+ */
+ReleasePackageJson.prototype.copyAssets = function () {
+  var fromDir = config.rootDir
+  var targetDir = config.releaseDir
+  var ignores = config.ignores || []
+  fse.copySync(fromDir, targetDir, {filter: function (src, dest) {
+      var isDir = fse.lstatSync(src).isDirectory();
+      var relName = path.relative(fromDir,src);
+      relName =isDir?relName+"/*":relName;
+      for (var i = 0,k = ignores.length;i < k;i++) {
+        if (minimatch(relName,ignores[i],{matchBase:true,dot:true,nocase:true})) {
+          return false
+        }
+      }
+      return true
+  }})
 }
 
 /**
@@ -162,10 +183,12 @@ function PackageJsonPlugin () {
 }
 
 PackageJsonPlugin.prototype.apply = function (compiler) {
-  compiler.plugin('after-emit', function (compilation, callback) {
-    var outputOptions = this.options.output
-    var maker = new ReleasePackageJson(outputOptions)
+  var maker = new ReleasePackageJson(compiler.options.output)
+  compiler.plugin('done', function (compilation) {
     maker.make()
+  })
+  compiler.plugin('emit', function (compilation, callback) {
+    maker.copyAssets()
     callback()
   })
 }

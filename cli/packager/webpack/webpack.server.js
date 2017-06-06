@@ -71,7 +71,6 @@ module.exports = {
     new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify('production')}}),
     new webpack.NoEmitOnErrorsPlugin(),
     new HappyPack(config.happyPack),
-    new CopyWebpackPlugin(config.serverSideCopy, {copyUnmodified: true,debug: 'warning'}),
     new RequireImageXAssetPlugin(config.imageAssets),
     new NodeModulePlugin(contextPath),
     new PackageJsonPlugin()

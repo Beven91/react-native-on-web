@@ -21,7 +21,7 @@ var customPackager = processConfig.customConfig
 // 工程根目录
 var rootDir = customPackager.projectRoot || path.resolve('')
 // 发布目录
-var releaseDir = processConfig.releaseDir || path.join(rootDir, 'release/react-web/')
+var releaseDir = processConfig.releaseDir || path.join(rootDir,'..', 'release/react-web/')
 // 发布后目标node_modules目录
 var targetNodeModulesDir = path.join(releaseDir, 'node_modules')
 
@@ -61,15 +61,8 @@ module.exports = {
   alias: doAssign(require('./alias.js'), customPackager.alias),
   // 扩展名设置
   extensions: customPackager.extensions || [],
-  // 服务端打包复制配置
-  serverSideCopy: [
-    {
-      from: path.resolve(''),
-      to: releaseDir,
-      toType: 'dir',
-      ignore: Object.keys(pgk.devDependencies).map(mapIgnoreNodeModule).concat(customPackager.ignores)
-    }
-  ],
+  // 打包复制忽略项
+  ignores:Object.keys(pgk.devDependencies).map(mapIgnoreNodeModule).concat(customPackager.ignores),
   // 快速构建插件配置
   happyPack: {
     id: 'babel',
@@ -105,7 +98,7 @@ module.exports = {
 }
 
 function mapIgnoreNodeModule (v) {
-  return '/' + v + '/'
+  return 'node_modules/' + v + '/**/*'
 }
 
 function doAssign (target, source) {
