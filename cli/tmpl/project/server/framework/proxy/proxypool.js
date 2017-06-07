@@ -12,7 +12,6 @@ import { EventEmitter2 } from 'eventemitter2'
 const VARTIMER = '@proxy_clean_timer@'
 const VARUSING = '@proxy_is_using@'
 const CLEANTIME = 2 * 60 * 1000
-const VARORIGINURL = '___originurl__'
 
 export default class ProxyPool {
   /**

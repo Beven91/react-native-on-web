@@ -10,6 +10,7 @@ import appContext from 'app-context'
 import logger from 'logger'
 import ProxyPool from "../../framework/proxy/proxypool.js"
 
+const VARORIGINURL = '___originurl__'
 // 获取express app对象
 const app = appContext.getParam('app')
 // 创建代理池
