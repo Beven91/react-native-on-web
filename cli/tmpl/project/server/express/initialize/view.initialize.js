@@ -9,7 +9,7 @@ import path from "path";
 import appContext from 'app-context';
 import exphbs from 'express-handlebars';
 import dantejs from "dantejs";
-import packager from "../../.packager.js"
+import packager from "../../../.packager.js"
 
 //获取express app对象
 const app = appContext.getParam('app');

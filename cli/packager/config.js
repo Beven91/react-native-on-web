@@ -39,7 +39,7 @@ module.exports = {
   // webpack静态资源访问目录
   publicPath: publicPath,
   // 客户端代码打包入口
-  clientContextEntry: customPackager.clientContextEntry || path.join(rootDir, 'server/react/client.js'),
+  clientContextEntry: customPackager.clientContextEntry || path.join(rootDir, 'server/express/react/client.js'),
   // 服务端代码打包入口
   serverContextEntry: customPackager.serverContextEntry || path.join(rootDir, '../index.web.js'),
   // webpack打包静态资源存放目录

@@ -22,7 +22,7 @@ function AppContext () {
   this.isPro = env == 'production'
   this.isDev = env == 'development'
   this.context = {
-    web: fse.readJsonSync(path.join(__dirname, '..', '..', 'web.json'))
+    web: fse.readJsonSync(path.resolve('web.json'))
   }
   this.envIndex = envOrders.indexOf(env)
 }

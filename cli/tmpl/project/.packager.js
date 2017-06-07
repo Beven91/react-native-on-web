@@ -7,13 +7,13 @@ module.exports = {
   // 静态资源打包后通过express访问的路径前缀  例如: static/
   publicPath: '/app/',
   // 客户端代码打包入口文件
-  clientContextEntry: path.resolve('server/react/client.js'),
+  clientContextEntry: path.resolve('server/express/react/client.js'),
   // 服务端代码打包入口文件
   serverContextEntry: path.resolve(webConfig.indexWeb),
   // 别名配置
   alias: {
-    'logger': path.resolve('server/logger/index.js'),
-    'app-context': path.resolve('server/env/enviroment.js')
+    'logger': path.resolve('server/framework/logger/index.js'),
+    'app-context': path.resolve('server/framework/env/enviroment.js')
   },
   // 发布忽略列表
   ignores: [

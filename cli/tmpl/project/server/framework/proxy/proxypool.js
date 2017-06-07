@@ -1,32 +1,20 @@
 /**
- * 名称：fetch跨域支持
+ * 名称：代理池
  * 日期：2017-05-19
- * 描述：提供客户端浏览器发起请求跨域配置
+ * 描述：维护一个http代理池
  */
 
-// 引入依赖>>
-import express from 'express'
-import appContext from 'app-context'
-import logger from 'logger'
+//引入依赖>>
 import urlParser from 'url'
 import httpProxy from 'http-proxy'
 import { EventEmitter2 } from 'eventemitter2'
 
-// 获取express app对象
-const app = appContext.getParam('app')
-
 const VARTIMER = '@proxy_clean_timer@'
-
 const VARUSING = '@proxy_is_using@'
-
 const CLEANTIME = 2 * 60 * 1000
-
 const VARORIGINURL = '___originurl__'
 
-/**
- * 代理池
- */
-class ProxyPool {
+export default class ProxyPool {
   /**
    * 代理池构造函数
    * @param {Number} max 代理池最大容量 
@@ -114,24 +102,4 @@ class ProxyPool {
     notUseKeys.forEach((key) => this.pool[key] = null)
     this.emitter.emit('wait')
   }
-
 }
-
-// 创建代理池
-const proxyPool = new ProxyPool(10)
-
-app.use('/fetch', (req, resp, next) => {
-  let proxyUrl = req.headers[VARORIGINURL];
-  req.baseUrl = proxyUrl;
-  req.originalUrl = proxyUrl;
-  req.url = proxyUrl;
-  proxyPool
-    .createProxy(proxyUrl)
-    .then((proxy) => {
-       proxy.web(req, resp, {}, (ex, a, b, c) => next(ex));
-    })
-    .catch((ex) => {
-      logger.error(ex)
-      next('请求异常')
-    })
-})
