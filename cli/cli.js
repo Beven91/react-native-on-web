@@ -91,6 +91,21 @@ ReactNativeOnWebCli.prototype.bundle = function () {
   }
 }
 
+/**
+ * 升级react-native-on-web
+ */
+ReactNativeOnWebCli.prototype.update = function () {
+  if (hasWebPlatform()) {
+    logger.info('ReactNativeOnWeb: Starting update .......')
+    var npm = new Npm(projectRoot)
+    logger.info("ReactNativeOnWeb: update react-native-on-web module .....");
+    npm.install('react-native-on-web --save');
+    // logger.info("ReactNativeOnWeb: update global react-native-on-web module .....");
+    // npm.install('react-native-on-web -g');
+    logger.info("ReactNativeOnWeb: update complete ");
+  }
+}
+
 function hasWebPlatform () {
   var hasPlatform = hasPackageReactOnWeb(runRoot) || hasPackageReactOnWeb(projectRoot)
   if (!hasPlatform) {

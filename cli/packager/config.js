@@ -46,6 +46,8 @@ module.exports = {
   assetsDir: path.join(releaseDir, 'assets'),
   // webpack.client 输出目录
   assetsAppDir: path.join(releaseDir, 'assets', publicPath),
+  //服务端打包目标目录
+  targetAppDir:path.join(releaseDir, 'app'),
   // 工程根目录
   rootDir: rootDir,
   // 打包发布后的目录

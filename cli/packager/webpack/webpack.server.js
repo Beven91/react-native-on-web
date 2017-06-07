@@ -35,7 +35,7 @@ var contextPath = path.dirname(config.serverContextEntry)
 // 发布目录
 var releaseDir = config.releaseDir
 // 服务端打包存放目标目录
-var targetAppDir = path.join(releaseDir, 'app')
+var targetAppDir = config.targetAppDir;
 // babel 配置
 var babelRc = BabelRCMaker.getRC()
 // 设置需要设置成externals的node_modules模块

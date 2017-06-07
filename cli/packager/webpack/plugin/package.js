@@ -8,6 +8,7 @@
 var fse = require('fs-extra')
 var path = require('path')
 var minimatch = require('minimatch')
+var deepAssign = require('deep-assign');
 var Npm = require('../../../helpers/npm.js')
 
 // 配置文件
@@ -107,6 +108,11 @@ ReleasePackageJson.prototype.configPackage = function () {
   var releaseDir = config.releaseDir
   var pgk = require(path.resolve('package.json'))
   var pgkfile = path.join(releaseDir, 'package.json')
+  var indexWebPackageFile =path.join(path.dirname(config.serverContextEntry),'package.json');
+  var indexWebPackage = fse.existsSync(indexWebPackageFile)?require(indexWebPackageFile):{};
+  var topLevelDeps = indexWebPackage.dependencies || {};
+  pgk.dependencies = deepAssign(pgk.dependencies,topLevelDeps);
+  delete pgk.dependencies['react-native'];
   delete pgk.devDependencies
   pgk.scripts = {
     'init': 'npm install --registry=https://registry.npm.taobao.org',

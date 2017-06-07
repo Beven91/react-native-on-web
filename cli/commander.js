@@ -40,6 +40,11 @@ module.exports = function (argv) {
     .command('remove')
     .action(cli.run('remove'))
     .description('删除web平台工程')
+
+  program
+    .command('update')
+    .action(cli.run('update'))
+    .description('更新react-native-on-web')
   
   // 解析参数
   program.parse(argv)
