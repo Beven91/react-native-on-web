@@ -13,4 +13,4 @@ import appContext from 'app-context';
 const app = appContext.getParam('app');
 
 // 设置静态资源目录
-app.use(express.static(path.join(__dirname, '../../assets/')));
+app.use(express.static(path.resolve('assets/')));
