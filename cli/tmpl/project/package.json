@@ -27,7 +27,7 @@
     "node-fetch": "^1.6.3",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-native-on-web": "^3.0.9",
+    "react-native-on-web": "^3.0.12",
     "whatwg-fetch": "^1.0.0",
     "winston": "^2.3.0"
   },
@@ -47,6 +47,7 @@
     "image-web-loader": "^1.1.15",
     "json-loader": "^0.5.4",
     "mocha": "^3.2.0",
+    "npm-publish-bin": "^1.0.0",
     "progress-bar-webpack-plugin": "^1.9.3",
     "react-hot-loader": "1.2.7",
     "style-loader": "^0.13.0",
