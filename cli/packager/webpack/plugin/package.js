@@ -111,7 +111,7 @@ ReleasePackageJson.prototype.configPackage = function () {
   var indexWebPackageFile =path.join(path.dirname(config.serverContextEntry),'package.json');
   var indexWebPackage = fse.existsSync(indexWebPackageFile)?require(indexWebPackageFile):{};
   var topLevelDeps = indexWebPackage.dependencies || {};
-  pgk.dependencies = deepAssign(pgk.dependencies,topLevelDeps);
+  pgk.dependencies = deepAssign(topLevelDeps,pgk.dependencies);
   delete pgk.dependencies['react-native'];
   delete pgk.devDependencies
   pgk.scripts = {
