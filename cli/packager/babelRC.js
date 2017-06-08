@@ -19,6 +19,7 @@ module.exports.getRC = function () {
       var isNodeModules = /node_modules/.test(file)
       return (isNodeModules && !isNodeModuleCompile(file))
     },
+    babelrc:false,
     compact: true,
     plugins: [
       [require.resolve('babel-plugin-transform-react-remove-prop-types'), {
