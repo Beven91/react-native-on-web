@@ -30,9 +30,13 @@
 ### 四、关于.packager.js
 
     {
-        // require('image!xx') 寻址目录列表
+        /**
+        * require('image!xx') 寻址目录列表
+        * 默认会寻找android或者ios目录或者web目录assets/images下的图片文件
+        * 可以追加路径
+        */ 
         imageAssets: [],
-        // 静态资源打包后通过express访问的路径前缀  例如: static/
+        // 静态资源打包后通过express访问的路径前缀  例如: /app/
         publicPath: '/app/',
         // 客户端代码打包入口文件
         clientContextEntry: path.resolve('server/express/react/client.js'),
@@ -54,7 +58,7 @@
         es6Modules: [],
         /**
         * 按需加载:
-        * 需要进行以路由拆分的文件列表 可以写相对路径（相对于indexWeb所在目录），或者绝对路径
+        * 可以根据路由拆分 可以写相对路径（相对于indexWeb所在目录），或者绝对路径
         * 例如: ./routers/user.js
         * 场景：例如使用react-router:
         *      import User from "./routers/user.js"
@@ -73,7 +77,7 @@
         *      2.register.js
         *      app.js
         *      common.js
-        *      1.user.js 再访问当前路由时进行自动懒加载加载
+        *      1.user.js 当访问/user时进行自动懒加载加载
         */
         splitRoutes: [],
         // 别名配置
@@ -108,6 +112,7 @@
             }
         }
     }
+
 
 ### 五、开源许可
 基于 [MIT License](http://zh.wikipedia.org/wiki/MIT_License) 开源，使用代码只需说明来源，或者引用 [license.txt](https://github.com/sofish/typo.css/blob/master/license.txt) 即可。

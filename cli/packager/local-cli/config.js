@@ -8,8 +8,6 @@ var path = require('path')
 var logger = require('../../logger.js')
 var fse = require('fs-extra')
 
-// babel转码配置
-var babelRc = require('./babelRC.js').getRC()
 // 配置文件存放位置
 var configfile = path.resolve('.packager')
 
