@@ -21,7 +21,7 @@ var customPackager = processConfig.customConfig
 // 工程根目录
 var rootDir = customPackager.projectRoot || path.resolve('')
 // 发布目录
-var releaseDir = processConfig.releaseDir || path.join(rootDir,'..', 'release/react-web/')
+var releaseDir = processConfig.releaseDir || path.join(rootDir, '..', 'release/react-web/')
 // 发布后目标node_modules目录
 var targetNodeModulesDir = path.join(releaseDir, 'node_modules')
 
@@ -35,19 +35,22 @@ var imageAssets = [
 // 资源路径
 var publicPath = customPackager.publicPath || '/app/'
 
+var indexWeb = customPackager.serverContextEntry || path.join(rootDir, '../index.web.js');
+var indexWebDir = path.dirname(indexWeb);
+
 module.exports = {
   // webpack静态资源访问目录
   publicPath: publicPath,
   // 客户端代码打包入口
   clientContextEntry: customPackager.clientContextEntry || path.join(rootDir, 'server/express/react/client.js'),
   // 服务端代码打包入口
-  serverContextEntry: customPackager.serverContextEntry || path.join(rootDir, '../index.web.js'),
+  serverContextEntry: indexWeb,
   // webpack打包静态资源存放目录
   assetsDir: path.join(releaseDir, 'assets'),
   // webpack.client 输出目录
   assetsAppDir: path.join(releaseDir, 'assets', publicPath),
-  //服务端打包目标目录
-  targetAppDir:path.join(releaseDir, 'app'),
+  // 服务端打包目标目录
+  targetAppDir: path.join(releaseDir, 'app'),
   // 工程根目录
   rootDir: rootDir,
   // 打包发布后的目录
@@ -64,7 +67,23 @@ module.exports = {
   // 扩展名设置
   extensions: customPackager.extensions || [],
   // 打包复制忽略项
-  ignores:Object.keys(pgk.devDependencies).map(mapIgnoreNodeModule).concat(customPackager.ignores),
+  ignores: Object.keys(pgk.devDependencies).map(mapIgnoreNodeModule).concat(customPackager.ignores),
+  // 需要进行路由拆分的loaders
+  splitRoutes: (customPackager.splitRoutes || []).map(function (file) {
+    file = path.isAbsolute(file) ? file : path.join(indexWebDir, file)
+    return {
+      test: /\.js$|\.jsx$/,
+      include: file,
+      loaders: ['bundle?lazy&name=' + path.basename(file), {
+        path: 'babel-loader',
+        query: {
+          presets: babelRc.presets,
+          plugins: babelRc.plugins
+        }
+      }],
+      exclude: '/node_modules/'
+    }
+  }),
   // 快速构建插件配置
   happyPack: {
     id: 'babel',

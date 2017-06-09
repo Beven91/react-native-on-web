@@ -8,7 +8,9 @@ const PropTypes = React.PropTypes;
 
 const SCENE_DISABLED_NATIVE_PROPS = '';
 const styles = {
-  baseScene: {},
+  baseScene: {
+    flex: 1
+  },
   disabledSceneStyle: {},
   container: {},
 };

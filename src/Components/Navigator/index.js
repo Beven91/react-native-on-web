@@ -1,40 +1,21 @@
 'use strict';
 
 import React from 'react';
+import { View, Platform,Easing, StyleSheet, Animated, Dimensions } from "react-native-web";
 import invariant from './lib/invariant';
 import NavigationContext from './context';
 
 const PropTypes = React.PropTypes;
 
 const SCENE_DISABLED_NATIVE_PROPS = '';
-const styles = {
-  baseScene: {},
+
+const styles = StyleSheet.create({
+  baseScene: {flex:1},
   disabledSceneStyle: {},
   container: {},
-};
+});
 
 let __uid = 0;
-function getuid() {
-  return __uid++;
-}
-
-function getRouteID(route) {
-  if (route === null || typeof route !== 'object') {
-    return String(route);
-  }
-
-  let key = '__navigatorRouteID';
-
-  if (!route.hasOwnProperty(key)) {
-    Object.defineProperty(route, key, {
-      enumerable: false,
-      configurable: false,
-      writable: false,
-      value: getuid(),
-    });
-  }
-  return route[key];
-}
 
 /**
  * Use `Navigator` to transition between different scenes in your app. To
@@ -245,7 +226,7 @@ class Navigator extends React.Component {
    */
   _enableScene(sceneIndex) {
     // First, determine what the defined styles are for scenes in this navigator
-    let sceneStyle = Object.assign({}, styles.baseScene, this.props.sceneStyle);
+    let sceneStyle = Object.assign({}, this.props.sceneStyle);
     // Then restore the pointer events and top value for this scene
     let enabledSceneNativeProps = {
       style: {
@@ -442,11 +423,11 @@ class Navigator extends React.Component {
       disabledSceneStyle = styles.disabledScene;
     }
     return (
-      <div
+      <View
         key={'scene_' + getRouteID(route)}
-        style={ this.props.sceneStyle /*TODO fix merge Object.assign({}, styles.baseScene, this.props.sceneStyle, disabledSceneStyle)*/}>
+        style={[styles.baseScene, this.props.sceneStyle, disabledSceneStyle]}>
         {this.props.renderScene(route, this)}
-      </div>
+      </View>
     );
   }
   render() {
@@ -462,11 +443,33 @@ class Navigator extends React.Component {
     this._renderedSceneMap = newRenderedSceneMap;
     //TODO: Hide keep disable scenes mounted and hide only
     return (
-      <div style={this.props.style /*TODO fix merge Object.assign({}, styles.container, this.props.style)*/}>
+      <View style={this.props.style /*TODO fix merge Object.assign({}, styles.container, this.props.style)*/}>
         {scenes[this.state.presentedIndex]}
-      </div>
+      </View>
     );
   }
+}
+
+function getuid() {
+  return __uid++;
+}
+
+function getRouteID(route) {
+  if (route === null || typeof route !== 'object') {
+    return String(route);
+  }
+
+  let key = '__navigatorRouteID';
+
+  if (!route.hasOwnProperty(key)) {
+    Object.defineProperty(route, key, {
+      enumerable: false,
+      configurable: false,
+      writable: false,
+      value: getuid(),
+    });
+  }
+  return route[key];
 }
 
 export default Navigator;

@@ -8,6 +8,8 @@ var path = require('path')
 var logger = require('../../logger.js')
 var fse = require('fs-extra')
 
+// babel转码配置
+var babelRc = require('./babelRC.js').getRC()
 // 配置文件存放位置
 var configfile = path.resolve('.packager')
 
@@ -57,6 +59,8 @@ Configuration.get = function () {
   var file = path.resolve('.packager.js')
   var customConfig = fse.existsSync(file) ? require(file) : {}
   var config = fse.existsSync(configfile) ? fse.readJSONSync(configfile) : {
+    // 需要进行路由拆分的文件列表
+    splitRoutes: [],
     // require('image!xx') 寻址目录列表
     imageAssets: [],
     // 静态资源打包后通过express访问的路径前缀  例如: static/

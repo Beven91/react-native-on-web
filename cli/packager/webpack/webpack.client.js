@@ -125,7 +125,7 @@ module.exports = {
         test: /\.json$/,
         loader: 'json-loader'
       }
-    ].concat(config.loaders)
+    ].concat(config.loaders).concat(config.splitRoutes)
   },
   resolveLoader: {
     modules: [path.resolve('node_modules')]
