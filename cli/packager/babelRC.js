@@ -17,7 +17,7 @@ var es6NodeModules = [
 
 //设置根据配置选择是默认所有文件都是用babel编译还是开启白名单方式
 //compileAll 会导致开发环境启动变慢，生产不影响
-var ignore = packager.compileAll ? /node_modules[/\\](babel-|regenerator-transform|babel)/ : isCompileIgnore
+var ignore = packager.compileAll ? /node_modules[/\\](babel-|regenerator-transform|happypack|babel|webpack)/ : isCompileIgnore
 
 module.exports.getRC = function () {
   return {
