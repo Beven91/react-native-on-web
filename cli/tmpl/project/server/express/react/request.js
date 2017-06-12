@@ -42,24 +42,21 @@ export default class ReactServerRequest {
     }
 
     /**
-     * 执行React同构应用
+     * 执行React同构直出
      */
     doReactResponse() {
         try {
-            let {reactRunAppName} = this.reactApplication;
+            let {reactRunAppName,reactAppContext} = this.reactApplication;
             let {element,stylesheet} = AppRegistry.getApplication(reactRunAppName);
             let initialHTML  = ReactDOMServer.renderToString(element)
+            let clientReactAppContext = Object.assign({},reactAppContext);
+            clientReactAppContext.route = clientReactAppContext.route.routeName;
             //调用视图引擎返回页面
             let options = {
-                title: (initialHTML.title || "React Native for web"),
+                title: (reactAppContext.route.title || "欢迎来到链尚网"),
                 initialHTML: initialHTML,
                 stylesheet:stylesheet,
-                reactAppContext:JSON.stringify({
-                    appName:reactRunAppName,
-                    initialState:{
-
-                    }
-                })
+                reactAppContext:JSON.stringify(clientReactAppContext)
             };
             this.currentResponse.status(200).render('react', options);
         } catch (ex) {

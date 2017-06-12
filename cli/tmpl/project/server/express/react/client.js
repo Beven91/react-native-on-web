@@ -9,6 +9,7 @@ import 'babel-polyfill'
 import "./fetch/browser-fetch.js";
 import 'react-native-on-web-index-web-js'
 import React from 'react'
+import ReactAppContext from "./context"
 import { AppRegistry } from 'react-native'
 
 /**
@@ -27,8 +28,7 @@ class ReactClientApp {
    * 初始化应用程序
    */
   initialize () {
-    window.__CLIENT__ = true
-    this.reactAppContext = window['@@__reactAppContext__@@']
+    this.reactAppContext = ReactAppContext.context;
   }
 
   /**

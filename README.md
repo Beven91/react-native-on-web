@@ -113,6 +113,85 @@
         }
     }
 
+### 五、平台环境
 
-### 五、开源许可
+    import {Platform} from "react-native";
+
+    //使用此表达式来判断平台 
+    Platform.OS == 'web'
+
+    //使用此表达式来判断是服务端还是浏览器端
+    var isBrowserRuntime = global.__CLIENT__ ===true
+
+    //关于文件，跟react-native一致 ，增加.web.js后缀判断 例如:
+    Button.web.js
+    Navigation.web.js
+    
+    
+### 五、全局对象：
+
+    var reactAppContext = global['@@__reactAppContext__@@']
+
+    reactAppContext:{
+      //当前访问url.pathname
+      routePath: '', 
+      //当前访问路由信息(如果在客户端等同于routePath 如果在服务端则为SlideRoute实例)
+      route: new SideRoute(),
+      //初始化状态
+      initialState: {
+      }
+    }
+
+    //服务端route:
+    SlideRoute:{
+        //获取或者设置当前路由的标题，
+        title:'xxx',
+        /**
+         * 当自定义路由匹配完成后，可以调用此函数来通知express路由匹配结果
+         * 以及当前页面的标题，与initialState数据
+         */
+        setMatchRoute:function(title,initialState) 
+    }
+
+
+### 六、关于路由接入
+
+    默认react-native-on-web生成的工程，没有路由，
+
+    如果需要接入路由可以使用一些能在三端使用的路由
+
+    例如：react-navigation react-router等
+
+    路由接入需要考虑两个方向：
+
+    1.服务端路由工作：
+
+    var reactAppContext = global['@@__reactAppContext__@@'];
+
+    在路由之间匹配成功后调用
+    reactAppContext.route.setMatchRoute(props.title,props.initialState);
+     
+    例如:react-navigation:
+
+         class NavigationContainer extends React.Component {
+            constructor (props) {
+                super(props)
+                const navigation = this.props.navigation;
+                const state = navigation.state;
+                const navigation2 = addNavigationHelpers({
+                    state: state.routes[state.index],
+                    dispatch: navigation.dispatch,
+                });
+                const options =  NodeRuntimeNavView.router.getScreenOptions(navigation2);
+                //这里执行服务端数据传递 传递当前路由对应页面标题 以及相关数据
+                reactAppContext.route.setMatchRoute(options.title);
+            } 
+            ....
+         }
+
+    2.客户端路由工作：
+
+    默认无需进行特殊处理
+
+### 七、开源许可
 基于 [MIT License](http://zh.wikipedia.org/wiki/MIT_License) 开源，使用代码只需说明来源，或者引用 [license.txt](https://github.com/sofish/typo.css/blob/master/license.txt) 即可。
