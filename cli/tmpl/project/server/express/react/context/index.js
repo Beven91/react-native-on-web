@@ -8,9 +8,7 @@ const VariableName = '@@__reactAppContext__@@'
 
 class ReactAppContextClass {
   constructor () {
-    global[VariableName] = {
-     
-    }
+    
   }
 
   get context () {
