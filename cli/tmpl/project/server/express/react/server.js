@@ -10,7 +10,7 @@ import './fetch/node-fetch'
 import urlParser from 'url'
 import { AppRegistry } from 'react-native'
 import ReactServerRequest from './request'
-import ReactAppContext from "./context"
+import ReactAppContext from './context'
 
 /**
  * React 服务端 Application类
@@ -25,8 +25,8 @@ export default class ReactWebServerApplication {
     // 附加上下文
     this.appContext = context
     // react 部分全局对象
-    this.reactAppContext =ReactAppContext.context = {
-      routePath:'',
+    this.reactAppContext = ReactAppContext.context = {
+      routePath: '',
       route: new SideRoute(),
       initialState: {
       }
@@ -41,19 +41,19 @@ export default class ReactWebServerApplication {
   handle (req, resp, next) {
     let currentRoutePath = urlParser.parse(req.originalUrl || '').pathname || ''
     let routePath = currentRoutePath.split('/').slice(1).join('/')
-    let reactAppContext = this.reactAppContext;
-    //加载index.web.js
+    let reactAppContext = this.reactAppContext
+    // 加载index.web.js
     require('react-native-on-web-index-web-js')
     // 启动应用名称
     const reactRunAppName = this.appContext.getRunReactAppName() || AppRegistry.getAppKeys()[0]
     // 设置当前运行react app名称
     this.reactRunAppName = reactRunAppName
-    //设置当前启动app名称
-    reactAppContext.appName = reactRunAppName;
-    //设置当前访问路径
-    reactAppContext.routePath = routePath;
-    //设置初始化状态
-    reactAppContext.initialState = reactAppContext.route.initialState;
+    // 设置当前启动app名称
+    reactAppContext.appName = reactRunAppName
+    // 设置当前访问路径
+    reactAppContext.routePath = routePath
+    // 设置初始化状态
+    reactAppContext.initialState = reactAppContext.route.initialState
     // 执行request处理
     return new ReactServerRequest(this).onRequest(req, resp, next)
   }
@@ -62,12 +62,12 @@ export default class ReactWebServerApplication {
 /**
  * 动态路由信息类
  */
-class SideRoute extends String{
+class SideRoute extends String {
   /**
    * 重写toString 返回当前路由路径
    */
-  toString(){
-    return this.routeName;
+  toString () {
+    return this.routeName
   }
 
   /**
@@ -75,27 +75,27 @@ class SideRoute extends String{
    * @param title 匹配成功标题
    * @param initialState 匹配成功的状态数据
    */
-  setMatchRoute(title,initialState){
-    this.title = title;
-    this.isMatched  =true;
-    this.initialState = initialState || {};
+  setMatchRoute (title, initialState) {
+    this.title = title
+    this.isMatched = true
+    this.initialState = initialState || {}
   }
 
   /**
    * 获取当前路由的页面标题
    */
-  get title(){
-    return this._title;
+  get title () {
+    return this._title
   }
 
   /**
    * 设置当前路由的页面标题
    */
-  set title(value){
-    this._title  =value;
+  set title (value) {
+    this._title = value
   }
 
-  get routeName(){
-    return global['@@__reactAppContext__@@'].routePath;
+  get routeName () {
+    return ReactAppContext.context.routePath
   }
 }
