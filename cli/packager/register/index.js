@@ -8,6 +8,9 @@
 //1.引入polyfill
 require('babel-polyfill')
 
+//引入fix
+require('./array-buffer-fix.js')
+
 //2.启用babel-register
 require('babel-register')(require('../babelRC.js').getRC());
 
