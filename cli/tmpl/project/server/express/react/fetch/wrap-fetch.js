@@ -9,13 +9,14 @@ module.exports = (fetch, proxy) => {
     window.global = window
   }
   const myfetch = (url, config) => {
-    url = /^(http:|https:)/.test(url.trim()) ? (global.fetch.baseUri || '') + url : url
-    if (proxy) {
+    let isRelative = !/^(http:|https:)/.test(url.trim());
+    url = isRelative ? url : (global.fetch.baseUri || '') + url
+    if (proxy && !isRelative) {
       config = config || {}
       config.headers = config.headers || {}
-      config.headers['___originUrl__'] = url
+      config.headers.___originUrl__ = url
       return fetch('/fetch', config)
-    }else {
+    } else {
       return fetch(url, config)
     }
   }

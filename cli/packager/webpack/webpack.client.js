@@ -18,6 +18,7 @@ var isProudction = process.env.NODE_ENV == 'production'
 var RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlugin
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 var HappyPack = require('happypack')
+var RuntimeCapturePlugin = require('./plugin/capture.js');
 var ProgressBarPlugin = require('progress-bar-webpack-plugin')
 var CleanWebpackPlugin = require('clean-webpack-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -85,6 +86,7 @@ module.exports = {
     new ProgressBarPlugin(),
     new RequireImageXAssetPlugin(config.imageAssets),
     new HappyPack(config.happyPack),
+    new RuntimeCapturePlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin('common')
   ]
