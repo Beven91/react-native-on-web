@@ -52,7 +52,7 @@ export default class ReactServerRequest {
             clientReactAppContext.route = clientReactAppContext.route.routeName;
             //调用视图引擎返回页面
             let options = {
-                title: (reactAppContext.route.title || "欢迎来到链尚网"),
+                title: (reactAppContext.route.title || 'React native for Web'),
                 initialHTML: initialHTML,
                 stylesheet: stylesheet,
                 reactAppContext: JSON.stringify(clientReactAppContext)

@@ -11,6 +11,7 @@ body,
     display: -webkit-flex;
     display: flex;
     width: 100%;
+    overflow:hidden;
 }
 
 input,
@@ -93,5 +94,3 @@ textarea {
     border-radius: 2px;
     margin:10px;
 }
-
-.page_500 {}
