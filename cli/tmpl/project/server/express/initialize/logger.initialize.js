@@ -8,7 +8,6 @@
 import fse from 'fs-extra';
 import path from 'path';
 import morgan from 'morgan';
-import express from 'express';
 import appContext from 'app-context';
 import FileStreamRotator from 'file-stream-rotator';
 

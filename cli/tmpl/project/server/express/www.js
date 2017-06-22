@@ -14,7 +14,6 @@
  */
 
 // 依赖引入
-import path from 'path'
 import appContext from 'app-context'
 import childProcess from 'child_process'
 import express from 'express'

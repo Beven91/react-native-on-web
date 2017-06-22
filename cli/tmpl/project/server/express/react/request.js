@@ -5,7 +5,6 @@
  */
 
 //加载依赖
-import React from "react";
 import { AppRegistry } from 'react-native'
 import ReactDOMServer from 'react-dom/server';
 
@@ -25,7 +24,7 @@ export default class ReactServerRequest {
      * 初始化应用程序
      */
     initialize(reactApplication) {
-        this.reactApplication  =reactApplication;
+        this.reactApplication = reactApplication;
     }
 
     /**
@@ -46,17 +45,17 @@ export default class ReactServerRequest {
      */
     doReactResponse() {
         try {
-            let {reactRunAppName,reactAppContext} = this.reactApplication;
-            let {element,stylesheet} = AppRegistry.getApplication(reactRunAppName);
-            let initialHTML  = ReactDOMServer.renderToString(element)
-            let clientReactAppContext = Object.assign({},reactAppContext);
+            let { reactRunAppName, reactAppContext } = this.reactApplication;
+            let { element, stylesheet } = AppRegistry.getApplication(reactRunAppName);
+            let initialHTML = ReactDOMServer.renderToString(element)
+            let clientReactAppContext = Object.assign({}, reactAppContext);
             clientReactAppContext.route = clientReactAppContext.route.routeName;
             //调用视图引擎返回页面
             let options = {
                 title: (reactAppContext.route.title || "欢迎来到链尚网"),
                 initialHTML: initialHTML,
-                stylesheet:stylesheet,
-                reactAppContext:JSON.stringify(clientReactAppContext)
+                stylesheet: stylesheet,
+                reactAppContext: JSON.stringify(clientReactAppContext)
             };
             this.currentResponse.status(200).render('react', options);
         } catch (ex) {

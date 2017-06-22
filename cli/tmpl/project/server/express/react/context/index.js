@@ -7,9 +7,6 @@
 const VariableName = '@@__reactAppContext__@@'
 
 class ReactAppContextClass {
-  constructor () {
-    
-  }
 
   get context () {
     return global[VariableName]
@@ -20,4 +17,6 @@ class ReactAppContextClass {
   }
 }
 
-export default ReactAppContext = new ReactAppContextClass()
+const ReactAppContext = new ReactAppContextClass();
+
+export default ReactAppContext;

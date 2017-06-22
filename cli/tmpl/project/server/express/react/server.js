@@ -5,7 +5,6 @@
  */
 
 // 加载依赖
-import path from 'path'
 import './fetch/node-fetch'
 import urlParser from 'url'
 import { AppRegistry } from 'react-native'

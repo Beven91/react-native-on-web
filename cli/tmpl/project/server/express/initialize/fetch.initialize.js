@@ -5,10 +5,9 @@
  */
 
 // 引入依赖>>
-import express from 'express'
 import appContext from 'app-context'
 import logger from 'logger'
-import ProxyPool from "../../framework/proxy/proxypool.js"
+import ProxyPool from '../../framework/proxy/proxypool.js'
 
 const VARORIGINURL = '___originurl__'
 // 获取express app对象

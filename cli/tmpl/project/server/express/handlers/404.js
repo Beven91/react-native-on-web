@@ -5,8 +5,6 @@
  */
 
 //引入依赖>>
-import appContext from 'app-context';
-
 class NotfoundHandler {
 
     /**
@@ -28,7 +26,7 @@ class NotfoundHandler {
      */
     do404Response(req, resp, next) {
         resp.status(404).render('shared/404', {
-            title: "找不到页面...",
+            title: '找不到页面...',
         });
     }
 }

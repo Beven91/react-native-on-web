@@ -2,6 +2,7 @@
 .project
 .idea
 .npmignore
+.eslintrc
 node_modules
 release/
 .happypack/

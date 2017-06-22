@@ -4,6 +4,6 @@
  * 描述：用于提供浏览器端fetch
  */
 
-import "whatwg-fetch";
+import 'whatwg-fetch';
 
 export default require('./wrap-fetch.js')(fetch,true);

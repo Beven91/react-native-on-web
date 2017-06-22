@@ -5,7 +5,7 @@
  */
 
 module.exports = (fetch, proxy) => {
-  if (typeof global == 'undefined') {
+  if (typeof global === 'undefined') {
     window.global = window
   }
   const myfetch = (url, config) => {

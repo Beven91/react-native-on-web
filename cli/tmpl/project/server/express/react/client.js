@@ -20,22 +20,22 @@ class ReactClientApp {
   /**
    * 构造函数
    */
-  constructor (...params) {
+  constructor(...params) {
     this.initialize(...params)
   }
 
   /**
    * 初始化应用程序
    */
-  initialize () {
+  initialize() {
     this.reactAppContext = ReactAppContext.context;
   }
 
   /**
    * 启动应用程序
    */
-  runApplication () {
-    const {appName} = this.reactAppContext
+  runApplication() {
+    const { appName } = this.reactAppContext
     AppRegistry.runApplication(appName, { rootTag: document.getElementById('app') })
   }
 }

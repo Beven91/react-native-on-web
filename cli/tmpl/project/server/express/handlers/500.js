@@ -6,7 +6,7 @@
 
 //引入依赖>>
 import appContext from 'app-context';
-import logger from "logger";
+import logger from 'logger';
 
 class ErrorHandler {
 
@@ -29,8 +29,8 @@ class ErrorHandler {
      */
     do500Reponse(err, req, resp, next) {
         resp.status(500).render('shared/500', {
-            title: "页面出错啦...",
-            message: appContext.valueOf(`<div class="message"><span class="error-icon">ERROR</span><code>${err.stack}<code></div>`, ""),
+            title: '页面出错啦...',
+            message: appContext.valueOf(`<div class='message'><span class='error-icon'>ERROR</span><code>${err.stack}<code></div>`, ''),
         });
         logger.error(err.stack);
     }

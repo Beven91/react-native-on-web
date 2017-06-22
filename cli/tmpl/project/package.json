@@ -27,11 +27,12 @@
     "node-fetch": "^1.6.3",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-native-on-web": "^3.0.41",
+    "react-native-on-web": "^3.0.42",
     "whatwg-fetch": "^1.0.0",
     "winston": "^2.3.0"
   },
   "devDependencies": {
+    "babel-eslint": "^7.2.3",
     "babel-cli": "^6.16.0",
     "babel-loader": "^6.2.7",
     "babel-plugin-module-resolver": "^2.7.1",
@@ -39,6 +40,8 @@
     "babel-preset-react-native": "^1.9.1",
     "babel-register": "^6.18.0",
     "bundle-loader": "^0.5.4",
+    "eslint": "^4.0.0",
+    "eslint-plugin-react": "^7.1.0",
     "chai": "^3.5.0",
     "clean-webpack-plugin": "^0.1.16",
     "copy-webpack-plugin": "^4.0.1",

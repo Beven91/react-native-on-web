@@ -5,11 +5,10 @@
  */
 
 //引入依赖>>
-import path from "path";
+import path from 'path';
 import appContext from 'app-context';
 import exphbs from 'express-handlebars';
-import dantejs from "dantejs";
-import packager from "../../../.packager.js"
+import packager from '../../../.packager.js'
 
 //获取express app对象
 const app = appContext.getParam('app');
@@ -37,6 +36,6 @@ app.set('views', path.join(__dirname, '..', 'webapp/views'));
 locals.__version__ = webConfig.version;
 locals.__env__ = appContext.env;
 locals.__isDevelopment__ = appContext.isDev;
-locals.__cdnUrl__=webConfig.cdnUrl || "";
-locals.__cdnUrlName__  =  packager.minOptions.contextName;
-global[locals.__cdnUrlName__]  = locals.__cdnUrl__;
+locals.__cdnUrl__ = webConfig.cdnUrl || '';
+locals.__cdnUrlName__ = packager.minOptions.contextName;
+global[locals.__cdnUrlName__] = locals.__cdnUrl__;

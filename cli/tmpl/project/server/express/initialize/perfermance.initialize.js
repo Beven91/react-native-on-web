@@ -5,7 +5,6 @@
  */
 
 //引入依赖>>
-import express from 'express'
 import compression from 'compression'
 import appContext from 'app-context';
 

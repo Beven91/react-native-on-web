@@ -4,6 +4,6 @@
  * 描述：用于提供node端fetch
  */
 
-import fetch from "node-fetch";
+import fetch from 'node-fetch';
 
 export default require('./wrap-fetch.js')(fetch);

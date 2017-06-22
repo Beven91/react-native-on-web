@@ -5,10 +5,9 @@
  */
 
 //引入依赖>>
-import express from 'express'
 import appContext from 'app-context';
 import bodyParser from 'body-parser';
-import cookieParser from "cookie-parser"
+import cookieParser from 'cookie-parser'
 
 //获取express app对象
 const app = appContext.getParam('app');
