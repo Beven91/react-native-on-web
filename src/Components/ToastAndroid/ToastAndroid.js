@@ -36,6 +36,10 @@ export default class Toast extends React.Component {
     }
   }
 
+  static showWithGravity(message,duration){
+    return this.show(...arguments);
+  }
+
 
   /**
    * 初始化
@@ -76,24 +80,17 @@ export default class Toast extends React.Component {
       return null;
     }
     return (
-      <Animated.Text style={{
-        backgroundColor: 'rgba(0,0,0,.65)',
-        color: '#ffffff',
-        paddingLeft: 16,
-        paddingRight: 16,
-        position: 'fixed',
-        zIndex: 20,
-        left: '50%',
-        bottom: '50%',
-        fontSize: 14,
-        height: 45,
-        lineHeight: 45,
-        borderRadius: 4,
-        transform: [
-          { translateX: '-50%' },
-          { scale: this.state.scale }
-        ]
-      }}>{this.state.message}</Animated.Text>
+      <Animated.View style={
+        [
+          styles.toast,
+          {
+            transform: [
+              { scale: this.state.scale }
+            ]
+          }
+        ]}>
+        <Text style={styles.toastInner}>{this.state.message}</Text>
+      </Animated.View>
     );
   }
 
@@ -119,7 +116,7 @@ export default class Toast extends React.Component {
       this.handlers.push(callback);
     }
     setTimeout(() => {
-      let state = { remove: false,message:message, showing: true, scale: AnimateValue(1.185), toScale: (1) };
+      let state = { duration: duration, remove: false, message: message, showing: true, scale: AnimateValue(1.185), toScale: (1) };
       this.changeStatePlayAnimate(state);
     }, 20);
   }
@@ -128,7 +125,7 @@ export default class Toast extends React.Component {
   * 隐藏浮层
   */
   hide() {
-    let state = { remove:false,showing: false, scale: AnimateValue(1), toScale: (0.85) };
+    let state = { remove: false, showing: false, scale: AnimateValue(1), toScale: (0.85) };
     this.changeStatePlayAnimate(state);
   }
 
@@ -165,7 +162,7 @@ export default class Toast extends React.Component {
    * scale动画
    */
   scaleAnimation() {
-    return Animated.timing(this.state.scale, { toValue: this.state.toScale, duration:200 });
+    return Animated.timing(this.state.scale, { toValue: this.state.toScale, duration: 200 });
   }
 
   /**
@@ -173,10 +170,36 @@ export default class Toast extends React.Component {
    */
   waiting() {
     clearTimeout(this.timerId);
-    this.timerId = setTimeout(this.hide.bind(this), this.props.duration);
+    this.timerId = setTimeout(this.hide.bind(this), this.state.duration);
   }
 }
 
 if (typeof window != 'undefined') {
   Toast.init();
 }
+
+const styles = StyleSheet.create({
+  toast: {
+    position: 'fixed',
+    zIndex: 100,
+    width:'100%',
+    left:0,
+    bottom: '15%',
+    justifyContent:'center',
+    alignItems:'center',
+  },
+  toastInner: {
+    fontSize: 14,
+    lineHeight: 22,
+    color: '#ffffff',
+    borderRadius: 4,
+    display:'inline-block',
+    backgroundColor: 'rgba(0,0,0,.65)',
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 10,
+    paddingTop: 10,
+    marginLeft:25,
+    marginRight:25,
+  }
+})
