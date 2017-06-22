@@ -30,7 +30,7 @@ module.exports.getRC = function () {
         'mode': 'wrap'
       }]
     ],
-    extensions: ['.js', '.web.js']
+    extensions: ['.web.js','.js']
   }
 }
 
