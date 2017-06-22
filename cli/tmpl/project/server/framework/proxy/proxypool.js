@@ -75,7 +75,7 @@ export default class ProxyPool {
   proxyTarget (url) {
     let uri = urlParser.parse(url)
     let port = uri.port ? ':' + uri.port : ''
-    return `${uri.protocol}//${uri.host}${port}`
+    return `${uri.protocol}//${uri.host}`
   }
 
   /**
