@@ -30,25 +30,25 @@ module.exports.getRC = function () {
         'mode': 'wrap'
       }]
     ],
-    extensions: ['.web.js','.js']
+    extensions: ['.web.js', '.js']
   }
 }
 
 // 是否node_modules需要webpack打包编译
-//module.exports.isNodeModuleCompile =isNodeModuleCompile;
+module.exports.isNodeModuleCompile = isNodeModuleCompile;
 
-function isCompileIgnore (file) {
-  var isNodeModules = /node_modules/.test(file)
-  return (isNodeModules && !isNodeModuleCompile(file))
+function isCompileIgnore(jsfile) {
+  var isNodeModules = /node_modules/.test(jsfile)
+  return (isNodeModules && !isNodeModuleCompile(jsfile))
 }
 
-function isNodeModuleCompile (file) {
+function isNodeModuleCompile(jsfile) {
   var regexp = null
   var isCompile = false
-  file = file.indexOf('node_modules') > -1 ? file.split('node_modules')[1] : file
-  for (var i = 0,k = es6NodeModules.length;i < k;i++) {
+  jsfile = jsfile.indexOf('node_modules') > -1 ? jsfile.split('node_modules')[1] : jsfile
+  for (var i = 0, k = es6NodeModules.length; i < k; i++) {
     regexp = es6NodeModules[i]
-    if (file.indexOf('react-native-on-web') < 0 && regexp.test(file)) {
+    if (jsfile.indexOf('react-native-on-web') < 0 && regexp.test(jsfile)) {
       isCompile = true
       break
     }
