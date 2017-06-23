@@ -8,7 +8,7 @@ var path = require('path')
 
 var run = '@@__run__@@'
 
-function Npm (cwd) {
+function Npm(cwd) {
   this.cwd = cwd || process.cwd()
 }
 
@@ -72,13 +72,13 @@ Npm.prototype.node = function (js, args, cwd) {
  * @param  {String} name 命令名称 例如: node
  * @param  {Array} args 参数
  */
-Npm.prototype.exec = function (name, args,env) {
+Npm.prototype.exec = function (name, args, env) {
   args = args || []
   name = path.join(this.cwd, 'node_modules/.bin/', name)
   name = process.platform === 'win32' ? name + '.cmd' : name
-  var sp = require('child_process').spawnSync(name, args, {
+  require('child_process').spawnSync(name, args, {
     cwd: this.cwd,
-    env:env,
+    env: env,
     stdio: [process.stdin, process.stdout, process.stderr]
   })
 }

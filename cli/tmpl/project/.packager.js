@@ -2,6 +2,7 @@ var path = require('path')
 var webConfig = require('./web.json')
 
 module.exports = {
+  targetPort:8080,
   /**
    * require('image!xx') 寻址目录列表
    * 默认会寻找android或者ios目录或者web目录assets/images下的图片文件

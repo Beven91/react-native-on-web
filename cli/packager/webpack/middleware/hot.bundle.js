@@ -21,22 +21,24 @@ module.exports = function (app) {
 
   //服务端热部署......
   const cache = module.constructor._cache;
-  const hotReplaceModule = (m)=>{
+  const hotReplaceModule = (m) => {
     delete cache[m.id];
     let children = m.children;
-    if(children.length>0){
-      children.forEach((cm)=>hotReplaceModule(cm));
+    if (children.length > 0) {
+      children.forEach((cm) => hotReplaceModule(cm));
     }
   }
   //创建监听器
-  compiler.plugin('watch-run',function(err,next){
-    let cache = require.cache;
-    let id = require.resolve('react-native-on-web-index-web-js');
-    let mod = cache[id];
-    if(mod){
-      console.log('server-side hot replacing .....');
-      hotReplaceModule(mod);
-      console.log('server-side hot replaced !');
+  compiler.plugin('watch-run', function (err, next) {
+    if (!err) {
+      let moduleCache = require.cache;
+      let id = require.resolve('react-native-on-web-index-web-js');
+      let mod = moduleCache[id];
+      if (mod) {
+        console.log('server-side hot replacing .....');
+        hotReplaceModule(mod);
+        console.log('server-side hot replaced !');
+      }
     }
     next();
   })

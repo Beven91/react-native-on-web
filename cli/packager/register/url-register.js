@@ -12,11 +12,11 @@ var urlloader = require('url-loader');
 var webpack = require('../webpack/webpack.client.js');
 //静态资源配置
 var extensions = [
-  'bmp', 'ico','gif', 'jpg', 'jpeg', 'png', 'psd', 'svg', 'webp', // Image formats
-  'm4v', 'mov', 'mp4', 'mpeg', 'mpg', 'webm', // Video formats
-  'aac', 'aiff', 'caf', 'm4a', 'mp3', 'wav', // Audio formats
-  'html', 'pdf', // Document formats
-  "woff","woff2","svg","woff","woff2","eot","ttf", //icon font
+    'bmp', 'ico', 'gif', 'jpg', 'jpeg', 'png', 'psd', 'svg', 'webp', // Image formats
+    'm4v', 'mov', 'mp4', 'mpeg', 'mpg', 'webm', // Video formats
+    'aac', 'aiff', 'caf', 'm4a', 'mp3', 'wav', // Audio formats
+    'html', 'pdf', // Document formats
+    'woff', 'woff2', 'svg', 'woff', 'woff2', 'eot', 'ttf', //icon font
 ];
 //基础路径
 var publicPath = webpack.output.publicPath;
@@ -32,12 +32,12 @@ function fileResolver(md, filename) {
         resourcePath: filename,
         query: '?limit=1',
         options: {},
-        emitFile: function() {}
+        emitFile: function () { }
     };
     var exp = urlloader.call(context, buffer);
-    var fn = new Function("module,__webpack_public_path__", exp);
+    var fn = new Function('module,__webpack_public_path__', exp);
     fn(md, publicPath);
 };
 
 //批量注册静态资源加载器
-extensions.map(function(ext){ require.extensions['.' + ext] = fileResolver;  })
+extensions.map(function (ext) { require.extensions['.' + ext] = fileResolver; })

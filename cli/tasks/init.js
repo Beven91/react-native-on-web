@@ -13,7 +13,7 @@ var Npm = require('../helpers/npm.js');
 /**
  * 工程生成工具 构造函数
  */
-function ReactNativeWeb (options) {
+function ReactNativeWeb(options) {
   this.initialize(options)
 }
 
@@ -45,7 +45,7 @@ ReactNativeWeb.prototype.initContext = function (options) {
 ReactNativeWeb.prototype.copyProject = function () {
   if (fse.existsSync(this.targetProjectRoot)) {
     logger.info('ReactNativeOnWeb: web directory is existsed')
-  }else {
+  } else {
     logger.info('ReactNativeOnWeb: make web project ...')
     fse.copySync(this.projectRoot, this.targetProjectRoot)
     logger.info('ReactNativeOnWeb: make web project successful !')
@@ -61,16 +61,16 @@ ReactNativeWeb.prototype.copyIndexWeb = function () {
     fse.copySync(path.join(this.projectRoot, '..', 'index.web.js'), indexWeb)
     logger.info('ReactNativeOnWeb: make index.web.js successful !')
   }
-  fse.moveSync(path.join(this.targetProjectRoot,'.gitignore.keep'),path.join(this.targetProjectRoot,'.gitignore'));
+  fse.moveSync(path.join(this.targetProjectRoot, '.gitignore.keep'), path.join(this.targetProjectRoot, '.gitignore'));
 }
 
 /**
  * 安装依赖
  */
-ReactNativeWeb.prototype.install  =function(){
+ReactNativeWeb.prototype.install = function () {
   logger.info('ReactNativeOnWeb: init web ...')
   new Npm(this.targetProjectRoot).run('init');
-  if(fse.existsSync(path.join(this.targetProjectRoot, '..','package.json'))){
+  if (fse.existsSync(path.join(this.targetProjectRoot, '..', 'package.json'))) {
     new Npm(path.join(this.targetProjectRoot, '..')).install();
   }
 }

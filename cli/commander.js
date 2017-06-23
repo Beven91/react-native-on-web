@@ -12,8 +12,8 @@ var cli = require('./cli.js')
 
 module.exports = function (argv) {
   //默认参数
-  if(argv.length<=2){
-      argv.push('-h');
+  if (argv.length <= 2) {
+    argv.push('-h');
   }
 
   program
@@ -45,7 +45,7 @@ module.exports = function (argv) {
     .command('update')
     .action(cli.run('update'))
     .description('更新react-native-on-web')
-  
+
   // 解析参数
   program.parse(argv)
 }

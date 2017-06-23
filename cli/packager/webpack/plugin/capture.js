@@ -21,7 +21,7 @@ function RuntimeCapturePlugin() {
  * 插件执行入口
  */
 RuntimeCapturePlugin.prototype.apply = function (compiler) {
-  compiler.plugin("compilation", function (compilation) {
+  compiler.plugin('compilation', function (compilation) {
     compilation.mainTemplate.plugin('startup', function (source, module, hash) {
       if (source.indexOf('originWebpackRequire') === -1) {
         return '(' + errorCapture.toString() + ')();\n' + source;
@@ -42,8 +42,8 @@ function errorCapture() {
     } catch (error) {
       if (typeof window.onWebpackRequireErrorCapture == 'function') {
         return window.onWebpackRequireErrorCapture(error);
-      }else{
-         console.error(error)
+      } else {
+        console.error(error)
       }
     }
   }
@@ -54,4 +54,4 @@ function errorCapture() {
 }
 
 //公布插件
-module.exports = RuntimeCapturePlugin
+module.exports = RuntimeCapturePlugin;

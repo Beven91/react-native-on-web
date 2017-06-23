@@ -52,8 +52,8 @@ if (argv.length <= 2) {
 
 var config = yargs.argv;
 
-if(!path.isAbsolute(config.releaseDir)){
-  config.releaseDir = path.join(process.cwd(),config.releaseDir);
+if (!path.isAbsolute(config.releaseDir)) {
+  config.releaseDir = path.join(process.cwd(), config.releaseDir);
 }
 
 //判断发布目录是否存在，如果存在 则修改发布目录为 config.releaseDir/react-web

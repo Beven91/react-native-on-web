@@ -20,7 +20,7 @@ var projectRoot = hasPackageReactOnWeb(runRoot) ? runRoot : path.join(runRoot, '
 /**
  * CLI 构造函数
  */
-function ReactNativeOnWebCli () {
+function ReactNativeOnWebCli() {
 }
 
 /**
@@ -81,9 +81,9 @@ ReactNativeOnWebCli.prototype.bundle = function () {
     logger.info('ReactNativeOnWeb: Running bundle .......')
     var selfRoot = path.join(__dirname, 'tmpl', 'project', 'web')
     var inProject = selfRoot.indexOf(projectRoot) > -1
-    if (projectRoot == selfRoot || inProject) {
+    if (projectRoot === selfRoot || inProject) {
       require('./packager/local-cli/start.js')
-    }else {
+    } else {
       var argv = process.argv.slice(3)
       var js = 'node_modules/react-native-on-web/cli/packager/local-cli/start.js'
       new Npm(projectRoot).node(js, argv)
@@ -98,15 +98,15 @@ ReactNativeOnWebCli.prototype.update = function () {
   if (hasWebPlatform()) {
     logger.info('ReactNativeOnWeb: Starting update .......')
     var npm = new Npm(projectRoot)
-    logger.info("ReactNativeOnWeb: update react-native-on-web module .....");
+    logger.info('ReactNativeOnWeb: update react-native-on-web module .....');
     npm.install('react-native-on-web --save');
-    // logger.info("ReactNativeOnWeb: update global react-native-on-web module .....");
+    // logger.info('ReactNativeOnWeb: update global react-native-on-web module .....');
     // npm.install('react-native-on-web -g');
-    logger.info("ReactNativeOnWeb: update complete ");
+    logger.info('ReactNativeOnWeb: update complete ');
   }
 }
 
-function hasWebPlatform () {
+function hasWebPlatform() {
   var hasPlatform = hasPackageReactOnWeb(runRoot) || hasPackageReactOnWeb(projectRoot)
   if (!hasPlatform) {
     logger.error('ReactNativeOnWeb: there has not web platform you can invoke <react-native-on-web init> to create web platform')
@@ -114,7 +114,7 @@ function hasWebPlatform () {
   return hasPlatform
 }
 
-function hasPackageReactOnWeb (dir) {
+function hasPackageReactOnWeb(dir) {
   var packageJsonPath = path.join(dir, 'package.json')
   var dependencies = fse.existsSync(packageJsonPath) ? Object.keys(require(packageJsonPath).dependencies) : []
   return dependencies.indexOf(pgk.name) > -1
