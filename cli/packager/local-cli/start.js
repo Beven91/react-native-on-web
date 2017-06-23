@@ -13,7 +13,7 @@ var logger = require('../../logger.js')
 var Npm = require('../../helpers/npm.js')
 var Configuration = require('./config.js');
 
-var argv = process.title === 'npm' ? JSON.parse(process.env.npm_config_argv).original : process.argv;
+var argv = process.title === 'npm' ? JSON.parse(process.env.npm_config_argv).original.concat(process.argv.slice(3)) : process.argv;
 
 // 定义用例
 yargs.usage('\nUsage: react-native-on-web --releaseDir=targetdir').help()
@@ -51,6 +51,10 @@ if (argv.length <= 2) {
 }
 
 var config = yargs.argv;
+
+if(!path.isAbsolute(config.releaseDir)){
+  config.releaseDir = path.join(process.cwd(),config.releaseDir);
+}
 
 //判断发布目录是否存在，如果存在 则修改发布目录为 config.releaseDir/react-web
 config.releaseDir = path.join(config.releaseDir || '', 'react-web');
