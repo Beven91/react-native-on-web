@@ -38,6 +38,8 @@ var indexWeb = customPackager.serverContextEntry || path.join(rootDir, '../index
 var indexWebDir = path.dirname(indexWeb);
 
 module.exports = {
+  //发布后的启动端口 可以不填写 默认根据web.json的port
+  targetPort:customPackager.targetPort,
   // webpack静态资源访问目录
   publicPath: publicPath,
   // 客户端代码打包入口

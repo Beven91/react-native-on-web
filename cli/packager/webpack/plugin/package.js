@@ -21,7 +21,7 @@ var babelrcfile = path.resolve('.babelrc')
 /**
  * 发布后处理插件
  */
-function ReleasePackageJson (outputOptions) {
+function ReleasePackageJson(outputOptions) {
   this.outputOptions = outputOptions
 }
 
@@ -32,17 +32,19 @@ ReleasePackageJson.prototype.copyAssets = function () {
   var fromDir = config.rootDir
   var targetDir = config.releaseDir
   var ignores = config.ignores || []
-  fse.copySync(fromDir, targetDir, {filter: function (src, dest) {
+  fse.copySync(fromDir, targetDir, {
+    filter: function (src, dest) {
       var isDir = fse.lstatSync(src).isDirectory();
-      var relName = path.relative(fromDir,src);
-      relName =isDir?relName+"/*":relName;
-      for (var i = 0,k = ignores.length;i < k;i++) {
-        if (minimatch(relName,ignores[i],{matchBase:true,dot:true,nocase:true})) {
+      var relName = path.relative(fromDir, src);
+      relName = isDir ? relName + '/*' : relName;
+      for (var i = 0, k = ignores.length; i < k; i++) {
+        if (minimatch(relName, ignores[i], { matchBase: true, dot: true, nocase: true })) {
           return false
         }
       }
       return true
-  }})
+    }
+  })
 }
 
 /**
@@ -67,9 +69,9 @@ ReleasePackageJson.prototype.compile = function () {
       '-q',
       '--out-dir=' + path.join(config.releaseDir, 'server')
     ])
-  }catch(ex){
+  } catch (ex) {
     console.error(ex);
-  }finally {
+  } finally {
     this.removeBabelRc()
   }
 }
@@ -87,18 +89,18 @@ ReleasePackageJson.prototype.removeBabelRc = function () {
  * 写出临时.babelrc文件
  */
 ReleasePackageJson.prototype.writeBabelRc = function () {
-  var config = {
+  var rcConfig = {
     'presets': babelRc.presets,
     'plugins': [
       ['module-resolver', {
         'alias': {
-          'react-native-on-web/cli/packager/register': 'react-native-on-web/empty',
+          'react-native-on-web/cli/packager/register': 'react-native-on-web/provider',
           'react-native-on-web/cli/packager/webpack/middleware/hot.bundle.js': 'react-native-on-web/empty'
         }
       }]
     ]
   }
-  fse.writeJSONSync(babelrcfile, config)
+  fse.writeJSONSync(babelrcfile, rcConfig)
 }
 
 /**
@@ -108,10 +110,10 @@ ReleasePackageJson.prototype.configPackage = function () {
   var releaseDir = config.releaseDir
   var pgk = require(path.resolve('package.json'))
   var pgkfile = path.join(releaseDir, 'package.json')
-  var indexWebPackageFile =path.join(path.dirname(config.serverContextEntry),'package.json');
-  var indexWebPackage = fse.existsSync(indexWebPackageFile)?require(indexWebPackageFile):{};
+  var indexWebPackageFile = path.join(path.dirname(config.serverContextEntry), 'package.json');
+  var indexWebPackage = fse.existsSync(indexWebPackageFile) ? require(indexWebPackageFile) : {};
   var topLevelDeps = indexWebPackage.dependencies || {};
-  pgk.dependencies = deepAssign(topLevelDeps,pgk.dependencies);
+  pgk.dependencies = deepAssign(topLevelDeps, pgk.dependencies);
   delete pgk.dependencies['react-native'];
   delete pgk.devDependencies
   pgk.scripts = {
@@ -124,7 +126,7 @@ ReleasePackageJson.prototype.configPackage = function () {
 
 /**
  * 配置web.json
- * 修改启动端口为80
+ * 修改启动端口
  * 修改资源版本号为当前时间
  */
 ReleasePackageJson.prototype.configWeb = function () {
@@ -135,7 +137,9 @@ ReleasePackageJson.prototype.configWeb = function () {
   var dir = path.dirname(outputOptions.filename)
   var originIndexWeb = webConfig.indexWeb
   var targetIndexWeb = path.join(outputOptions.path, dir, path.basename(originIndexWeb))
-  webConfig.port = 8080
+  if (config.targetPort) {
+    webConfig.port = config.targetPort;
+  }
   webConfig.indexWeb = path.relative(path.join(config.releaseDir), targetIndexWeb)
   webConfig.version = new Date().getTime()
   this.writeJson(outfile, webConfig)
@@ -187,7 +191,7 @@ ReleasePackageJson.prototype.targetRequireAlias = function () {
   }
 }
 
-function PackageJsonPlugin () {
+function PackageJsonPlugin() {
 }
 
 PackageJsonPlugin.prototype.apply = function (compiler) {

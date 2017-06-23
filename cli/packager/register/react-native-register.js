@@ -4,7 +4,6 @@
  * 描述：用于实现开发环境将具体的模块使用别名模块进行引用
  */
 var path = require('path')
-var fs = require('fs')
 var imageWeb = require('image-web-loader');
 
 // 原始require

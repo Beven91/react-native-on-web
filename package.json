@@ -1,6 +1,6 @@
 {
   "name": "react-native-on-web",
-  "version": "3.0.47",
+  "version": "3.0.49",
   "description": "React Native for Web",
   "main": "lib/index.js",
   "scripts": {

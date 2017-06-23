@@ -11,7 +11,7 @@ var fse = require('fs-extra')
 // 配置文件存放位置
 var configfile = path.resolve('.packager')
 
-function Configuration () {
+function Configuration() {
 }
 
 /**
@@ -57,29 +57,32 @@ Configuration.get = function () {
   var file = path.resolve('.packager.js')
   var customConfig = fse.existsSync(file) ? require(file) : {}
   var config = fse.existsSync(configfile) ? fse.readJSONSync(configfile) : {
-    // 需要进行路由拆分的文件列表
-    splitRoutes: [],
-    // require('image!xx') 寻址目录列表
-    imageAssets: [],
-    // 静态资源打包后通过express访问的路径前缀  例如: static/
-    publicPath: null,
-    // 客户端代码打包入口文件
-    clientContextEntry: null,
-    // 服务端代码打包入口文件
-    serverContextEntry: null,
-    // 图片压缩配置
-    minOptions: null,
-    // webpack loaders
-    loaders: [],
-    // webpack plugins
-    plugins: [],
-    // webpack resovle.extensions
-    extensions: [],
-    // 发布忽略列表
-    ignores: [],
-    // 发布复制信息
-    copy: []
-
+    customConfig: {
+      //发布后的启动端口 可以不填写 默认根据web.json的port
+      targetPort: null,
+      // 需要进行路由拆分的文件列表
+      splitRoutes: [],
+      // require('image!xx') 寻址目录列表
+      imageAssets: [],
+      // 静态资源打包后通过express访问的路径前缀  例如: static/
+      publicPath: null,
+      // 客户端代码打包入口文件
+      clientContextEntry: null,
+      // 服务端代码打包入口文件
+      serverContextEntry: null,
+      // 图片压缩配置
+      minOptions: null,
+      // webpack loaders
+      loaders: [],
+      // webpack plugins
+      plugins: [],
+      // webpack resovle.extensions
+      extensions: [],
+      // 发布忽略列表
+      ignores: [],
+      // 发布复制信息
+      copy: []
+    }
   }
   config.customConfig = customConfig
   customConfig.ignores = customConfig.ignores || []
@@ -98,7 +101,7 @@ Configuration.gitIgnore = function () {
   var gitignore = fse.existsSync(file) ? new String(fse.readFileSync(file)) : ''
   var lines = gitignore.split('\n')
   lines = lines.map(function (line) { return line.trim().replace(/\t/g, ''); })
-  return lines.filter(function (line) {  line.indexOf('node_modules') < 0; })
+  return lines.filter(function (line) { line.indexOf('node_modules') < 0; })
 }
 
 /**
@@ -118,7 +121,7 @@ Configuration.check = function (config) {
 Configuration.tryMakedir = function (dir) {
   try {
     fse.ensureDirSync(dir)
-  } catch(ex) {}
+  } catch (ex) { }
   return fse.existsSync(dir)
 }
 
