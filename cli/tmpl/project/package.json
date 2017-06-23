@@ -27,7 +27,7 @@
     "node-fetch": "^1.6.3",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-native-on-web": "^3.0.43",
+    "react-native-on-web": "^3.0.44",
     "whatwg-fetch": "^1.0.0",
     "winston": "^2.3.0"
   },
@@ -55,7 +55,7 @@
     "react-hot-loader": "1.2.7",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
-    "webpack": "^2.5.1",
+    "webpack": "^3.0.0",
     "webpack-bundle-analyzer": "^2.8.1",
     "webpack-dev-middleware": "^1.10.2",
     "webpack-dev-server": "^2.4.5",

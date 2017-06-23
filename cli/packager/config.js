@@ -4,7 +4,6 @@
 
 // 引入依赖>>
 var path = require('path')
-var fse = require('fs-extra')
 var os = require('os')
 var HappyPack = require('happypack')
 var Configuration = require('./local-cli/config.js')
@@ -87,42 +86,44 @@ module.exports = {
   // 快速构建插件配置
   happyPack: {
     id: 'babel',
-    loaders: [{
-      path: 'babel-loader',
-      query: {
-        presets: babelRc.presets,
-        plugins: babelRc.plugins
-      }
-    }],
+    loaders: [
+      require.resolve('./sourcemap.js'),
+      {
+        path: 'babel-loader',
+        query: {
+          presets: babelRc.presets,
+          plugins: babelRc.plugins
+        }
+      }],
     threadPool: HappyPack.ThreadPool({ size: os.cpus().length }),
     cache: true,
     verbose: true
   },
   // 图片压缩配置
   minOptions: customPackager.minOptions || {
-      contextName: '__cdnUrl__',
-      gifsicle: {
-        interlaced: false
-      },
-      optipng: {
-        optimizationLevel: 7
-      },
-      pngquant: {
-        quality: '65-90',
-        speed: 4
-      },
-      mozjpeg: {
-        progressive: true,
-        quality: 65
-      }
+    contextName: '__cdnUrl__',
+    gifsicle: {
+      interlaced: false
+    },
+    optipng: {
+      optimizationLevel: 7
+    },
+    pngquant: {
+      quality: '65-90',
+      speed: 4
+    },
+    mozjpeg: {
+      progressive: true,
+      quality: 65
+    }
   }
 }
 
-function mapIgnoreNodeModule (v) {
+function mapIgnoreNodeModule(v) {
   return 'node_modules/' + v + '/**/*'
 }
 
-function doAssign (target, source) {
+function doAssign(target, source) {
   source = source || {}
   for (var i in source) {
     target[i] = source[i]

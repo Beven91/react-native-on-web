@@ -12,7 +12,7 @@ var webpack = require('webpack')
 var dantejs = require('dantejs')
 var config = require('../config.js')
 var Arrays = dantejs.Array
-var isProudction = process.env.NODE_ENV == 'production'
+var isProudction = process.env.NODE_ENV === 'production'
 
 // webpack plugins
 var RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlugin
@@ -40,8 +40,8 @@ var devPlugins = [
 
 // 生产环境plugins
 var proPlugins = [
-  new CleanWebpackPlugin(assetDir, {root: config.releaseDir}),
-  new CopyWebpackPlugin([{from: path.resolve('assets'),to: assetDir,toType: 'dir'}]),
+  new CleanWebpackPlugin(assetDir, { root: config.releaseDir }),
+  new CopyWebpackPlugin([{ from: path.resolve('assets'), to: assetDir, toType: 'dir' }]),
   new BundleAnalyzerPlugin({
     analyzerMode: 'static',
     openAnalyzer: false
@@ -54,12 +54,13 @@ var proPlugins = [
   new webpack.optimize.UglifyJsPlugin({
     compressor: {
       warnings: false
-    }
+    },
+    sourceMap:true
   })
 ]
 
 module.exports = {
-  devtool: isProudction ? 'cheap-module-source-map' : 'eval', // 打包后每个模块内容使用eval计算产出
+  devtool: isProudction ? 'source-map' : 'cheap-module-source-map',
   name: 'react-native-web client-side', // 配置名称
   context: path.dirname(config.clientContextEntry), // 根目录
   stats: isProudction ? undefined : 'errors-only',
@@ -97,7 +98,7 @@ module.exports = {
       {
         // jsx 以及js es6
         test: /\.js$|\.jsx$/,
-        loader: path.resolve('node_modules/happypack/loader') + '?id=babel',
+        loader: require.resolve('happypack/loader') + '?id=babel',
         exclude: babelRc.ignore
       },
       {
