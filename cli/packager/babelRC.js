@@ -5,6 +5,7 @@
 
 var path = require('path')
 var fse = require('fs-extra')
+var dependencyTree = require('dependency-tree');
 
 var file = path.resolve('.packager.js')
 var packager = fse.existsSync(file) ? require(file) : {}
@@ -19,7 +20,8 @@ var es6NodeModules = [
 //compileAll 会导致开发环境启动变慢，生产不影响
 var ignore = packager.compileAll ? /node_modules[/\\](babel-|regenerator-transform|happypack|babel|webpack)/ : isCompileIgnore
 
-module.exports.getRC = function () {
+module.exports.getRC = function (indexWeb) {
+  initReactNativeCompileNodeModules(indexWeb);
   return {
     presets: [require.resolve('babel-preset-react-native')],
     ignore: ignore,
@@ -36,6 +38,25 @@ module.exports.getRC = function () {
 
 // 是否node_modules需要webpack打包编译
 module.exports.isNodeModuleCompile = isNodeModuleCompile;
+
+/**
+ * 初始化项目需要编译成es6的node_modules模块
+ * @param {*} indexWebEntry 
+ */
+var initReactNativeCompileNodeModules = function (indexWebEntry) {
+  if (packager.compileAll) {
+    var modules = dependencyTree.toList({
+      filename: indexWebEntry,
+      directory: path.dirname(indexWebEntry)
+    });
+    modules.forEach(function (key) {
+      var lastIndex = key.lastIndexOf("node_modules");
+      var moduleName = key.substring(lastIndex).split("\\")[1];
+      es6NodeModules.push(new RegExp(moduleName));
+    })
+  }
+  initReactNativeCompileNodeModules = function () { }
+}
 
 function isCompileIgnore(jsfile) {
   var isNodeModules = /node_modules/.test(jsfile)

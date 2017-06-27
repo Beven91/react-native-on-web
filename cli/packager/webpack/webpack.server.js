@@ -10,13 +10,10 @@ module.paths.unshift(require('path').resolve('node_modules'));
 var path = require('path')
 var fs = require('fs')
 var webpack = require('webpack')
-var dantejs = require('dantejs')
 var config = require('../config.js')
 var gracefulFs = require('graceful-fs')
 var BabelRCMaker = require('../babelRC.js')
-var clientWebpack = require('./webpack.client.js')
 
-var isProudction = process.env.NODE_ENV == 'production'
 // webpack plugins
 var NodeModulePlugin = require('webpack-node-module-plugin').NodeModulePlugin
 var RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlugin
@@ -27,13 +24,9 @@ var PackageJsonPlugin = require('./plugin/package.js')
 
 gracefulFs.gracefulify(fs)
 
-// 工程根目录
-var rootDir = config.rootDir
 // 代码目录
 var contextPath = path.dirname(config.serverContextEntry)
 
-// 发布目录
-var releaseDir = config.releaseDir
 // 服务端打包存放目标目录
 var targetAppDir = config.targetAppDir;
 // babel 配置
@@ -43,12 +36,12 @@ var externalsNodeModules = fs.readdirSync('node_modules')
   .filter(function (x) {
     return (['.bin'].indexOf(x) === -1 && !BabelRCMaker.isNodeModuleCompile(x))
   }).concat([
-  'react-native'
-])
+    'react-native'
+  ])
 
 module.exports = {
   target: 'node',
-  stats: 'errors-only',
+  stats: 'detailed',
   name: 'react-native-web server-side', // 配置名称
   context: contextPath, // 根目录
   entry: {
@@ -66,18 +59,17 @@ module.exports = {
   },
   plugins: [
     new ProgressBarPlugin(),
-    new CleanWebpackPlugin([targetAppDir, config.targetNodeModulesDir], {root: config.releaseDir}),
-    new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify('production')}}),
+    new CleanWebpackPlugin([targetAppDir, config.targetNodeModulesDir], { root: config.releaseDir }),
+    new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify('production') } }),
     new webpack.NoEmitOnErrorsPlugin(),
     new HappyPack(config.happyPack),
     new RequireImageXAssetPlugin(config.imageAssets),
-    new NodeModulePlugin(contextPath),
+    new NodeModulePlugin(contextPath, null, config.releaseDir),
     new PackageJsonPlugin()
   ],
   externals: function (context, request, callback) {
     request = request.trim()
-    var isExternal = context.indexOf(path.resolve('node_modules')) > -1
-    isExternal = isExternal || externalsNodeModules.filter(function (v) { return (request + '/').indexOf(v + '/') == 0; }).length > 0
+    var isExternal = externalsNodeModules.filter(function (v) { return (request + '/').indexOf(v + '/') == 0; }).length > 0
     return isExternal ? callback(null, 'commonjs ' + request) : callback()
   },
   node: {
@@ -107,11 +99,11 @@ module.exports = {
       },
       {
         // url类型模块资源访问
-        test: /\.(ico|svg|woff|woff2)$/,
+        test: /\.(ico|svg|woff|woff2|ttf)$/,
         loader: 'url-loader',
         query: {
           name: '[hash].[ext]',
-          limit: 10000000000
+          limit: 10000
         }
       }
     ].concat(config.loaders)
@@ -121,6 +113,6 @@ module.exports = {
   },
   resolve: {
     alias: config.alias,
-    extensions: babelRc.extensions.concat(config.extensions)
+    extensions: config.extensions
   }
 }

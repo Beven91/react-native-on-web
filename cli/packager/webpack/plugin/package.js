@@ -95,7 +95,7 @@ ReleasePackageJson.prototype.writeBabelRc = function () {
       ['module-resolver', {
         'alias': {
           'react-native-on-web/cli/packager/register': 'react-native-on-web/provider',
-          'react-native-on-web/cli/packager/webpack/middleware/hot.bundle.js': 'react-native-on-web/empty'
+          'react-native-on-web/cli/packager/webpack/middleware/hot.bundle.js': 'react-native-on-web/provider'
         }
       }]
     ]
@@ -155,8 +155,33 @@ ReleasePackageJson.prototype.configIndex = function () {
   var indexContent = fse.readFileSync(file).toString()
   var indexRequire = '(' + this.targetRequireAlias.toString() + ')()'
   indexContent = indexRequire + indexContent
-  fse.copySync(path.join(__dirname, '../../alias.js'), path.join(releaseDir, 'server/alias.js'))
   this.write(outfile, indexContent)
+  this.configAlias();
+}
+
+/**
+ * 创建别名
+ */
+ReleasePackageJson.prototype.configAlias = function () {
+  var releaseDir = config.releaseDir
+  var projectRoot = config.rootDir;
+  var alias = config.alias;
+  var keys = Object.keys(alias);
+  var aliasCode = [];
+  var newAlias = [];
+  aliasCode.push("var path = require('path');");
+  aliasCode.push("var webConfig = require(path.resolve('web.json'));");
+  aliasCode.push("module.exports = {");
+  keys.forEach(function (key) {
+    var moduleName = alias[key];
+    var resolve = (moduleName.split(projectRoot)[1] || '').replace(/^(\\|\/)/, '').replace(/\\/g, '/');
+    moduleName = path.isAbsolute(moduleName) ? "path.resolve('" + resolve + "')" : "'" + moduleName + "'";
+    moduleName=key==="react-native-on-web-index-web-js"?"path.resolve(webConfig.indexWeb)":moduleName;
+    newAlias.push("'" + key + "':" + moduleName);
+  });
+  aliasCode.push(newAlias.join(',\n'));
+  aliasCode.push("}");
+  fse.writeFileSync(path.join(releaseDir, 'server/alias.js'), aliasCode.join('\n'));
 }
 
 /**

@@ -27,7 +27,7 @@
     "node-fetch": "^1.6.3",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-native-on-web": "^3.0.51",
+    "react-native-on-web": "^3.0.59",
     "whatwg-fetch": "^1.0.0",
     "winston": "^2.3.0"
   },
@@ -60,8 +60,9 @@
     "webpack-dev-middleware": "^1.10.2",
     "webpack-dev-server": "^2.4.5",
     "webpack-hot-middleware": "^2.18.0",
-    "webpack-node-module-plugin": "^1.0.0",
+    "webpack-node-module-plugin": "^1.0.4",
     "webpack-shell-plugin": "^0.5.0",
+    "dependency-tree": "^5.9.1",
     "yargs": "^8.0.1"
   }
 }

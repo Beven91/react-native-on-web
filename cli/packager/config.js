@@ -10,8 +10,6 @@ var Configuration = require('./local-cli/config.js')
 
 // 工程包配置对象
 var pgk = require(path.resolve('package.json'))
-// babel转码配置
-var babelRc = require('./babelRC.js').getRC()
 // 命令行发布配置对象
 var processConfig = Configuration.get()
 // 自定义打包相关配置
@@ -36,10 +34,13 @@ var publicPath = customPackager.publicPath || '/app/'
 
 var indexWeb = customPackager.serverContextEntry || path.join(rootDir, '../index.web.js');
 var indexWebDir = path.dirname(indexWeb);
+var babelRc = require('./babelRC.js').getRC(indexWeb)
+var extensions = babelRc.extensions;
 
 module.exports = {
+  babelRc: doAssign({}, babelRc),
   //发布后的启动端口 可以不填写 默认根据web.json的port
-  targetPort:customPackager.targetPort,
+  targetPort: customPackager.targetPort,
   // webpack静态资源访问目录
   publicPath: publicPath,
   // 客户端代码打包入口
@@ -66,9 +67,9 @@ module.exports = {
   // 别名配置
   alias: doAssign(require('./alias.js'), customPackager.alias),
   // 扩展名设置
-  extensions: customPackager.extensions || [],
+  extensions: extensions.concat(customPackager.extensions || []),
   // 打包复制忽略项
-  ignores: Object.keys(pgk.devDependencies).map(mapIgnoreNodeModule).concat(customPackager.ignores),
+  ignores: ['node_modules/**/*', '.gitignore'].concat(customPackager.ignores),
   // 需要进行路由拆分的loaders
   splitRoutes: (customPackager.splitRoutes || []).map(function (file) {
     file = path.isAbsolute(file) ? file : path.join(indexWebDir, file)
@@ -119,10 +120,6 @@ module.exports = {
       quality: 65
     }
   }
-}
-
-function mapIgnoreNodeModule(v) {
-  return 'node_modules/' + v + '/**/*'
 }
 
 function doAssign(target, source) {

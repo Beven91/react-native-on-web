@@ -135,6 +135,6 @@ module.exports = {
   },
   resolve: {
     alias: config.alias,
-    extensions: babelRc.extensions.concat(config.extensions)
+    extensions: config.extensions
   }
 }

@@ -100,8 +100,7 @@ Configuration.gitIgnore = function () {
   var file = path.resolve('.gitignore')
   var gitignore = fse.existsSync(file) ? new String(fse.readFileSync(file)) : ''
   var lines = gitignore.split('\n')
-  lines = lines.map(function (line) { return line.trim().replace(/\t/g, ''); })
-  return lines.filter(function (line) { line.indexOf('node_modules') < 0; })
+  return lines.map(function (line) { return line.trim().replace(/\t/g, ''); })
 }
 
 /**

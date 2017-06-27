@@ -79,28 +79,61 @@ if (config.server && config.client) {
 var env = { NODE_ENV: 'production' }
 
 //执行服务端打包
-if (config.server != null) {
-  logger.info('\nReactNativeOnWeb: Bundle server side .......');
-  (new Npm()).exec('webpack', [
-    '--colors',
-    '--config',
-    path.join(__dirname, '..', '..', 'packager/webpack/webpack.server.js')
-  ], env);
+function serverPack() {
+  var sp = { status: 0 };
+  if (config.server != null) {
+    logger.info('\nReactNativeOnWeb: Bundle server side .......');
+    sp = (new Npm()).node('node_modules/webpack/bin/webpack.js', [
+      '--colors',
+      '--config',
+      path.join(__dirname, '..', '..', 'packager/webpack/webpack.server.js')
+    ], env);
+  }
+  return sp.status == 0;
 }
 
 //执行客户端端打包
-if (config.client != null) {
-  logger.info('\nReactNativeOnWeb: Bundle client side .......');
-  (new Npm()).exec('webpack', [
-    '--colors',
-    '--config',
-    path.join(__dirname, '..', '..', 'packager/webpack/webpack.client.js')
-  ], env);
+function clientPack() {
+  var sp = { status: 0 };
+  if (config.client != null) {
+    logger.info('\nReactNativeOnWeb: Bundle client side .......');
+    sp = (new Npm()).node('node_modules/webpack/bin/webpack.js', [
+      '--colors',
+      '--config',
+      path.join(__dirname, '..', '..', 'packager/webpack/webpack.client.js')
+    ], env);
+  }
+  return sp.status == 0;
 }
 
-//如果采用npm install模式 构建发布后的node_modules
-if (config.install) {
-  logger.info('\nReactNativeOnWeb: use npm install build node_mdoules ...........');
-  (new Npm(config.releaseDir)).install('--production');
+//构建node_modules
+function nodeModulesPack() {
+  var sp = { status: 0 };
+  if (config.install) {
+    logger.info('\nReactNativeOnWeb: use npm install build node_mdoules ...........');
+    sp = (new Npm(config.releaseDir)).install('--production');
+  }
+  return sp.status == 0;
 }
-logger.info('\n\nReactNativeOnWeb:  Bundle complete!');
+
+//执行构建流程
+function runAppPack() {
+  var handle = null;
+  var packs = Array.prototype.slice.call(arguments);
+  for (var i = 0, k = packs.length; i < k; i++) {
+    handle = packs[i];
+    if (!handle()) {
+      logger.info('\n\nReactNativeOnWeb:  Bundle error.....');
+      return;
+    }
+  }
+  //如果采用npm install模式 构建发布后的node_modules
+  logger.info('\n\nReactNativeOnWeb:  Bundle complete!');
+}
+
+//执行构建
+runAppPack(serverPack, clientPack, nodeModulesPack);
+
+
+
+
