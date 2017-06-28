@@ -77,6 +77,7 @@ module.exports = {
   output: {
     path: config.assetsAppDir,
     filename: '[name].js',
+    chunkFilename : '[name]-[id].js',
     publicPath: config.publicPath
   },
   plugins: [
