@@ -23,10 +23,6 @@ var ProgressBarPlugin = require('progress-bar-webpack-plugin')
 var CleanWebpackPlugin = require('clean-webpack-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 
-// 工程根目录
-var rootDir = config.rootDir
-// 发布目录
-var releaseDir = config.releaseDir
 // 公用资源存放目录
 var assetDir = config.assetsDir
 

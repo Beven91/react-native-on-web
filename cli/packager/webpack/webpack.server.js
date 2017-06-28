@@ -64,7 +64,7 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(),
     new HappyPack(config.happyPack),
     new RequireImageXAssetPlugin(config.imageAssets),
-    new NodeModulePlugin(contextPath, null, config.releaseDir),
+    new NodeModulePlugin(contextPath, config.cdnVariableName, config.releaseDir),
     new PackageJsonPlugin()
   ],
   externals: function (context, request, callback) {

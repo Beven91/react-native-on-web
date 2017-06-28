@@ -8,8 +8,6 @@ var os = require('os')
 var HappyPack = require('happypack')
 var Configuration = require('./local-cli/config.js')
 
-// 工程包配置对象
-var pgk = require(path.resolve('package.json'))
 // 命令行发布配置对象
 var processConfig = Configuration.get()
 // 自定义打包相关配置
@@ -36,8 +34,10 @@ var indexWeb = customPackager.serverContextEntry || path.join(rootDir, '../index
 var indexWebDir = path.dirname(indexWeb);
 var babelRc = require('./babelRC.js').getRC(indexWeb)
 var extensions = babelRc.extensions;
+var cdnVariableName = '__cdnUrl__';
 
 module.exports = {
+  cdnVariableName: cdnVariableName,
   babelRc: doAssign({}, babelRc),
   //发布后的启动端口 可以不填写 默认根据web.json的port
   targetPort: customPackager.targetPort,
@@ -73,17 +73,27 @@ module.exports = {
   // 需要进行路由拆分的loaders
   splitRoutes: (customPackager.splitRoutes || []).map(function (file) {
     file = path.isAbsolute(file) ? file : path.join(indexWebDir, file)
+    var segments = file.split('\\');
+    segments = segments.length > 3 ? segments.slice(-3) : segments;
     return {
       test: /\.js$|\.jsx$/,
       include: file,
-      loaders: ['bundle?lazy&name=' + path.basename(file), {
-        path: 'babel-loader',
-        query: {
-          presets: babelRc.presets,
-          plugins: babelRc.plugins
+      use: [
+        {
+          loader: 'bundle-loader',
+          options: {
+            lazy: true,
+            name: segments.join('-')
+          }
+        },
+        {
+          loader: 'babel-loader',
+          options: {
+            presets: babelRc.presets,
+            plugins: babelRc.plugins
+          }
         }
-      }],
-      exclude: '/node_modules/'
+      ],
     }
   }),
   // 快速构建插件配置
@@ -104,7 +114,7 @@ module.exports = {
   },
   // 图片压缩配置
   minOptions: customPackager.minOptions || {
-    contextName: '__cdnUrl__',
+    contextName: cdnVariableName,
     gifsicle: {
       interlaced: false
     },
