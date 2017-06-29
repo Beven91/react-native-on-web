@@ -10,6 +10,8 @@ var dependencyTree = require('dependency-tree');
 var file = path.resolve('.packager.js')
 var packager = fse.existsSync(file) ? require(file) : {}
 
+var babelrc = packager.babelrc || {};
+
 // node_modules下需要编译的es6模块
 // 注意：数组项必须为正则表达式
 var es6NodeModules = [
@@ -23,7 +25,7 @@ var ignore = packager.compileAll ? /node_modules[/\\](babel-|regenerator-transfo
 module.exports.getRC = function (indexWeb) {
   initReactNativeCompileNodeModules(indexWeb);
   return {
-    presets: [require.resolve('babel-preset-react-native')],
+    presets: [require.resolve('babel-preset-react-native')].concat(babelrc.presets || []),
     ignore: ignore,
     babelrc: false,
     compact: true,
@@ -31,8 +33,8 @@ module.exports.getRC = function (indexWeb) {
       [require.resolve('babel-plugin-transform-react-remove-prop-types'), {
         'mode': 'wrap'
       }]
-    ],
-    extensions: ['.web.js', '.js']
+    ].concat(babelrc.plugins || []),
+    extensions: ['.web.js', '.js'].concat(babelrc.extensions || [])
   }
 }
 

@@ -2,12 +2,12 @@ var path = require('path')
 var webConfig = require('./web.json')
 
 module.exports = {
-  targetPort:8080,
+  targetPort: 8080,
   /**
    * require('image!xx') 寻址目录列表
    * 默认会寻找android或者ios目录或者web目录assets/images下的图片文件
    * 可以追加路径
-   */ 
+   */
   imageAssets: [],
   // 静态资源打包后通过express访问的路径前缀  例如: /app/
   publicPath: '/app/',
@@ -15,6 +15,14 @@ module.exports = {
   clientContextEntry: path.resolve('server/express/react/client.js'),
   // 服务端代码打包入口文件
   serverContextEntry: path.resolve(webConfig.indexWeb),
+  //额外配置babelrc
+  babelrc: {
+
+  },
+  //额外配置webpack loaders
+  loaders: [],
+  //额外配置webpack plugins
+  plugins: [],
   /**
    * 开发环境是否node_modules下所有文件都使用babel编译
    * 如果设置成true  则无需设置es6Modules 但是会导致开发环境启动速度变慢

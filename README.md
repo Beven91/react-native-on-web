@@ -80,6 +80,14 @@
         *      1.user.js 当访问/user时进行自动懒加载加载
         */
         splitRoutes: [],
+        //额外配置babelrc
+        babelrc: {
+
+        },
+        //额外配置webpack loaders
+        loaders: [],
+        //额外配置webpack plugins
+        plugins: [],
         // 别名配置
         alias: {
             'logger': path.resolve('server/framework/logger/index.js'),
