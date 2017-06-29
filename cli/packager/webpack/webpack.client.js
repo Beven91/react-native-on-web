@@ -95,7 +95,7 @@ module.exports = {
       {
         // jsx 以及js es6
         test: /\.js$|\.jsx$/,
-        loader: require.resolve('happypack/loader') + '?id=babel',
+        loader: require.resolve('happypack/loader') + '?id=happybabel',
         exclude: babelRc.ignore
       },
       {

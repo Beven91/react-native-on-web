@@ -98,7 +98,7 @@ module.exports = {
   }),
   // 快速构建插件配置
   happyPack: {
-    id: 'babel',
+    id: 'happybabel',
     loaders: [
       require.resolve('./sourcemap.js'),
       {
