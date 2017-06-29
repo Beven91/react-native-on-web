@@ -73,7 +73,7 @@ module.exports = {
   // 需要进行路由拆分的loaders
   splitRoutes: (customPackager.splitRoutes || []).map(function (file) {
     file = path.isAbsolute(file) ? file : path.join(indexWebDir, file)
-    var segments = file.split('\\');
+    var segments = file.split(path.sep);
     segments = segments.length > 3 ? segments.slice(-3) : segments;
     return {
       test: /\.js$|\.jsx$/,
@@ -102,8 +102,8 @@ module.exports = {
     loaders: [
       require.resolve('./sourcemap.js'),
       {
-        path: 'babel-loader',
-        query: {
+        loader: 'babel-loader',
+        options: {
           presets: babelRc.presets,
           plugins: babelRc.plugins
         }

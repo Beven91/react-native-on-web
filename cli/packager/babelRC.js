@@ -51,7 +51,7 @@ var initReactNativeCompileNodeModules = function (indexWebEntry) {
     });
     modules.forEach(function (key) {
       var lastIndex = key.lastIndexOf("node_modules");
-      var moduleName = key.substring(lastIndex).split("\\")[1];
+      var moduleName = key.substring(lastIndex).split(path.sep)[1];
       es6NodeModules.push(new RegExp(moduleName));
     })
   }

@@ -64,7 +64,7 @@ Npm.prototype.node = function (js, args, env) {
   args.unshift(js)
   return require('child_process').spawnSync('node', args, {
     cwd: this.cwd,
-    env: env,
+    env: combine(env,process.env),
     stdio: [process.stdin, process.stdout, process.stderr]
   })
 }
@@ -80,9 +80,18 @@ Npm.prototype.exec = function (name, args, env) {
   name = process.platform === 'win32' ? name + '.cmd' : name
   require('child_process').spawnSync(name, args, {
     cwd: this.cwd,
-    env: env,
+    env: combine(env,process.env),
     stdio: [process.stdin, process.stdout, process.stderr]
   })
+}
+
+function combine(source,target){
+  var keys = Object.keys(target);
+  source = source || {};
+  keys.forEach(function(key){
+    source[key] = target[key];
+  })
+  return source;
 }
 
 // 公布引用

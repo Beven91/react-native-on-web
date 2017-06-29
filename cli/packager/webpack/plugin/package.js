@@ -169,18 +169,18 @@ ReleasePackageJson.prototype.configAlias = function () {
   var keys = Object.keys(alias);
   var aliasCode = [];
   var newAlias = [];
-  aliasCode.push("var path = require('path');");
-  aliasCode.push("var webConfig = require(path.resolve('web.json'));");
-  aliasCode.push("module.exports = {");
+  aliasCode.push('var path = require(\'path\');');
+  aliasCode.push('var webConfig = require(path.resolve(\'web.json\'));');
+  aliasCode.push('module.exports = {');
   keys.forEach(function (key) {
     var moduleName = alias[key];
     var resolve = (moduleName.split(projectRoot)[1] || '').replace(/^(\\|\/)/, '').replace(/\\/g, '/');
-    moduleName = path.isAbsolute(moduleName) ? "path.resolve('" + resolve + "')" : "'" + moduleName + "'";
-    moduleName=key==="react-native-on-web-index-web-js"?"path.resolve(webConfig.indexWeb)":moduleName;
-    newAlias.push("'" + key + "':" + moduleName);
+    moduleName = path.isAbsolute(moduleName) ? 'path.resolve(\'' + resolve + '\')' : '\'' + moduleName + '\'';
+    moduleName = key === 'react-native-on-web-index-web-js' ? 'path.resolve(webConfig.indexWeb)' : moduleName;
+    newAlias.push('\'' + key + '\':' + moduleName);
   });
   aliasCode.push(newAlias.join(',\n'));
-  aliasCode.push("}");
+  aliasCode.push('}');
   fse.writeFileSync(path.join(releaseDir, 'server/alias.js'), aliasCode.join('\n'));
 }
 
