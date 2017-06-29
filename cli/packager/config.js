@@ -109,7 +109,7 @@ module.exports = {
         }
       }],
     threadPool: HappyPack.ThreadPool({ size: os.cpus().length }),
-    cache: true,
+    cache: false,
     verbose: true
   },
   // 图片压缩配置
