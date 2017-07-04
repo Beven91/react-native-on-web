@@ -7,7 +7,7 @@ var path = require('path')
 var imageWeb = require('image-web-loader');
 
 // 原始require
-var originResolveFilename = module.constructor._resolveFilename
+var ORIGINAL_RESOLVE_FILENAME = module.constructor._resolveFilename
 // 配置
 var config = require('../config.js');
 
@@ -22,8 +22,8 @@ var ReactNativeWebAlias = config.alias || {
 /**
  * 重写require  添加别名处理
  */
-module.constructor._resolveFilename = function (name,mod,isMain) {
-  name = xAssetsPlugin.getRequest(name,path.dirname(mod.id)) || name;
+module.constructor._resolveFilename = function (name, mod, isMain) {
+  name = xAssetsPlugin.getRequest(name, path.dirname(mod.id)) || name;
   var id = ReactNativeWebAlias[name] || name
-  return originResolveFilename.call(this, id,mod,isMain)
+  return ORIGINAL_RESOLVE_FILENAME.call(this, id, mod, isMain)
 }

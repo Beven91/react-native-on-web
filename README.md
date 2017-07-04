@@ -38,8 +38,6 @@
         * 可以追加路径
         */
         imageAssets: [],
-        // 静态资源打包后通过express访问的路径前缀  例如: /app/
-        publicPath: '/app/',
         // 客户端代码打包入口文件
         clientContextEntry: path.resolve('server/express/react/client.js'),
         // 服务端代码打包入口文件
@@ -49,6 +47,21 @@
         },
         //修改webpack配置 例如: (config)=> ... 或者 {loaders:[...]}
         webpack:{
+        },
+         //服务端同构文件载入实现 例如: {'css':(filename)=>''  }
+        serverResolves: {},
+        /*
+         静态资源设置 指定那些后缀为静态资源 默认值：
+         [
+            '.bmp', '.ico', '.gif', '.jpg', '.jpeg', '.png', '.psd', '.svg', '.webp', // Image formats
+            '.m4v', '.mov', '.mp4', '.mpeg', '.mpg', '.webm', // Video formats
+            '.aac', '.aiff', '.caf', '.m4a', '.mp3', '.wav', // Audio formats
+            '.html', '.pdf', // Document formats
+            '.woff', '.woff2', '.woff', '.woff2', '.eot', '.ttf', //icon font
+        ]
+        */
+        static: function (exts) {
+            return exts;
         },
         /**
         * 开发环境是否node_modules下所有文件都使用babel编译
@@ -86,8 +99,19 @@
         *      app.js
         *      common.js
         *      1.user.js 当访问/user时进行自动懒加载加载
+        * 
+        * 配置案例:
+        *  格式:  要拆分的js路径?name=路由路径
+        *  例如:  ./routers/user/login.js?name=user/login
+        *  目的： ?name=user/login 解决代码拆分造成同构checksum问题
+        *  原理:  当路由匹配到?name的值，会在同构时同步加载对应拆分的js 如果是客户端pushstate则异步加载
+        *  [
+        *    'index=user/login', //特殊项 用于配置/对应的路由
+        *    './routers/user/login.js?name=user/login'
+        *  ]
         */
-        splitRoutes: [],
+        spliters:[
+        ],
         // 别名配置
         alias: {
             'logger': path.resolve('server/framework/logger/index.js'),

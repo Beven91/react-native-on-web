@@ -18,3 +18,5 @@ bower_modules/
 npm-debug.log
 workspace.xml
 Thumbs.db
+spliter.json
+package-lock.json

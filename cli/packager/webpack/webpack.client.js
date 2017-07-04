@@ -75,7 +75,7 @@ module.exports = combine({
   output: {
     path: config.assetsAppDir,
     filename: '[name].js',
-    chunkFilename: '[name]-[id].js',
+    chunkFilename: '[name].js',
     publicPath: config.publicPath
   },
   plugins: [
@@ -96,7 +96,7 @@ module.exports = combine({
       },
       {
         // 图片类型模块资源访问
-        test: /\.(png|jpg|jpeg|gif)$/,
+        test: /\.(png|jpg|jpeg|gif|webp|bmp|ico|jpeg)$/,
         loader: [
           {
             loader: 'image-web-loader',

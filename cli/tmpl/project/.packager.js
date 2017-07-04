@@ -23,6 +23,10 @@ module.exports = {
   },
   //服务端同构文件载入实现 例如: {'css':(filename)=>''  }
   serverResolves: {},
+  //静态资源设置
+  static: function (exts) {
+    return exts;
+  },
   /**
    * 开发环境是否node_modules下所有文件都使用babel编译
    * 如果设置成true  则无需设置es6Modules 但是会导致开发环境启动速度变慢
@@ -59,8 +63,19 @@ module.exports = {
    *      app.js
    *      common.js
    *      1.user.js 当访问/user时进行自动懒加载加载
+   * 
+   * 配置案例:
+   *  格式:  要拆分的js路径?name=路由路径
+   *  例如:  ./routers/user/login.js?name=user/login
+   *  目的： ?name=user/login 解决代码拆分造成同构checksum问题
+   *  原理:  当路由匹配到?name的值，会在同构时同步加载对应拆分的js 如果是客户端pushstate则异步加载
+   *  [
+   *    'index=user/login', //特殊项 用于配置/对应的路由
+   *    './routers/user/login.js?name=user/login'
+   *  ]
    */
-  splitRoutes: [],
+  spliters:[
+  ],
   // 别名配置
   alias: {
     'logger': path.resolve('server/framework/logger/index.js'),
@@ -76,7 +91,7 @@ module.exports = {
   ],
   // 图片压缩配置
   minOptions: {
-    contextName: '__cdnUrl__',
+    contextName: webConfig.cdnVariableName,
     gifsicle: {
       interlaced: false
     },

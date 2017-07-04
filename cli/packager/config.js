@@ -7,6 +7,7 @@ var path = require('path')
 var os = require('os')
 var HappyPack = require('happypack')
 var Configuration = require('./local-cli/config.js')
+var CodeSpliter  =require('./spliter.js');
 
 // 命令行发布配置对象
 var processConfig = Configuration.get()
@@ -19,6 +20,7 @@ var rootDir = customPackager.projectRoot || path.resolve('')
 var releaseDir = processConfig.releaseDir || path.join(rootDir, '..', 'release/react-web/')
 // 发布后目标node_modules目录
 var targetNodeModulesDir = path.join(releaseDir, 'node_modules')
+var webConfig = require(path.resolve('web.json'));
 
 // 默认本地图片路径
 var imageAssets = [
@@ -27,17 +29,13 @@ var imageAssets = [
   path.resolve('assets/images')
 ].concat(customPackager.imageAssets)
 
-// 资源路径
-var publicPath = customPackager.publicPath || '/app/'
-
 var indexWeb = customPackager.serverContextEntry || path.join(rootDir, '../index.web.js');
 var indexWebDir = path.dirname(indexWeb);
 var babelRc = require('./babelRC.js').getRC(indexWeb)
-var extensions = babelRc.extensions;
-var cdnVariableName = '__cdnUrl__';
+var publicPath = '/app/';
 
 module.exports = {
-  cdnVariableName: cdnVariableName,
+  cdnVariableName: webConfig.cdnVariableName,
   babelRc: doAssign({}, babelRc),
   //发布后的启动端口 可以不填写 默认根据web.json的port
   targetPort: customPackager.targetPort,
@@ -67,43 +65,19 @@ module.exports = {
   //服务端同构文件载入实现
   serverResolves: customPackager.serverResolves || {},
   // 扩展名设置
-  extensions: extensions,
+  extensions: babelRc.extensions,
   // 静态资源后缀名
   static: customPackager.static([
     '.bmp', '.ico', '.gif', '.jpg', '.jpeg', '.png', '.psd', '.svg', '.webp', // Image formats
     '.m4v', '.mov', '.mp4', '.mpeg', '.mpg', '.webm', // Video formats
     '.aac', '.aiff', '.caf', '.m4a', '.mp3', '.wav', // Audio formats
     '.html', '.pdf', // Document formats
-    '.woff', '.woff2', '.svg', '.woff', '.woff2', '.eot', '.ttf', //icon font
+    '.woff', '.woff2', '.woff', '.woff2', '.eot', '.ttf', //icon font
   ]),
   // 打包复制忽略项
   ignores: ['node_modules/**/*', '.gitignore'].concat(customPackager.ignores),
   // 需要进行路由拆分的loaders
-  splitRoutes: (customPackager.splitRoutes || []).map(function (file) {
-    file = path.isAbsolute(file) ? file : path.join(indexWebDir, file)
-    var segments = file.split(path.sep);
-    segments = segments.length > 3 ? segments.slice(-3) : segments;
-    return {
-      test: /\.js$|\.jsx$/,
-      include: file,
-      use: [
-        {
-          loader: 'bundle-loader',
-          options: {
-            lazy: true,
-            name: segments.join('-')
-          }
-        },
-        {
-          loader: 'babel-loader',
-          options: {
-            presets: babelRc.presets,
-            plugins: babelRc.plugins
-          }
-        }
-      ],
-    }
-  }),
+  splitRoutes: (new CodeSpliter(indexWebDir,customPackager.spliters,babelRc)).split(),
   // 快速构建插件配置
   happyPack: {
     id: 'happybabel',
@@ -122,7 +96,7 @@ module.exports = {
   },
   // 图片压缩配置
   minOptions: customPackager.minOptions || {
-    contextName: cdnVariableName,
+    contextName: webConfig.cdnVariableName,
     gifsicle: {
       interlaced: false
     },

@@ -17,11 +17,11 @@ function Configuration() {
 /**
  * 以会话方式安装配置，当进程结束后或者进程意外退出会自动删除已安装的配置
  * 也就是说当前配置进存在运行的进程中(包含子进程)
- *  @param config 配置对象数据 
+ *  @param {Object} config  配置对象数据  
  */
 Configuration.session = function (config) {
-  var thisContext = this
-  var removeHandler = function (e) { thisContext.remove(e); }
+  var remove = this.remove.bind(this);
+  var removeHandler = function (e) { remove(e); }
   // 进程异常监听
   process.on('exit', removeHandler)
   process.on('uncaughtException', removeHandler)
@@ -61,7 +61,7 @@ Configuration.get = function () {
       //发布后的启动端口 可以不填写 默认根据web.json的port
       targetPort: null,
       // 需要进行路由拆分的文件列表
-      splitRoutes: [],
+      spliters: [],
       // require('image!xx') 寻址目录列表
       imageAssets: [],
       // 静态资源打包后通过express访问的路径前缀  例如: static/

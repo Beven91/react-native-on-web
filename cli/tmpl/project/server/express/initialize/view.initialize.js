@@ -8,7 +8,6 @@
 import path from 'path';
 import appContext from 'app-context';
 import exphbs from 'express-handlebars';
-import packager from '../../../.packager.js'
 
 //获取express app对象
 const app = appContext.getParam('app');
@@ -37,5 +36,5 @@ locals.__version__ = webConfig.version;
 locals.__env__ = appContext.env;
 locals.__isDevelopment__ = appContext.isDev;
 locals.__cdnUrl__ = webConfig.cdnUrl || '';
-locals.__cdnUrlName__ = packager.minOptions.contextName;
+locals.__cdnUrlName__ = webConfig.cdnVariableName;
 global[locals.__cdnUrlName__] = locals.__cdnUrl__;

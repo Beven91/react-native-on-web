@@ -25,6 +25,7 @@ export default class ReactServerRequest {
      */
     initialize(reactApplication) {
         this.reactApplication = reactApplication;
+        this.splitRoutes = reactApplication.splitRoutes
     }
 
     /**
@@ -38,6 +39,15 @@ export default class ReactServerRequest {
         this.currentResponse = resp;
         this.nextPiple = next;
         this.doReactResponse();
+    }
+
+    /**
+     * 获取同构代码拆分路由js,如果不存在拆分js则返回null
+     */
+    getSplitRouteJs() {
+        let name = this.currentRequest.path.replace(/(^\/|\/$)/g, '').toLowerCase();
+        let js = this.splitRoutes[name];
+        return js ? '/app/' + js : null;
     }
 
     /**
@@ -55,6 +65,7 @@ export default class ReactServerRequest {
                 title: (reactAppContext.route.title || 'React native for Web'),
                 initialHTML: initialHTML,
                 stylesheet: stylesheet,
+                splitRouteJs: this.getSplitRouteJs(),
                 reactAppContext: JSON.stringify(clientReactAppContext)
             };
             this.currentResponse.status(200).render('react', options);

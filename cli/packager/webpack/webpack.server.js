@@ -84,7 +84,7 @@ module.exports = combine({
       },
       {
         // 图片类型模块资源访问
-        test: /\.(png|jpg|jpeg|gif)$/,
+        test: /\.(png|jpg|jpeg|gif|webp|bmp|ico|jpeg)$/,
         loader: [
           {
             loader: 'image-web-loader',

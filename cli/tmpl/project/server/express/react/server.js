@@ -7,9 +7,13 @@
 // 加载依赖
 import './fetch/node-fetch'
 import urlParser from 'url'
+import path from 'path';
+import fs from 'fs';
 import { AppRegistry } from 'react-native'
 import ReactServerRequest from './request'
 import ReactAppContext from './context'
+
+const SPLITERFILE = path.resolve('spliter.json');
 
 /**
  * React 服务端 Application类
@@ -20,7 +24,7 @@ export default class ReactWebServerApplication {
    * 构造函数
    * @param {Object} context 上下文信息
    */
-  constructor (context) {
+  constructor(context) {
     // 附加上下文
     this.appContext = context
     // react 部分全局对象
@@ -30,6 +34,7 @@ export default class ReactWebServerApplication {
       initialState: {
       }
     }
+    this.splitRoutes = fs.existsSync(SPLITERFILE) ? require(SPLITERFILE) : {};
   }
 
   /**
@@ -37,7 +42,7 @@ export default class ReactWebServerApplication {
    * @param req {ClientRequest}  当前请求对象
    * @param resp {IncomingMessage} 当前返回响应对象
    */
-  handle (req, resp, next) {
+  handle(req, resp, next) {
     let currentRoutePath = urlParser.parse(req.originalUrl || '').pathname || ''
     let routePath = currentRoutePath.split('/').slice(1).join('/')
     let reactAppContext = this.reactAppContext
@@ -65,7 +70,7 @@ class SideRoute extends String {
   /**
    * 重写toString 返回当前路由路径
    */
-  toString () {
+  toString() {
     return this.routeName
   }
 
@@ -74,7 +79,7 @@ class SideRoute extends String {
    * @param title 匹配成功标题
    * @param initialState 匹配成功的状态数据
    */
-  setMatchRoute (title, initialState) {
+  setMatchRoute(title, initialState) {
     this.title = title
     this.isMatched = true
     this.initialState = initialState || {}
@@ -83,18 +88,18 @@ class SideRoute extends String {
   /**
    * 获取当前路由的页面标题
    */
-  get title () {
+  get title() {
     return this._title
   }
 
   /**
    * 设置当前路由的页面标题
    */
-  set title (value) {
+  set title(value) {
     this._title = value
   }
 
-  get routeName () {
+  get routeName() {
     return ReactAppContext.context.routePath
   }
 }
