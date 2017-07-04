@@ -15,14 +15,14 @@ module.exports = {
   clientContextEntry: path.resolve('server/express/react/client.js'),
   // 服务端代码打包入口文件
   serverContextEntry: path.resolve(webConfig.indexWeb),
-  //额外配置babelrc
+  //额外配置babelrc 例如: (config)=> ... 或者 {persets:[...]}
   babelrc: {
-
   },
-  //额外配置webpack loaders
-  loaders: [],
-  //额外配置webpack plugins
-  plugins: [],
+  //修改webpack配置 例如: (config)=> ... 或者 {loaders:[...]}
+  webpack: {
+  },
+  //服务端同构文件载入实现 例如: {'css':(filename)=>''  }
+  serverResolves: {},
   /**
    * 开发环境是否node_modules下所有文件都使用babel编译
    * 如果设置成true  则无需设置es6Modules 但是会导致开发环境启动速度变慢

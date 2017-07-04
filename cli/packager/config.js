@@ -60,14 +60,22 @@ module.exports = {
   // 图片寻找默认环境目录
   imageAssets: imageAssets,
   targetNodeModulesDir: targetNodeModulesDir,
-  // webpack loaders自定义
-  loaders: customPackager.loaders || [],
-  // webpack plugins 自定义
-  plugins: customPackager.plugins || [],
+  //扩展webpack配置
+  webpack: customPackager.webpack,
   // 别名配置
   alias: doAssign(require('./alias.js'), customPackager.alias),
+  //服务端同构文件载入实现
+  serverResolves: customPackager.serverResolves || {},
   // 扩展名设置
-  extensions: extensions.concat(customPackager.extensions || []),
+  extensions: extensions,
+  // 静态资源后缀名
+  static: customPackager.static([
+    '.bmp', '.ico', '.gif', '.jpg', '.jpeg', '.png', '.psd', '.svg', '.webp', // Image formats
+    '.m4v', '.mov', '.mp4', '.mpeg', '.mpg', '.webm', // Video formats
+    '.aac', '.aiff', '.caf', '.m4a', '.mp3', '.wav', // Audio formats
+    '.html', '.pdf', // Document formats
+    '.woff', '.woff2', '.svg', '.woff', '.woff2', '.eot', '.ttf', //icon font
+  ]),
   // 打包复制忽略项
   ignores: ['node_modules/**/*', '.gitignore'].concat(customPackager.ignores),
   // 需要进行路由拆分的loaders

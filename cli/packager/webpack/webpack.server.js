@@ -12,6 +12,7 @@ var fs = require('fs')
 var webpack = require('webpack')
 var config = require('../config.js')
 var gracefulFs = require('graceful-fs')
+var combine = require('../combine.js');
 var BabelRCMaker = require('../babelRC.js')
 
 // webpack plugins
@@ -26,11 +27,8 @@ gracefulFs.gracefulify(fs)
 
 // 代码目录
 var contextPath = path.dirname(config.serverContextEntry)
-
 // 服务端打包存放目标目录
 var targetAppDir = config.targetAppDir;
-// babel 配置
-var babelRc = BabelRCMaker.getRC()
 // 设置需要设置成externals的node_modules模块
 var externalsNodeModules = fs.readdirSync('node_modules')
   .filter(function (x) {
@@ -39,7 +37,7 @@ var externalsNodeModules = fs.readdirSync('node_modules')
     'react-native'
   ])
 
-module.exports = {
+module.exports = combine({
   target: 'node',
   stats: 'detailed',
   name: 'react-native-web server-side', // 配置名称
@@ -82,7 +80,7 @@ module.exports = {
         // jsx 以及js es6
         test: /\.js$|\.jsx$/,
         loader: path.resolve('node_modules/happypack/loader') + '?id=babel',
-        exclude: babelRc.ignore
+        exclude: config.babelRc.ignore
       },
       {
         // 图片类型模块资源访问
@@ -99,7 +97,7 @@ module.exports = {
       },
       {
         // url类型模块资源访问
-        test: /\.(ico|svg|woff|woff2|ttf)$/,
+        test: new RegExp('\\' + config.static.join('$|\\') + '$'),
         loader: 'url-loader',
         query: {
           name: '[hash].[ext]',
@@ -115,4 +113,4 @@ module.exports = {
     alias: config.alias,
     extensions: config.extensions
   }
-}
+}, config.webpack);

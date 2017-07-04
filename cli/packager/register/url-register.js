@@ -10,16 +10,11 @@ var urlloader = require('url-loader');
 
 //获取webpack配置
 var webpack = require('../webpack/webpack.client.js');
-//静态资源配置
-var extensions = [
-    'bmp', 'ico', 'gif', 'jpg', 'jpeg', 'png', 'psd', 'svg', 'webp', // Image formats
-    'm4v', 'mov', 'mp4', 'mpeg', 'mpg', 'webm', // Video formats
-    'aac', 'aiff', 'caf', 'm4a', 'mp3', 'wav', // Audio formats
-    'html', 'pdf', // Document formats
-    'woff', 'woff2', 'svg', 'woff', 'woff2', 'eot', 'ttf', //icon font
-];
+//全局配置
+var config = require('../config.js');
 //基础路径
 var publicPath = webpack.output.publicPath;
+var serverResolves = config.serverResolves;
 
 /**
  * 扩展require.extensions url-loader 的require实现
@@ -37,7 +32,16 @@ function fileResolver(md, filename) {
     var exp = urlloader.call(context, buffer);
     var fn = new Function('module,__webpack_public_path__', exp);
     fn(md, publicPath);
-};
+}
 
 //批量注册静态资源加载器
-extensions.map(function (ext) { require.extensions['.' + ext] = fileResolver; })
+config.static.map(function (ext) { (!require.extensions[ext]) && (require.extensions[ext] = fileResolver); });
+
+Object.keys(serverResolves).forEach(function (ext) {
+    var handle = serverResolves[ext];
+    if (!require.extensions['.' + ext]) {
+        require.extensions['.' + ext] = function (md, file) {
+            md.exports = handle(file);
+        }
+    }
+})

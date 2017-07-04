@@ -29,12 +29,14 @@
 
 ### 四、关于.packager.js
 
+```js
     {
+        targetPort: 8080,
         /**
         * require('image!xx') 寻址目录列表
         * 默认会寻找android或者ios目录或者web目录assets/images下的图片文件
         * 可以追加路径
-        */ 
+        */
         imageAssets: [],
         // 静态资源打包后通过express访问的路径前缀  例如: /app/
         publicPath: '/app/',
@@ -42,6 +44,12 @@
         clientContextEntry: path.resolve('server/express/react/client.js'),
         // 服务端代码打包入口文件
         serverContextEntry: path.resolve(webConfig.indexWeb),
+        //额外配置babelrc 例如: (config)=> ... 或者 {persets:[...]}
+        babelrc: {
+        },
+        //修改webpack配置 例如: (config)=> ... 或者 {loaders:[...]}
+        webpack:{
+        },
         /**
         * 开发环境是否node_modules下所有文件都使用babel编译
         * 如果设置成true  则无需设置es6Modules 但是会导致开发环境启动速度变慢
@@ -80,14 +88,6 @@
         *      1.user.js 当访问/user时进行自动懒加载加载
         */
         splitRoutes: [],
-        //额外配置babelrc
-        babelrc: {
-
-        },
-        //额外配置webpack loaders
-        loaders: [],
-        //额外配置webpack plugins
-        plugins: [],
         // 别名配置
         alias: {
             'logger': path.resolve('server/framework/logger/index.js'),
@@ -121,24 +121,29 @@
         }
     }
 
+```
+
 ### 五、平台环境
 
+```js
     import {Platform} from "react-native";
 
     //使用此表达式来判断平台 
     Platform.OS == 'web'
 
     //使用此表达式来判断是服务端还是浏览器端
-    var isBrowserRuntime = global.__CLIENT__ ===true
+    const isBrowserRuntime = global.__CLIENT__ ===true
 
     //关于文件，跟react-native一致 ，增加.web.js后缀判断 例如:
     Button.web.js
     Navigation.web.js
     
+```
     
 ### 五、全局对象：
 
-    var reactAppContext = global['@@__reactAppContext__@@']
+```js
+    const reactAppContext = global['@@__reactAppContext__@@']
 
     reactAppContext:{
       //当前访问url.pathname
@@ -161,6 +166,8 @@
         setMatchRoute:function(title,initialState) 
     }
 
+```
+
 
 ### 六、关于路由接入
 
@@ -174,13 +181,18 @@
 
     1.服务端路由工作：
 
-    var reactAppContext = global['@@__reactAppContext__@@'];
+```js
 
-    在路由之间匹配成功后调用
+    const reactAppContext = global['@@__reactAppContext__@@'];
+
+    //在路由之间匹配成功后调用
     reactAppContext.route.setMatchRoute(props.title,props.initialState);
+
+```
      
     例如:react-navigation:
 
+```js
          class NavigationContainer extends React.Component {
             constructor (props) {
                 super(props)
@@ -196,6 +208,7 @@
             } 
             ....
          }
+```
 
     2.客户端路由工作：
 

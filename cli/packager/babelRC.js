@@ -6,11 +6,12 @@
 var path = require('path')
 var fse = require('fs-extra')
 var dependencyTree = require('dependency-tree');
+var combine = require('./combine.js');
 
 var file = path.resolve('.packager.js')
 var packager = fse.existsSync(file) ? require(file) : {}
-
 var babelrc = packager.babelrc || {};
+var regCompile = /node_modules[/\\](babel-|regenerator-transform|happypack|babel|webpack)/;
 
 // node_modules下需要编译的es6模块
 // 注意：数组项必须为正则表达式
@@ -20,12 +21,12 @@ var es6NodeModules = [
 
 //设置根据配置选择是默认所有文件都是用babel编译还是开启白名单方式
 //compileAll 会导致开发环境启动变慢，生产不影响
-var ignore = packager.compileAll ? /node_modules[/\\](babel-|regenerator-transform|happypack|babel|webpack)/ : isCompileIgnore
+var ignore = packager.compileAll ? regCompile : isCompileIgnore
 
 module.exports.getRC = function (indexWeb) {
   initReactNativeCompileNodeModules(indexWeb);
-  return {
-    presets: [require.resolve('babel-preset-react-native')].concat(babelrc.presets || []),
+  return combine({
+    presets: [require.resolve('babel-preset-react-native')],
     ignore: ignore,
     babelrc: false,
     compact: true,
@@ -33,9 +34,9 @@ module.exports.getRC = function (indexWeb) {
       [require.resolve('babel-plugin-transform-react-remove-prop-types'), {
         'mode': 'wrap'
       }]
-    ].concat(babelrc.plugins || []),
-    extensions: ['.web.js', '.js'].concat(babelrc.extensions || [])
-  }
+    ],
+    extensions: ['.web.js', '.js']
+  }, babelrc)
 }
 
 // 是否node_modules需要webpack打包编译
@@ -43,7 +44,7 @@ module.exports.isNodeModuleCompile = isNodeModuleCompile;
 
 /**
  * 初始化项目需要编译成es6的node_modules模块
- * @param {*} indexWebEntry 
+ * @param {String} indexWebEntry  index.web.js 入口文件路径
  */
 var initReactNativeCompileNodeModules = function (indexWebEntry) {
   if (packager.compileAll) {
@@ -52,7 +53,7 @@ var initReactNativeCompileNodeModules = function (indexWebEntry) {
       directory: path.dirname(indexWebEntry)
     });
     modules.forEach(function (key) {
-      var lastIndex = key.lastIndexOf("node_modules");
+      var lastIndex = key.lastIndexOf('node_modules');
       var moduleName = key.substring(lastIndex).split(path.sep)[1];
       es6NodeModules.push(new RegExp(moduleName));
     })

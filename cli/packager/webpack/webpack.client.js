@@ -11,6 +11,7 @@ var path = require('path')
 var webpack = require('webpack')
 var dantejs = require('dantejs')
 var config = require('../config.js')
+var combine = require('../combine.js');
 var Arrays = dantejs.Array
 var isProudction = process.env.NODE_ENV === 'production'
 
@@ -25,9 +26,6 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 
 // 公用资源存放目录
 var assetDir = config.assetsDir
-
-// babel 配置
-var babelRc = require('../babelRC.js').getRC()
 
 // 开发环境plugins
 var devPlugins = [
@@ -51,11 +49,11 @@ var proPlugins = [
     compressor: {
       warnings: false
     },
-    sourceMap:true
+    sourceMap: true
   })
 ]
 
-module.exports = {
+module.exports = combine({
   devtool: isProudction ? 'source-map' : 'cheap-module-source-map',
   name: 'react-native-web client-side', // 配置名称
   context: path.dirname(config.clientContextEntry), // 根目录
@@ -77,7 +75,7 @@ module.exports = {
   output: {
     path: config.assetsAppDir,
     filename: '[name].js',
-    chunkFilename : '[name]-[id].js',
+    chunkFilename: '[name]-[id].js',
     publicPath: config.publicPath
   },
   plugins: [
@@ -87,16 +85,14 @@ module.exports = {
     new RuntimeCapturePlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin('common')
-  ]
-    .concat(isProudction ? proPlugins : devPlugins)
-    .concat(config.plugins),
+  ].concat(isProudction ? proPlugins : devPlugins),
   module: {
     loaders: [
       {
         // jsx 以及js es6
         test: /\.js$|\.jsx$/,
         loader: require.resolve('happypack/loader') + '?id=happybabel',
-        exclude: babelRc.ignore
+        exclude: config.babelRc.ignore
       },
       {
         // 图片类型模块资源访问
@@ -113,7 +109,7 @@ module.exports = {
       },
       {
         // url类型模块资源访问
-        test: /\.(ico|svg|woff|woff2|ttf)$/,
+        test: new RegExp('\\' + config.static.join('$|\\') + '$'),
         loader: 'url-loader',
         query: {
           name: '[hash].[ext]',
@@ -125,7 +121,7 @@ module.exports = {
         test: /\.json$/,
         loader: 'json-loader'
       }
-    ].concat(config.loaders).concat(config.splitRoutes)
+    ].concat(config.splitRoutes)
   },
   resolveLoader: {
     modules: [path.resolve('node_modules')]
@@ -134,4 +130,4 @@ module.exports = {
     alias: config.alias,
     extensions: config.extensions
   }
-}
+}, config.webpack);

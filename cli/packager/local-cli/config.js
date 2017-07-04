@@ -70,14 +70,14 @@ Configuration.get = function () {
       clientContextEntry: null,
       // 服务端代码打包入口文件
       serverContextEntry: null,
+      //服务端同构文件载入实现
+      serverResolves: {},
       // 图片压缩配置
       minOptions: null,
-      // webpack loaders
-      loaders: [],
-      // webpack plugins
-      plugins: [],
-      // webpack resovle.extensions
-      extensions: [],
+      //webpack配置 可以为函数或者配置对象
+      webpack: null,
+      //babelrc配置 可以为函数或者配置对象
+      babelrc: null,
       // 发布忽略列表
       ignores: [],
       // 发布复制信息
@@ -85,6 +85,7 @@ Configuration.get = function () {
     }
   }
   config.customConfig = customConfig
+  customConfig.static = typeof customConfig.static === 'function' ? customConfig.static : defaultStaticHandle;
   customConfig.ignores = customConfig.ignores || []
   customConfig.ignores = customConfig.ignores.concat(this.gitIgnore())
   if (config.install) {
@@ -98,7 +99,7 @@ Configuration.get = function () {
  */
 Configuration.gitIgnore = function () {
   var file = path.resolve('.gitignore')
-  var gitignore = fse.existsSync(file) ? new String(fse.readFileSync(file)) : ''
+  var gitignore = fse.existsSync(file) ? String(fse.readFileSync(file)) : ''
   var lines = gitignore.split('\n')
   return lines.map(function (line) { return line.trim().replace(/\t/g, ''); })
 }
@@ -135,6 +136,10 @@ Configuration.validateException = function (r, message) {
     error.onlyMessage = true
     throw error
   }
+}
+
+function defaultStaticHandle(exts) {
+  return exts;
 }
 
 module.exports = Configuration
