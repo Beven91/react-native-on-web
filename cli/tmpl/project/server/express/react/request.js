@@ -7,7 +7,7 @@
 //加载依赖
 import { AppRegistry } from 'react-native'
 import ReactDOMServer from 'react-dom/server';
-import { getRoutejs } from 'react-native-on-web';
+import { getRoutejs } from 'code-spliter-router';
 
 /**
  * React Request处理勒

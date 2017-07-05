@@ -14,7 +14,6 @@ import StatusBar from './components/StatusBar/StatusBar'
 import AsyncStorage from './apis/AsyncStorage'
 import LayoutAnimation from './apis/LayoutAnimation/LayoutAnimation.js'
 import Navigator from './components/Navigator';
-import { getRoutejs } from 'webpack-code-spliter'
 
 Object.assign(ReactNative, React, {
     Modal,
@@ -25,7 +24,6 @@ Object.assign(ReactNative, React, {
     AsyncStorage,
     Navigator,
     LayoutAnimation,
-    getRoutejs
 });
 
 module.exports = ReactNative;

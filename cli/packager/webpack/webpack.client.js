@@ -141,7 +141,7 @@ module.exports = combine({
         test: /\.json$/,
         loader: 'json-loader'
       }
-    ].concat(config.splitRoutes)
+    ]
   },
   resolveLoader: {
     modules: [path.resolve('node_modules')]
