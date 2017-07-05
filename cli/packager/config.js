@@ -7,7 +7,6 @@ var path = require('path')
 var os = require('os')
 var HappyPack = require('happypack')
 var Configuration = require('./local-cli/config.js')
-var CodeSpliter  =require('./spliter.js');
 
 // 命令行发布配置对象
 var processConfig = Configuration.get()
@@ -35,6 +34,7 @@ var babelRc = require('./babelRC.js').getRC(indexWeb)
 var publicPath = '/app/';
 
 module.exports = {
+  indexWebDir:indexWebDir,
   cdnVariableName: webConfig.cdnVariableName,
   babelRc: doAssign({}, babelRc),
   //发布后的启动端口 可以不填写 默认根据web.json的port
@@ -77,7 +77,7 @@ module.exports = {
   // 打包复制忽略项
   ignores: ['node_modules/**/*', '.gitignore'].concat(customPackager.ignores),
   // 需要进行路由拆分的loaders
-  splitRoutes: (new CodeSpliter(indexWebDir,customPackager.spliters,babelRc)).split(),
+  splitRoutes: customPackager.spliters,
   // 快速构建插件配置
   happyPack: {
     id: 'happybabel',

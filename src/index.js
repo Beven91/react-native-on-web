@@ -4,18 +4,19 @@
  * 描述：
  */
 
-import React from "react";
-import ReactNative from "react-native-web";
-import Modal from "./components/Modal/Modal";
-import ToastAndroid from "./components/ToastAndroid/ToastAndroid";
-import TabBarIOS from "./components/TabBarIOS/TabBarIOS";
-import Picker from "./components/Picker/Picker";
-import StatusBar from "./components/StatusBar/StatusBar"
-import AsyncStorage from "./apis/AsyncStorage"
-import LayoutAnimation from "./apis/LayoutAnimation/LayoutAnimation.js"
-import Navigator from "./components/Navigator";
+import React from 'react';
+import ReactNative from 'react-native-web';
+import Modal from './components/Modal/Modal';
+import ToastAndroid from './components/ToastAndroid/ToastAndroid';
+import TabBarIOS from './components/TabBarIOS/TabBarIOS';
+import Picker from './components/Picker/Picker';
+import StatusBar from './components/StatusBar/StatusBar'
+import AsyncStorage from './apis/AsyncStorage'
+import LayoutAnimation from './apis/LayoutAnimation/LayoutAnimation.js'
+import Navigator from './components/Navigator';
+import { getRoutejs } from 'webpack-code-spliter'
 
-Object.assign(ReactNative, React,{
+Object.assign(ReactNative, React, {
     Modal,
     ToastAndroid,
     TabBarIOS,
@@ -23,7 +24,8 @@ Object.assign(ReactNative, React,{
     StatusBar,
     AsyncStorage,
     Navigator,
-    LayoutAnimation
+    LayoutAnimation,
+    getRoutejs
 });
 
 module.exports = ReactNative;

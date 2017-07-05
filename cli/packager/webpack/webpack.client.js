@@ -23,6 +23,8 @@ var RuntimeCapturePlugin = require('./plugin/capture.js');
 var ProgressBarPlugin = require('progress-bar-webpack-plugin')
 var CleanWebpackPlugin = require('clean-webpack-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
+var CodeSpliterPlugin = require('webpack-code-spliter').CodeSpliterPlugin;
+var spliter = CodeSpliterPlugin.configure(config.splitRoutes, config.indexWebDir)
 
 // 公用资源存放目录
 var assetDir = config.assetsDir
@@ -93,6 +95,24 @@ module.exports = combine({
         test: /\.js$|\.jsx$/,
         loader: require.resolve('happypack/loader') + '?id=happybabel',
         exclude: config.babelRc.ignore
+      },
+      {
+        //代码拆分
+        test: /\.js$|\.jsx$/,
+        include: spliter.includes,
+        loader: [
+          {
+            loader: spliter.loader,
+            options: spliter.options
+          },
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: config.babelRc.presets,
+              plugins: config.babelRc.plugins
+            }
+          }
+        ],
       },
       {
         // 图片类型模块资源访问

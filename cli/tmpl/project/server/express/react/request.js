@@ -7,6 +7,7 @@
 //加载依赖
 import { AppRegistry } from 'react-native'
 import ReactDOMServer from 'react-dom/server';
+import { getRoutejs } from 'react-native-on-web';
 
 /**
  * React Request处理勒
@@ -45,9 +46,7 @@ export default class ReactServerRequest {
      * 获取同构代码拆分路由js,如果不存在拆分js则返回null
      */
     getSplitRouteJs() {
-        let name = this.currentRequest.path.replace(/(^\/|\/$)/g, '').toLowerCase();
-        let js = this.splitRoutes[name];
-        return js ? '/app/' + js : null;
+        return getRoutejs(this.currentRequest.path, '/app/');
     }
 
     /**
