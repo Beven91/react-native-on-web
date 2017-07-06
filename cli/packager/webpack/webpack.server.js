@@ -79,7 +79,7 @@ module.exports = combine({
       {
         // jsx 以及js es6
         test: /\.js$|\.jsx$/,
-        loader: path.resolve('node_modules/happypack/loader') + '?id=babel',
+        loader: path.resolve('node_modules/happypack/loader') + '?id=happybabel',
         exclude: config.babelRc.ignore
       },
       {
