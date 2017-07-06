@@ -85,6 +85,7 @@ module.exports = combine({
     new RequireImageXAssetPlugin(config.imageAssets),
     new HappyPack(config.happyPack),
     new RuntimeCapturePlugin(),
+    new CodeSpliterPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin('common')
   ].concat(isProudction ? proPlugins : devPlugins),
