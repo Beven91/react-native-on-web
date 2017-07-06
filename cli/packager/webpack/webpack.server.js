@@ -104,7 +104,7 @@ module.exports = combine({
           limit: 10000
         }
       }
-    ].concat(config.loaders)
+    ]
   },
   resolveLoader: {
     modules: [path.resolve('node_modules')]

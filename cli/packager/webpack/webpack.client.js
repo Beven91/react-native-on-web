@@ -77,7 +77,7 @@ module.exports = combine({
   output: {
     path: config.assetsAppDir,
     filename: '[name].js',
-    chunkFilename: '[name].js',
+    chunkFilename: '[name]',
     publicPath: config.publicPath
   },
   plugins: [
