@@ -29,16 +29,14 @@ module.exports = function (app) {
     }
   }
   //创建监听器
-  compiler.plugin('watch-run', function (err, next) {
-    if (!err) {
-      let moduleCache = require.cache;
-      let id = require.resolve('react-native-on-web-index-web-js');
-      let mod = moduleCache[id];
-      if (mod) {
-        console.log('server-side hot replacing .....');
-        hotReplaceModule(mod);
-        console.log('server-side hot replaced !');
-      }
+  compiler.plugin('watch-run', function (watch, next) {
+    let moduleCache = require.cache;
+    let id = require.resolve('react-native-on-web-index-web-js');
+    let mod = moduleCache[id];
+    if (mod) {
+      console.log('server-side hot replacing .....');
+      hotReplaceModule(mod);
+      console.log('server-side hot replaced !');
     }
     next();
   })
