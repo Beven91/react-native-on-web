@@ -7,7 +7,7 @@
 //引入依赖>>
 import urlParser from 'url'
 import httpProxy from 'http-proxy'
-import { EventEmitter2 } from 'eventemitter2'
+import { EventEmitter } from 'dantejs'
 
 const VARTIMER = '@proxy_clean_timer@'
 const VARUSING = '@proxy_is_using@'
@@ -18,16 +18,16 @@ export default class ProxyPool {
    * 代理池构造函数
    * @param {Number} max 代理池最大容量 
    */
-  constructor (max = 10) {
+  constructor(max = 10) {
     this.max = max
     this.pool = {}
-    this.emitter = new EventEmitter2()
+    this.emitter = new EventEmitter()
   }
 
   /**
    * 创建一个数据代理
    */
-  createProxy (url) {
+  createProxy(url) {
     return new Promise((resolve, reject) => {
       if (this.isCongestion) {
         this.clean()
@@ -52,7 +52,7 @@ export default class ProxyPool {
   /**
    * 开始代理请求
    */
-  onStartProxy (proxy) {
+  onStartProxy(proxy) {
     clearTimeout(proxy[VARTIMER])
     proxy.isUsing = true;
   }
@@ -60,7 +60,7 @@ export default class ProxyPool {
   /**
    * 当请求结束
    */
-  onEndProxy (proxy) {
+  onEndProxy(proxy) {
     // 等待2秒执行清楚
     proxy[VARTIMER] = setTimeout(() => {
       proxy[VARUSING] = false
@@ -72,30 +72,29 @@ export default class ProxyPool {
    * 根据url获取对应的代理target
    * @param {String} url 
    */
-  proxyTarget (url) {
+  proxyTarget(url) {
     let uri = urlParser.parse(url)
-    let port = uri.port ? ':' + uri.port : ''
     return `${uri.protocol}//${uri.host}`
   }
 
   /**
    * 当前代理池是否拥堵
    */
-  get isCongestion () {
+  get isCongestion() {
     return this.length >= this.max
   }
 
   /**
    * 获取当前代理池的长度
    */
-  get length () {
+  get length() {
     return Object.keys(this.pool).length
   }
 
   /**
    * 自动清理无用的代理
    */
-  clean () {
+  clean() {
     let keys = Object.keys(this.pool)
     let notUseKeys = keys.filter((key) => !this.pool[key].isUsing)
     notUseKeys.forEach((key) => this.pool[key] = null)
