@@ -40,7 +40,7 @@ function errorCapture() {
     try {
       return originWebpackRequire.apply(this, arguments);
     } catch (error) {
-      if (typeof window.onWebpackRequireErrorCapture == 'function') {
+      if (typeof window !=='undefined' && typeof window.onWebpackRequireErrorCapture == 'function') {
         return window.onWebpackRequireErrorCapture(error);
       } else {
         console.error(error)

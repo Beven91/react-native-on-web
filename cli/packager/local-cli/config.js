@@ -58,6 +58,7 @@ Configuration.get = function () {
   var customConfig = fse.existsSync(file) ? require(file) : {}
   var config = fse.existsSync(configfile) ? fse.readJSONSync(configfile) : {
     customConfig: {
+      isDebug:false,
       //发布后的启动端口 可以不填写 默认根据web.json的port
       targetPort: null,
       // 需要进行路由拆分的文件列表

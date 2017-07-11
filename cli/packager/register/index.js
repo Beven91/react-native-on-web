@@ -11,8 +11,10 @@ require('babel-polyfill')
 //2.启用babel-register
 require('babel-register')(config.babelRc);
 
-//3.静态资源加载
+//3.react-native 别名处理
+require('./react-native-register.js');
+
+//4.静态资源加载
 require('./url-register.js');
 
-//4.react-native 别名处理
-require('./react-native-register.js');
+

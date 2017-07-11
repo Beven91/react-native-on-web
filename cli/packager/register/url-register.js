@@ -8,12 +8,10 @@
 var fs = require('fs');
 var urlloader = require('url-loader');
 
-//获取webpack配置
-var webpack = require('../webpack/webpack.client.js');
 //全局配置
 var config = require('../config.js');
 //基础路径
-var publicPath = webpack.output.publicPath;
+var publicPath = config.publicPath;
 var serverResolves = config.serverResolves;
 
 /**

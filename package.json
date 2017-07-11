@@ -1,6 +1,6 @@
 {
   "name": "react-native-on-web",
-  "version": "3.0.76",
+  "version": "3.0.78",
   "description": "React Native for Web",
   "main": "lib/index.js",
   "scripts": {
@@ -31,18 +31,18 @@
     "react-dom": "^15.3.2"
   },
   "devDependencies": {
-    "babel-eslint": "^7.2.3",
     "babel-cli": "^6.16.0",
+    "babel-eslint": "^7.2.3",
     "babel-loader": "^6.2.7",
     "babel-plugin-module-resolver": "^2.7.1",
-    "babel-plugin-transform-react-remove-prop-types": "^0.2.11",
+    "babel-plugin-transform-react-remove-prop-types": "^0.2.12",
     "babel-preset-react-native": "^1.9.1",
     "babel-register": "^6.18.0",
-    "eslint": "^4.0.0",
-    "eslint-plugin-react": "^7.1.0",
     "chai": "^3.5.0",
     "clean-webpack-plugin": "^0.1.16",
     "copy-webpack-plugin": "^4.0.1",
+    "eslint": "^4.0.0",
+    "eslint-plugin-react": "^7.1.0",
     "file-loader": "^0.9.0",
     "happypack": "^3.0.3",
     "image-web-loader": "^1.1.18",
@@ -55,13 +55,12 @@
     "url-loader": "^0.5.7",
     "webpack": "^3.0.0",
     "webpack-bundle-analyzer": "^2.8.1",
+    "webpack-code-spliter": "^1.0.5",
     "webpack-dev-middleware": "^1.10.2",
     "webpack-dev-server": "^2.4.5",
     "webpack-hot-middleware": "^2.18.0",
-    "webpack-node-module-plugin": "^1.0.4",
+    "webpack-node-module-plugin": "^1.0.7",
     "webpack-shell-plugin": "^0.5.0",
-    "webpack-code-spliter": "^1.0.5",
-    "dependency-tree": "^5.9.1",
     "yargs": "^8.0.1"
   },
   "dependencies": {

@@ -59,7 +59,7 @@ module.exports = combine({
   devtool: isProudction ? 'source-map' : 'cheap-module-source-map',
   name: 'react-native-web client-side', // 配置名称
   context: path.dirname(config.clientContextEntry), // 根目录
-  stats: isProudction ? undefined : 'errors-only',
+  stats: config.isDebug ? 'detailed' : 'errors-only',
   entry: {
     app: Arrays.filterEmpty([
       './' + path.basename(config.clientContextEntry),

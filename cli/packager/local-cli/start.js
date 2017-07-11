@@ -26,17 +26,22 @@ yargs.options({
     describe: 'release assets target dir'
   },
   'client': {
-    type: 'string',
+    type: 'boolean',
     alias: 'c',
     describe: 'release client side code'
   },
   'server': {
-    type: 'string',
+    type: 'boolean',
     alias: 's',
     describe: 'release server side code'
   },
+  'stack': {
+    type: 'boolean',
+    alias: 's',
+    describe: 'show stack'
+  },
   'install': {
-    type: 'string',
+    type: 'boolean',
     alias: 'i',
     defalt: false,
     describe: 'release after use npm install build node_modules'
@@ -59,14 +64,13 @@ if (!path.isAbsolute(config.releaseDir)) {
 //判断发布目录是否存在，如果存在 则修改发布目录为 config.releaseDir/react-web
 config.releaseDir = path.join(config.releaseDir || '', 'react-web');
 
-//设置install值
-config.install = config.install !== undefined && config.install !== false;
+config.isDebug = config.stack;
 
 //安装配置
 Configuration.session(config);
 
 //模式判定 如果在没有传递--server 或者--client时 默认同时打包服务端客户端
-if (config.client === undefined && config.server === undefined) {
+if (!config.client && !config.server) {
   config.client = config.server = true;
 }
 
@@ -81,7 +85,7 @@ var env = { NODE_ENV: 'production' }
 //执行服务端打包
 function serverPack() {
   var sp = { status: 0 };
-  if (config.server != null) {
+  if (config.server) {
     logger.info('\nReactNativeOnWeb: Bundle server side .......');
     sp = (new Npm()).node('node_modules/webpack/bin/webpack.js', [
       '--colors',
@@ -95,7 +99,7 @@ function serverPack() {
 //执行客户端端打包
 function clientPack() {
   var sp = { status: 0 };
-  if (config.client != null) {
+  if (config.client) {
     logger.info('\nReactNativeOnWeb: Bundle client side .......');
     sp = (new Npm()).node('node_modules/webpack/bin/webpack.js', [
       '--colors',

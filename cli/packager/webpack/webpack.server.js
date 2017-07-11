@@ -13,7 +13,6 @@ var webpack = require('webpack')
 var config = require('../config.js')
 var gracefulFs = require('graceful-fs')
 var combine = require('../combine.js');
-var BabelRCMaker = require('../babelRC.js')
 
 // webpack plugins
 var NodeModulePlugin = require('webpack-node-module-plugin').NodeModulePlugin
@@ -30,16 +29,20 @@ var contextPath = path.dirname(config.serverContextEntry)
 // 服务端打包存放目标目录
 var targetAppDir = config.targetAppDir;
 // 设置需要设置成externals的node_modules模块
-var externalsNodeModules = fs.readdirSync('node_modules')
-  .filter(function (x) {
-    return (['.bin'].indexOf(x) === -1 && !BabelRCMaker.isNodeModuleCompile(x))
-  }).concat([
-    'react-native'
-  ])
+var externalsNodeModules = [
+  'react-native',
+  'babel-polyfill',
+  'babel-runtime',
+  'react',
+  'react-dom',
+  'react-deep-force-update',
+  'react-mixin',
+  'react-native-on-web'
+].concat(config.externalModules)
 
 module.exports = combine({
   target: 'node',
-  stats: 'detailed',
+  stats: config.isDebug ? 'detailed' : 'errors-only',
   name: 'react-native-web server-side', // 配置名称
   context: contextPath, // 根目录
   entry: {
@@ -79,8 +82,7 @@ module.exports = combine({
       {
         // jsx 以及js es6
         test: /\.js$|\.jsx$/,
-        loader: path.resolve('node_modules/happypack/loader') + '?id=happybabel',
-        exclude: config.babelRc.ignore
+        loader: require.resolve('happypack/loader') + '?id=happybabel',
       },
       {
         // 图片类型模块资源访问

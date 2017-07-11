@@ -5,29 +5,22 @@
 
 var path = require('path')
 var fse = require('fs-extra')
-var dependencyTree = require('dependency-tree');
 var combine = require('./combine.js');
 
 var file = path.resolve('.packager.js')
 var packager = fse.existsSync(file) ? require(file) : {}
-var babelrc = packager.babelrc || {};
-var regCompile = /node_modules[/\\](babel-|regenerator-transform|happypack|babel|webpack)/;
-
+var allCompile = packager.compileAll;
+var IGNORE_EXP = /node_modules[/\\](babel-|regenerator-transform|happypack|babel|webpack)/;
 // node_modules下需要编译的es6模块
 // 注意：数组项必须为正则表达式
-var es6NodeModules = [
+var MODULES_REG = [
   /react-native-/
 ].concat((packager.es6Modules || []))
 
-//设置根据配置选择是默认所有文件都是用babel编译还是开启白名单方式
-//compileAll 会导致开发环境启动变慢，生产不影响
-var ignore = packager.compileAll ? regCompile : isCompileIgnore
-
-module.exports.getRC = function (indexWeb) {
-  initReactNativeCompileNodeModules(indexWeb);
-  return combine({
+module.exports = {
+  babelRc: combine({
     presets: [require.resolve('babel-preset-react-native')],
-    ignore: ignore,
+    ignore: exclude,
     babelrc: false,
     compact: true,
     plugins: [
@@ -36,46 +29,26 @@ module.exports.getRC = function (indexWeb) {
       }]
     ],
     extensions: ['.web.js', '.js']
-  }, babelrc)
+  }, packager.babelrc),
+  exclude: exclude,
+  include: include
 }
 
-// 是否node_modules需要webpack打包编译
-module.exports.isNodeModuleCompile = isNodeModuleCompile;
-
-/**
- * 初始化项目需要编译成es6的node_modules模块
- * @param {String} indexWebEntry  index.web.js 入口文件路径
- */
-var initReactNativeCompileNodeModules = function (indexWebEntry) {
-  if (packager.compileAll) {
-    var modules = dependencyTree.toList({
-      filename: indexWebEntry,
-      directory: path.dirname(indexWebEntry)
-    });
-    modules.forEach(function (key) {
-      var lastIndex = key.lastIndexOf('node_modules');
-      var moduleName = key.substring(lastIndex).split(path.sep)[1];
-      es6NodeModules.push(new RegExp(moduleName));
-    })
-  }
-  initReactNativeCompileNodeModules = function () { }
+function exclude(js) {
+  var inNodeModules = /node_modules/.test(js)
+  return (inNodeModules && !include(js))
 }
 
-function isCompileIgnore(jsfile) {
-  var isNodeModules = /node_modules/.test(jsfile)
-  return (isNodeModules && !isNodeModuleCompile(jsfile))
+function include(js) {
+  return allCompile ? true : includes(js);
 }
 
-function isNodeModuleCompile(jsfile) {
-  var regexp = null
-  var isCompile = false
-  jsfile = jsfile.indexOf('node_modules') > -1 ? jsfile.split('node_modules')[1] : jsfile
-  for (var i = 0, k = es6NodeModules.length; i < k; i++) {
-    regexp = es6NodeModules[i]
-    if (jsfile.indexOf('react-native-on-web') < 0 && regexp.test(jsfile)) {
-      isCompile = true
-      break
+function includes(js) {
+  js = js.split('node_modules').pop();
+  for (var i = 0, k = MODULES_REG.length; i < k; i++) {
+    if (js.indexOf('react-native-on-web') < 0 && MODULES_REG[i].test(js)) {
+      return true;
     }
   }
-  return isCompile
 }
+
