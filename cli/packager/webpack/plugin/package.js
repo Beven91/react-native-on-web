@@ -14,7 +14,7 @@ var Npm = require('../../../helpers/npm.js')
 // 配置文件
 var config = require('../../config.js')
 // babel 配置
-var babelRc = require('../../babelRC.js').getRC()
+var babelRc = require('../../babelRC.js').babelRc;
 // .babelrc 文件路径
 var babelrcfile = path.resolve('.babelrc')
 
