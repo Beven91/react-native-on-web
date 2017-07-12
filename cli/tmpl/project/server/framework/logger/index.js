@@ -6,10 +6,10 @@
 
 //依赖引入>>
 import path from 'path';
-import winston from "winston";
+import winston from 'winston';
 import fse from 'fs-extra';
-import dantejs from "dantejs";
-import colors from "colors";
+import dantejs from 'dantejs';
+import 'colors';
 
 //日志保存目录
 const logDirectory = path.resolve('logs/app/');
@@ -26,14 +26,14 @@ const levelColors = {
 fse.ensureDirSync(logDirectory);
 
 //创建日志对象
-const logger = new(winston.Logger)({
+const logger = new (winston.Logger)({
     transports: [
-        new(winston.transports.Console)({
+        new (winston.transports.Console)({
             timestamp: () => Date.now(),
             colorize: true,
             formatter: formatter
         }),
-        new(winston.transports.File)({
+        new (winston.transports.File)({
             formatter: formatter,
             filename: path.join(logDirectory, 'out.log'),
             timestamp: 'true',
@@ -44,7 +44,7 @@ const logger = new(winston.Logger)({
 });
 
 //监听全局未捕获异常，并且输出日志
-process.on("uncaughtException", (err) => logger.error(err));
+process.on('uncaughtException', (err) => logger.error(err));
 
 /**
  * 格式化日志输出
@@ -54,7 +54,7 @@ function formatter(options) {
     let level = options.level.toUpperCase();
     let meta = (options.meta || {});
     let message = (options.message ? options.message : '');
-    let stack = (meta.stack ? meta.stack : "");
+    let stack = (meta.stack ? meta.stack : '');
     let levelColor = levelColors[level] || 'white';
     return (`【${date}】 ${level}  ${message} ${stack}`)[levelColor];
 }

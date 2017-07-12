@@ -40,7 +40,7 @@ function exclude(js) {
 }
 
 function include(js) {
-  return allCompile ? true : includes(js);
+  return allCompile ? !IGNORE_EXP.test(js) : includes(js);
 }
 
 function includes(js) {
