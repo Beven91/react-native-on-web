@@ -68,6 +68,8 @@ module.exports = {
   extensions: babelRc.extensions,
   // 需要进行路由拆分的loaders
   splitRoutes: customPackager.spliters,
+  //代码拆分loader自定义处理
+  splitHandle:customPackager.splitHandle,
   // 打包复制忽略项
   ignores: ['node_modules/**/*', '.gitignore'].concat(customPackager.ignores),
   // 静态资源后缀名

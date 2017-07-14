@@ -76,6 +76,16 @@ module.exports = {
    */
   spliters:[
   ],
+  /** *
+   * 代码拆分loader自定义exports
+   * 例如: 
+   * code:  默认loaders的exports代码字符串
+   * filepath: 当前拆分的文件绝对路径
+   * function(code,filepath){
+   *    return code;
+   * }
+   */
+  splitHandle:null,
   // 别名配置
   alias: {
     'logger': path.resolve('server/framework/logger/index.js'),
