@@ -4,9 +4,10 @@
   "main": "./server/index.js",
   "scripts": {
     "test": "mocha",
-    "init": "npm install --registry=https://registry.npm.taobao.org",
+    "init": "npm install",
     "dev": "cross-env  NODE_ENV=development node ./server/index.js",
-    "start": "cross-env  NODE_ENV=development node ./server/index.js"
+    "start": "cross-env  NODE_ENV=development node ./server/index.js",
+    "full_start": "npm run init && npm run start"
   },
   "author": "",
   "license": "MIT",
@@ -27,7 +28,7 @@
     "node-fetch": "^1.6.3",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-native-on-web": "^3.0.85",
+    "react-native-on-web": "^3.0.86",
     "whatwg-fetch": "^1.0.0",
     "winston": "^2.3.0"
   },
