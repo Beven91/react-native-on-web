@@ -24,7 +24,7 @@ var ProgressBarPlugin = require('progress-bar-webpack-plugin')
 var CleanWebpackPlugin = require('clean-webpack-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 var CodeSpliterPlugin = require('webpack-code-spliter').CodeSpliterPlugin;
-var spliter = CodeSpliterPlugin.configure(config.splitRoutes, config.indexWebDir,'pages',config.splitHandle)
+var Split = CodeSpliterPlugin.configure(config.splitRoutes, config.indexWebDir, 'pages', config.splitHandle)
 
 // 公用资源存放目录
 var assetDir = config.assetsDir
@@ -85,7 +85,7 @@ module.exports = combine({
     new RequireImageXAssetPlugin(config.imageAssets),
     new HappyPack(config.happyPack),
     new RuntimeCapturePlugin(),
-    new CodeSpliterPlugin(config.releaseDir),
+    new CodeSpliterPlugin(isProudction ? config.releaseDir : null),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin('common')
   ].concat(isProudction ? proPlugins : devPlugins),
@@ -100,11 +100,11 @@ module.exports = combine({
       {
         //代码拆分
         test: /\.js$|\.jsx$/,
-        include: spliter.includes,
+        include: Split.includes,
         loader: [
           {
-            loader: spliter.loader,
-            options: spliter.options
+            loader: Split.loader,
+            options: Split.options
           },
           {
             loader: 'babel-loader',
