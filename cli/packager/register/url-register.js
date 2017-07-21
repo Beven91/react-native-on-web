@@ -47,9 +47,7 @@ config.static.map(function (ext) { (!require.extensions[ext]) && (require.extens
 
 Object.keys(serverResolves).forEach(function (ext) {
     var handle = serverResolves[ext];
-    if (!require.extensions['.' + ext]) {
-        require.extensions['.' + ext] = function (md, file) {
-            md.exports = handle(file);
-        }
+    require.extensions['.' + ext] = function (md, file) {
+        md.exports = handle(file);
     }
 })
