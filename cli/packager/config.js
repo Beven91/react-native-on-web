@@ -89,7 +89,7 @@ module.exports = {
   ].concat(customPackager.imageAssets),
   //服务端打包需要忽略的模块
   externalModules: nodeModules.filter(function (x) {
-    return (['.bin'].indexOf(x) === -1 && !rc.include(x))
+    return (['.bin'].indexOf(x) === -1 && !rc.include2(x))
   }),
   // 快速构建插件配置
   happyPack: {
