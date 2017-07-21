@@ -1,6 +1,3 @@
-module.exports = function (target, source) {
-    return typeof source === 'function' ? (source(target) || target) : combineOptions(target, source);
-}
 
 function combineOptions(target, source) {
     source = source || {};
@@ -18,3 +15,17 @@ function combineOptions(target, source) {
     })
     return target;
 }
+
+function combine(target, source) {
+    return typeof source === 'function' ? (source(target) || target) : combineOptions(target, source);
+}
+
+combine.doAssign = function (target, source) {
+    source = source || {}
+    for (var i in source) {
+        target[i] = source[i]
+    }
+    return target
+}
+
+module.exports = combine;

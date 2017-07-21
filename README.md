@@ -157,7 +157,16 @@
 
 ```
 
-### 五、平台环境
+### 五、.babelrc 与webpack.js
+
+    默认打包工具会识别index.web.js所在目录下的.babelrc 以及webpack.js 的配置，
+
+    并且将配置合并到打包工具中，
+    
+    当然大部分是使用.packager.js中的{webpack:{},babelrc:{}}
+
+
+### 六、平台环境
 
 ```js
     import {Platform} from "react-native";
@@ -174,7 +183,7 @@
     
 ```
     
-### 五、全局对象：
+### 七、全局对象：
 
 ```js
     const reactAppContext = global['@@__reactAppContext__@@']
@@ -203,7 +212,7 @@
 ```
 
 
-### 六、关于路由接入
+### 八、关于路由接入
 
     默认react-native-on-web生成的工程，没有路由，
 
@@ -248,5 +257,5 @@
 
     默认无需进行特殊处理
 
-### 七、开源许可
+### 九、开源许可
 基于 [MIT License](http://zh.wikipedia.org/wiki/MIT_License) 开源，使用代码只需说明来源，或者引用 [license.txt](https://github.com/sofish/typo.css/blob/master/license.txt) 即可。

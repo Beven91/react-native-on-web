@@ -12,7 +12,7 @@ var fs = require('fs')
 var webpack = require('webpack')
 var config = require('../config.js')
 var gracefulFs = require('graceful-fs')
-var combine = require('../combine.js');
+var combine = require('../../helpers/combine.js');
 
 // webpack plugins
 var NodeModulePlugin = require('webpack-node-module-plugin').NodeModulePlugin
@@ -109,7 +109,7 @@ module.exports = combine({
     ]
   },
   resolveLoader: {
-    modules: [path.resolve('node_modules')]
+    modules: [path.resolve('node_modules'),path.resolve('../node_modules')]
   },
   resolve: {
     alias: config.alias,

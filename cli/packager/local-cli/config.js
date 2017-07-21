@@ -7,6 +7,7 @@
 var path = require('path')
 var logger = require('../../logger.js')
 var fse = require('fs-extra')
+var combine = require('../../helpers/combine.js');
 
 // 配置文件存放位置
 var configfile = path.resolve('.packager')
@@ -58,7 +59,7 @@ Configuration.get = function () {
   var customConfig = fse.existsSync(file) ? require(file) : {}
   var config = fse.existsSync(configfile) ? fse.readJSONSync(configfile) : {
     customConfig: {
-      isDebug:false,
+      isDebug: false,
       //发布后的启动端口 可以不填写 默认根据web.json的port
       targetPort: null,
       // 需要进行路由拆分的文件列表
@@ -85,14 +86,41 @@ Configuration.get = function () {
       copy: []
     }
   }
-  config.customConfig = customConfig
+  customConfig = this.resolve(customConfig);
   customConfig.static = typeof customConfig.static === 'function' ? customConfig.static : defaultStaticHandle;
   customConfig.ignores = customConfig.ignores || []
   customConfig.ignores = customConfig.ignores.concat(this.gitIgnore())
+  config.customConfig = customConfig;
+
   if (config.install) {
     customConfig.ignores.push('node_modules/**/*')
   }
   return config
+}
+
+/**
+ * 搜寻自定义babelrc
+ */
+Configuration.resolve = function (config) {
+  if (config.serverContextEntry) {
+    var entry = path.dirname(config.serverContextEntry);
+    var babelrc = path.join(entry, '.babelrc');
+    var webpack = path.join(entry, 'webpack.js');
+    if (this.isEmpty(config.babelrc) && fse.existsSync(babelrc)) {
+      config.babelrc = require(babelrc);
+    }
+    if (this.isEmpty(config.webpack) && fse.existsSync(babelrc)) {
+      config.webpack = require(webpack);
+    }
+  }
+  return config;
+}
+
+/**
+ * 是否对象为null或者为{}
+ */
+Configuration.isEmpty = function (obj) {
+  return obj == null || Object.keys(obj).length <= 0;
 }
 
 /**

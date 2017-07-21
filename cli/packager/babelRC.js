@@ -3,12 +3,10 @@
  * 日期：2017-05-09
  */
 
-var path = require('path')
-var fse = require('fs-extra')
-var combine = require('./combine.js');
+var combine = require('../helpers/combine.js');
+var Configuration = require('./local-cli/config.js')
 
-var file = path.resolve('.packager.js')
-var packager = fse.existsSync(file) ? require(file) : {}
+var packager = Configuration.get().customConfig
 var allCompile = packager.compileAll;
 var IGNORE_EXP = /node_modules[/\\](babel-|regenerator-transform|happypack|babel|webpack)/;
 // node_modules下需要编译的es6模块
@@ -31,7 +29,7 @@ module.exports = {
     extensions: ['.web.js', '.js']
   }, packager.babelrc),
   exclude: exclude,
-  include: include
+  include2: include
 }
 
 function exclude(js) {
@@ -40,7 +38,8 @@ function exclude(js) {
 }
 
 function include(js) {
-  return allCompile ? !IGNORE_EXP.test(js) : includes(js);
+  var inNodeModules = /node_modules/.test(js)
+  return !inNodeModules || (allCompile ? !IGNORE_EXP.test(js) : includes(js));
 }
 
 function includes(js) {

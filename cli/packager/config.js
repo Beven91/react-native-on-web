@@ -7,6 +7,7 @@ var path = require('path')
 var os = require('os')
 var fs = require('fs');
 var rc = require('./babelRC.js');
+var combine = require('../helpers/combine')
 var HappyPack = require('happypack')
 var Configuration = require('./local-cli/config.js')
 
@@ -37,7 +38,7 @@ module.exports = {
   //cdn全局变量名称
   cdnVariableName: webConfig.cdnVariableName,
   //babel 编译配置
-  babelRc: doAssign({}, babelRc),
+  babelRc: combine.doAssign({}, babelRc),
   //发布后的启动端口 可以不填写 默认根据web.json的port
   targetPort: customPackager.targetPort,
   // webpack静态资源访问目录
@@ -61,7 +62,7 @@ module.exports = {
   //扩展webpack配置
   webpack: customPackager.webpack,
   // 别名配置
-  alias: doAssign(require('./alias.js'), customPackager.alias),
+  alias: combine.doAssign(require('./alias.js'), customPackager.alias),
   //服务端同构文件载入实现
   serverResolves: customPackager.serverResolves || {},
   // 扩展名设置
@@ -124,12 +125,4 @@ module.exports = {
       quality: 65
     }
   }
-}
-
-function doAssign(target, source) {
-  source = source || {}
-  for (var i in source) {
-    target[i] = source[i]
-  }
-  return target
 }

@@ -32,8 +32,18 @@ function fileResolver(md, filename) {
     fn(md, publicPath);
 }
 
+/**
+ * 空处理模块加载函数
+ */
+function unKnowResolve(md, filename) {
+    md.exports = {};
+}
+
+require.extensions['.css'] = unKnowResolve;
+
 //批量注册静态资源加载器
 config.static.map(function (ext) { (!require.extensions[ext]) && (require.extensions[ext] = fileResolver); });
+
 
 Object.keys(serverResolves).forEach(function (ext) {
     var handle = serverResolves[ext];

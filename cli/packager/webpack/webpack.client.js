@@ -11,7 +11,7 @@ var path = require('path')
 var webpack = require('webpack')
 var dantejs = require('dantejs')
 var config = require('../config.js')
-var combine = require('../combine.js');
+var combine = require('../../helpers/combine.js');
 var Arrays = dantejs.Array
 var isProudction = process.env.NODE_ENV === 'production'
 
@@ -145,7 +145,7 @@ module.exports = combine({
     ]
   },
   resolveLoader: {
-    modules: [path.resolve('node_modules')]
+    modules: [path.resolve('node_modules'),path.resolve('../node_modules')]
   },
   resolve: {
     alias: config.alias,
