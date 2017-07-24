@@ -107,9 +107,9 @@ Configuration.resolve = function (config) {
     var babelrc = path.join(entry, '.babelrc');
     var webpack = path.join(entry, 'webpack.js');
     if (this.isEmpty(config.babelrc) && fse.existsSync(babelrc)) {
-      config.babelrc = require(babelrc);
+      config.babelrc = fse.readJsonSync(babelrc);
     }
-    if (this.isEmpty(config.webpack) && fse.existsSync(babelrc)) {
+    if (this.isEmpty(config.webpack) && fse.existsSync(webpack)) {
       config.webpack = require(webpack);
     }
   }
