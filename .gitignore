@@ -21,3 +21,4 @@ cli/tmpl/logs
 npm-debug.log
 workspace.xml
 Thumbs.db
+package-lock.json

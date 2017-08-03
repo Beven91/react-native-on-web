@@ -8,8 +8,8 @@
 /**
  * 日志构造函数
  */
-function StackLogger () {
-  this.levels = {'error': true,'info': true}
+function StackLogger() {
+  this.levels = { 'error': true, 'info': true }
 }
 
 /**

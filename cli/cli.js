@@ -32,7 +32,7 @@ ReactNativeOnWebCli.prototype.run = function (name) {
     throw new Error(name + ' is not suported')
   }
   var handler = this[name]
-  if (typeof handler == 'function') {
+  if (typeof handler === 'function') {
     return handler.bind(this)
   } else {
     throw new Error(name + ' is not suported')
@@ -76,18 +76,16 @@ ReactNativeOnWebCli.prototype.remove = function () {
 /**
  * 打包发布
  */
-ReactNativeOnWebCli.prototype.bundle = function () {
+ReactNativeOnWebCli.prototype.bundle = function (releaseDir, mode) {
   if (hasWebPlatform()) {
     logger.info('ReactNativeOnWeb: Running bundle .......')
     var selfRoot = path.join(__dirname, 'tmpl', 'project', 'web')
     var inProject = selfRoot.indexOf(projectRoot) > -1
+    var pack = path.join(projectRoot, 'node_modules/react-native-on-web/cli/packager/index.js')
     if (projectRoot === selfRoot || inProject) {
-      require('./packager/local-cli/start.js')
-    } else {
-      var argv = process.argv.slice(3)
-      var js = 'node_modules/react-native-on-web/cli/packager/local-cli/start.js'
-      new Npm(projectRoot).node(js, argv)
+      pack = path.join(__dirname, './packager/index.js')
     }
+    require(pack)(releaseDir, mode);
   }
 }
 

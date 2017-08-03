@@ -9,8 +9,7 @@ var fse = require('fs-extra');
 
 var selfPackage = require('../package.json');
 var packagefile = path.resolve('cli/tmpl/project/package.json');
-var package = fse.readJSONSync(packagefile);
-package.dependencies['react-native-on-web'] ='^'+selfPackage.version;
-package.devDependencies=selfPackage.devDependencies;
+var pgk = fse.readJSONSync(packagefile);
+pgk.dependencies['react-native-on-web'] = '^' + selfPackage.version;
 
-fse.writeJSONSync(packagefile,package);
+fse.writeJSONSync(packagefile, pgk);
