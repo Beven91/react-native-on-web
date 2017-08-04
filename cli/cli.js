@@ -10,7 +10,6 @@ var path = require('path')
 var fse = require('fs-extra')
 var logger = require('./logger.js')
 var Npm = require('npm-shell')
-var pgk = require('./package.json')
 
 // 构建任务黑名单
 var blackList = ['run']
@@ -115,7 +114,7 @@ function hasWebPlatform() {
 function hasPackageReactOnWeb(dir) {
   var packageJsonPath = path.join(dir, 'package.json')
   var dependencies = fse.existsSync(packageJsonPath) ? Object.keys(require(packageJsonPath).dependencies) : []
-  return dependencies.indexOf(pgk.name) > -1
+  return dependencies.indexOf('react-native-on-web') > -1
 }
 
 // 公布cli
