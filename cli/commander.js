@@ -42,8 +42,8 @@ module.exports = function (argv) {
     .description('删除web平台工程')
 
   program
-    .command('update')
-    .action(cli.run('update'))
+    .command('upgrade')
+    .action(cli.run('upgrade'))
     .description('更新react-native-on-web')
 
   // 解析参数

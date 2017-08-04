@@ -26,7 +26,7 @@
 
     react-native-on-web bundle --releaseDir=d:/release/  打包发布到指定目录下
 
-    react-native-on-web update //更新web平台react-native-on-web (从2.0.29开始支持)
+    react-native-on-web upgrade //更新web平台react-native-on-web (从2.0.29开始支持)
 
 
 ### 四、.packager.js篇

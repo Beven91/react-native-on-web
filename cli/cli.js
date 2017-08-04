@@ -91,7 +91,7 @@ ReactNativeOnWebCli.prototype.bundle = function (releaseDir, mode) {
 /**
  * 升级react-native-on-web
  */
-ReactNativeOnWebCli.prototype.update = function () {
+ReactNativeOnWebCli.prototype.upgrade = function () {
   if (hasWebPlatform()) {
     logger.info('ReactNativeOnWeb: Starting update .......')
     var npm = new Npm(projectRoot)
