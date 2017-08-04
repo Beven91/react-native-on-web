@@ -28,7 +28,7 @@
     "node-fetch": "^1.6.3",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-native-on-web": "^4.0.1",
+    "react-native-on-web": "^4.0.2",
     "whatwg-fetch": "^1.0.0",
     "winston": "^2.3.0"
   },
