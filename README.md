@@ -75,7 +75,7 @@
         /**
         * node_modules下需要编译成es6的模块
         * 始终包含 /react-native-/ 开头的模块
-        * 每个想值为正则表达式 例如: /sherlock-/ 使用babel编译node_modules目录下
+        * 每项为正则表达式 例如: /sherlock-/ 使用babel编译node_modules目录下
         * 所有以sherlock-开头的模块
         */
         es6Modules: [],
