@@ -9,7 +9,7 @@
 var path = require('path')
 var fse = require('fs-extra')
 var logger = require('./logger.js')
-var Npm = require('./helpers/npm.js')
+var Npm = require('npm-shell')
 var pgk = require('../package.json')
 
 // 构建任务黑名单

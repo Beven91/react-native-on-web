@@ -1,11 +1,10 @@
 {
   "name": "react-native-on-web",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "React Native for Web",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha",
-    "test-web": "node ./test/test.build.js",
+    "test": "node ./test/test.build.js",
     "clean": "node ./scripts/clean.js",
     "build": "babel src --out-dir ./lib",
     "prepublish": "npm run clean && npm run build && npm-publish-bin && node ./scripts/package.js",
@@ -44,7 +43,8 @@
   "dependencies": {
     "commander": "^2.9.0",
     "fs-extra": "^2.1.2",
+    "npm-shell": "^1.0.2",
     "react-native-web": "^0.0.95",
-    "rnw-bundler": "^1.0.3"
+    "rnw-bundler": "^1.0.8"
   }
 }
