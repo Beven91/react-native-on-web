@@ -1,6 +1,6 @@
 ## react-native-on-web
 
-### 一、简介
+### 一、简介篇
 
     使React-Native 支持Web平台开发
 
@@ -9,12 +9,14 @@
     自带fetch 支持跨域
 
 
-### 二、安装
+### 二、安装篇
 
-    npm install react-native-on-web --g
-    
+    npm install react-native-on-web
      
-### 三、生成
+### 三、生成篇
+
+    npm install react-native-on-web-cli --g
+
 
     react-native-on-web init //在你的react-native目录下执行此命令 -> 生成web平台
 
@@ -27,7 +29,7 @@
     react-native-on-web update //更新web平台react-native-on-web (从2.0.29开始支持)
 
 
-### 四、关于.packager.js
+### 四、.packager.js篇
 
 ```js
     {
@@ -157,7 +159,7 @@
 
 ```
 
-### 五、.babelrc 与webpack.js
+### 五、.babelrc 与webpack.js篇
 
     默认打包工具会识别index.web.js所在目录下的.babelrc 以及webpack.js 的配置，
 
@@ -166,7 +168,7 @@
     当然大部分是使用.packager.js中的{webpack:{},babelrc:{}}
 
 
-### 六、平台环境
+### 六、平台环境篇
 
 ```js
     import {Platform} from "react-native";
@@ -183,7 +185,7 @@
     
 ```
     
-### 七、全局对象：
+### 七、全局对象篇：
 
 ```js
     const reactAppContext = global['@@__reactAppContext__@@']
@@ -212,7 +214,7 @@
 ```
 
 
-### 八、关于路由接入
+### 八、关于路由接入篇
 
     默认react-native-on-web生成的工程，没有路由，
 

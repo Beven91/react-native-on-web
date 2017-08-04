@@ -10,7 +10,7 @@ var path = require('path')
 var fse = require('fs-extra')
 var logger = require('./logger.js')
 var Npm = require('npm-shell')
-var pgk = require('../package.json')
+var pgk = require('./package.json')
 
 // 构建任务黑名单
 var blackList = ['run']
@@ -81,9 +81,9 @@ ReactNativeOnWebCli.prototype.bundle = function (releaseDir, mode) {
     logger.info('ReactNativeOnWeb: Running bundle .......')
     var selfRoot = path.join(__dirname, 'tmpl', 'project', 'web')
     var inProject = selfRoot.indexOf(projectRoot) > -1
-    var pack = path.join(projectRoot, 'node_modules/react-native-on-web/cli/packager/index.js')
+    var pack = path.join(projectRoot, 'node_modules/react-native-on-web/packager/index.js')
     if (projectRoot === selfRoot || inProject) {
-      pack = path.join(__dirname, './packager/index.js')
+      pack = path.join(__dirname, '../packager/index.js')
     }
     require(pack)(releaseDir, mode);
   }

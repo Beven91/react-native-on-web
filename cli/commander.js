@@ -7,7 +7,7 @@
 
 // 引入依赖>>
 var program = require('commander')
-var pgk = require('../package.json')
+var pgk = require('./package.json')
 var cli = require('./cli.js')
 
 module.exports = function (argv) {

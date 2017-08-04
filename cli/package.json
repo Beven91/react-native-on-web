@@ -1,19 +1,18 @@
 {
   "name": "react-native-on-web-cli",
-  "version": "1.0.0",
-  "description": "React Native for Web",
+  "version": "1.0.3",
+  "description": "react-native-on-web cli",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
     "build": "npm run build:dev && babel src --out-dir ./lib"
   },
   "bin": {
-    "react-native-on-web": "./bin/sherlock.js"
+    "react-native-on-web": "./bin/react-native-on-web.js"
   },
   "keywords": [
     "react-native",
     "react-native-web",
-    "react-native-for-web",
     "react-native-on-web"
   ],
   "repository": {
@@ -22,7 +21,12 @@
   },
   "author": "beven",
   "license": "MIT",
+  "devDependencies": {
+    "npm-publish-bin": "^1.0.0"
+  },
   "dependencies": {
-    "fs-extra": "^2.1.2"
+    "commander": "^2.9.0",
+    "fs-extra": "^2.1.2",
+    "npm-shell": "^1.0.2"
   }
 }
