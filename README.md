@@ -15,7 +15,7 @@
      
 ### 三、生成篇
 
-    npm install react-native-on-web-cli --g
+    npm install react-native-on-web-cli -g
 
 
     react-native-on-web init //在你的react-native目录下执行此命令 -> 生成web平台
