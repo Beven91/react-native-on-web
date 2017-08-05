@@ -84,7 +84,8 @@ ReactNativeOnWebCli.prototype.bundle = function (releaseDir, mode) {
     if (projectRoot === selfRoot || inProject) {
       pack = path.join(__dirname, '../packager/index.js')
     }
-    require(pack)(releaseDir, mode);
+    var argv = process.argv.slice(3)
+    new Npm(projectRoot).node(pack, argv)
   }
 }
 

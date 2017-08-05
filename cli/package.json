@@ -1,11 +1,13 @@
 {
   "name": "react-native-on-web-cli",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "react-native-on-web cli",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "build": "npm run build:dev && babel src --out-dir ./lib"
+    "build": "npm run build:dev && babel src --out-dir ./lib",
+    "prepublish": "npm-publish-bin",
+    "prepare": "npm-publish-bin"
   },
   "bin": {
     "react-native-on-web": "./bin/react-native-on-web.js"

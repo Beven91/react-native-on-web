@@ -13,6 +13,7 @@ var projectRoot = hasPackageReactOnWeb(process.cwd()) ? process.cwd() : path.res
 
 var defaultConfig = {
     projectRoot: projectRoot,
+    copyNodeModules:true,
     alias: {
         'react-native-on-web-index-web-js': path.resolve(web.indexWeb),
         'react': path.resolve('node_modules/react'),

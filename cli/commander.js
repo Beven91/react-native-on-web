@@ -31,10 +31,10 @@ module.exports = function (argv) {
     .description('启动web平台')
 
   program
-    .command('bundle <releaseDir> [mode]')
+    .command('bundle')
     .allowUnknownOption()
     .action(cli.run('bundle'))
-    .description('打包Web平台工程，例如:react-native-on-web bundle releaseDir=d:/release client/server(client:打包客户端,server打包服务端,不填写全部打包)')
+    .description('打包Web平台工程，例如:react-native-on-web bundle --releaseDir=d:/release --client --server(client:打包客户端,server打包服务端,不填写全部打包)')
 
   program
     .command('remove')
