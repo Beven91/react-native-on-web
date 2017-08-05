@@ -15,16 +15,27 @@
      
 ### 三、生成篇
 
-    npm install react-native-on-web-cli -g
+安装cli
 
+    npm install react-native-on-web-cli -g
+ 
+初始化
 
     react-native-on-web init //在你的react-native目录下执行此命令 -> 生成web平台
+    
+启动
 
     react-native-on-web start //在你的react-native目录下执行此命令 -> 启动web平台
+    
+移除web
 
     react-native-on-web remove //在你的react-native目录下执行此命令 -> 移除web平台
+    
+打包发布
 
     react-native-on-web bundle d:/release/  打包发布到指定目录下
+
+升级react-native-on-web
 
     react-native-on-web upgrade //更新web平台react-native-on-web (从2.0.29开始支持)
 
