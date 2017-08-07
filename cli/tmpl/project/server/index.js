@@ -5,6 +5,6 @@
  */
 
 //启用非打包模式react-native支持
-require('react-native-on-web/cli/packager/register');
+require('react-native-on-web/packager/register');
 //开始启动网站
 require('./express/www.js');
