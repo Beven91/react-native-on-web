@@ -2,6 +2,9 @@
 
 [![NPM version][npm-image]][npm-url]
 
+
+
+
 ### 一、简介篇
 
   <p>使React-Native 支持Web平台开发</p>
@@ -11,10 +14,16 @@
   基于 [ `react-native-web` ](https://github.com/necolas/react-native-web)
 
 
+
+
+
 ### 二、安装篇
 
     npm install react-native-on-web
      
+
+
+
 ### 三、生成篇
 
 安装cli
@@ -46,6 +55,9 @@
 - 查看帮助
 
         react-native-on-web
+
+
+
 
 ### 四、.packager.js篇
 
@@ -177,6 +189,8 @@
 
 ```
 
+
+
 ### 五、.babelrc 与webpack.js篇
 
 <p>默认打包工具会识别index.web.js所在目录下的.babelrc 以及webpack.js 的配置，</p>
@@ -200,7 +214,9 @@ Button.web.js
 Navigation.web.js
     
 ```
-    
+
+
+
 ### 七、全局对象篇：
 
 ```js
@@ -230,6 +246,7 @@ SlideRoute:{
 ```
 
 
+
 ### 八、关于路由接入篇
 
 默认 `react-native-on-web` 生成的工程，没有路由，
@@ -243,6 +260,8 @@ SlideRoute:{
 默认接入路由有React部分进行路由配置，以及路由匹配
 只需要在React路由匹配成功部分执行以下部分就可以达到SSR(Server Side Render)部分
 标题以及状态等信息配置
+
+
 
 > **关键代码**
 ```js
@@ -324,6 +343,9 @@ React.AppRegistry.registerComponent('demo', () => NavigatorApp);
 
 默认无需进行特殊处理 如果需要进行客户特殊处理，可以参见 上述例子使用 `isNodeServerRuntime`
 来分别使用不同的NavigatorView进行处理，当然如果使用`react-router`则可以用来区分不同的history等
+
+
+
 
 ### 九、开源许可
 基于 [MIT License](http://zh.wikipedia.org/wiki/MIT_License) 开源，使用代码只需说明来源，或者引用 [license.txt](https://github.com/sofish/typo.css/blob/master/license.txt) 即可。
