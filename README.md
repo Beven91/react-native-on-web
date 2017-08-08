@@ -50,6 +50,11 @@
         react-native-on-web
 
 
+### 四、案例
+
+- [**React Native Game-2048 Example**](https://github.com/Beven91/game-2048)
+
+
 ### 四、.packager.js篇
 
 ```js

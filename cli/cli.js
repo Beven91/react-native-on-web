@@ -50,9 +50,13 @@ ReactNativeOnWebCli.prototype.initReactWeb = function () {
  * 启动web 
  */
 ReactNativeOnWebCli.prototype.start = function () {
-  if (hasWebPlatform()) {
-    new Npm(projectRoot).run('start')
+  if (!hasWebPlatform()) {
+    return;
   }
+  if (!fse.existsSync(path.join(projectRoot, 'node_modules'))) {
+    new Npm(projectRoot).install();
+  }
+  new Npm(projectRoot).run('start')
 }
 
 /**

@@ -9,6 +9,7 @@ release/
 cli/
 .vscode
 .idea/
+test/
 out/
 dist/
 target/
