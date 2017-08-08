@@ -232,10 +232,10 @@ SlideRoute:{
 
 ### 八、关于路由接入篇
 
-<p>默认`react-native-on-web`生成的工程，没有路由，</p>
-<p>如果需要接入路由可以使用一些能在三端使用的路由</p>
-<p>例如：`react-navigation` `react-router`等</p>
-<p>路由接入需要考虑两个方向：</p>
+默认 `react-native-on-web` 生成的工程，没有路由，
+如果需要接入路由可以使用一些能在三端使用的路由
+例如：`react-navigation` `react-router`等
+<p>路由接入需要考虑两个方向:</p>
 
 
 **一、服务端路由工作**
