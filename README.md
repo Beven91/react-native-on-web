@@ -238,7 +238,11 @@
     路由接入需要考虑两个方向：
 
     
-1.服务端路由工作：
+* **1.服务端路由工作**
+
+默认接入路由有React部分进行路由配置，以及路由匹配
+只需要在React路由匹配成功部分执行以下部分就可以达到SSR(Server Side Render)部分
+标题以及状态等信息配置
 
 ```js
 
@@ -248,28 +252,70 @@
     reactAppContext.route.setMatchRoute(props.title,props.initialState);
 
 ```
-     
-```js
-        //例如:react-navigation:
+    
+react-navigation 接入示例:
 
-         class NavigationContainer extends React.Component {
-            constructor (props) {
-                super(props)
-                const navigation = this.props.navigation;
-                const state = navigation.state;
-                const navigation2 = addNavigationHelpers({
-                    state: state.routes[state.index],
-                    dispatch: navigation.dispatch,
-                });
-                const options =  NodeRuntimeNavView.router.getScreenOptions(navigation2);
-                //这里执行服务端数据传递 传递当前路由对应页面标题 以及相关数据
-                reactAppContext.route.setMatchRoute(options.title);
-            } 
-            ....
-         }
+```js
+
+    import React from 'react-native';
+    import { IndexScreen, LoginScreen } from './routers';
+    import { TabRouter , createNavigator, addNavigationHelpers } from 'react-navigation';
+
+    const reactAppContext = global['@@__reactAppContext__@@'];
+
+    //自定义路由组件
+    class SSRNavigator = (routeConfigs, stackConfig)=>{
+        return createNavigator(TabRouter(routeConfigs, stackConfig))(NavigationContainer);
+    }
+
+    //自定义路由组件View    
+    class NavigationContainer extends React.Component {
+        constructor (props) {
+            super(props)
+        } 
+        render(){
+            const { navigation, router } = this.props;
+            const state = navigation.state;
+            //获取当前需要显示的组件
+            const Screen = router.getComponentForState(state)
+            //创建新的navigation
+            const childNavigation = addNavigationHelpers({
+                ...navigation,
+                state: state.routes[state.index],
+            });
+            //获取当前路由对应的Options
+            const options =  router.getScreenOptions(navigation2);
+            //这里执行服务端数据传递 传递当前路由对应页面标题 以及相关数据
+            reactAppContext.route.setMatchRoute(options.title);
+            //返回渲染组件
+            return (<Screen navigation={childNavigation} />)
+        }
+    }
+
+    //配置路由
+    const NavigatorApp = SSRNavigator({
+        Index: {
+            screen: IndexScreen,
+            path: '',
+            navigationOptions: {
+            title: '首页'
+            }
+        },
+        Login: {
+            screen: LoginScreen,
+            path: 'login',
+            navigationOptions: {
+            title: '登陆'
+            }
+        }
+    });
+
+    //注册入口
+    React.AppRegistry.registerComponent('demo', () => NavigatorApp);
+
 ```
 
-2.客户端路由工作：
+* **2.客户端路由工作**
 
     默认无需进行特殊处理
 
