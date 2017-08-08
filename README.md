@@ -2,13 +2,10 @@
 
 ### 一、简介篇
 
-    使React-Native 支持Web平台开发
-
-    同时支持React同构模式，以及支持单页模式与多页模式共存，资源按需加载等。 
-
-    自带fetch 支持跨域
-
-    基于 [react-native-web](https://github.com/necolas/react-native-web)
+  <p>使React-Native 支持Web平台开发</p>
+  <p>同时支持React同构模式，以及支持单页模式与多页模式共存，资源按需加载等。 </p>
+  <p>自带fetch 支持跨域</p>
+  <p>基于 [react-native-web](https://github.com/necolas/react-native-web)</p>
 
 
 ### 二、安装篇
@@ -174,11 +171,9 @@
 
 ### 五、.babelrc 与webpack.js篇
 
-    默认打包工具会识别index.web.js所在目录下的.babelrc 以及webpack.js 的配置，
-
-    并且将配置合并到打包工具中，
-    
-    当然大部分是使用.packager.js中的{webpack:{},babelrc:{}}
+<p>默认打包工具会识别index.web.js所在目录下的.babelrc 以及webpack.js 的配置，</p>
+<p>并且将配置合并到打包工具中，</p>
+<p>当然大部分是使用.packager.js中的{webpack:{},babelrc:{}}</p>
 
 
 ### 六、平台环境篇
@@ -238,11 +233,11 @@
     路由接入需要考虑两个方向：
 
     
-* **1.服务端路由工作**
+**1.服务端路由工作**
 
-默认接入路由有React部分进行路由配置，以及路由匹配
-只需要在React路由匹配成功部分执行以下部分就可以达到SSR(Server Side Render)部分
-标题以及状态等信息配置
+    默认接入路由有React部分进行路由配置，以及路由匹配
+    只需要在React路由匹配成功部分执行以下部分就可以达到SSR(Server Side Render)部分
+    标题以及状态等信息配置
 
 ```js
 
@@ -253,7 +248,7 @@
 
 ```
     
-react-navigation 接入示例:
+**1.1react-navigation 接入示例**
 
 ```js
 
@@ -315,7 +310,7 @@ react-navigation 接入示例:
 
 ```
 
-* **2.客户端路由工作**
+**2.客户端路由工作**
 
     默认无需进行特殊处理
 
