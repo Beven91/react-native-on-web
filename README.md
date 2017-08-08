@@ -237,7 +237,8 @@
 
     路由接入需要考虑两个方向：
 
-    1.服务端路由工作：
+    
+1.服务端路由工作：
 
 ```js
 
@@ -248,9 +249,9 @@
 
 ```
      
-    例如:react-navigation:
-
 ```js
+        //例如:react-navigation:
+
          class NavigationContainer extends React.Component {
             constructor (props) {
                 super(props)
@@ -268,7 +269,7 @@
          }
 ```
 
-    2.客户端路由工作：
+2.客户端路由工作：
 
     默认无需进行特殊处理
 
