@@ -244,6 +244,7 @@ SlideRoute:{
 只需要在React路由匹配成功部分执行以下部分就可以达到SSR(Server Side Render)部分
 标题以及状态等信息配置
 
+> **关键代码**
 ```js
 
 const reactAppContext = global['@@__reactAppContext__@@'];
