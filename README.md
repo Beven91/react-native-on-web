@@ -259,7 +259,7 @@ reactAppContext.route.setMatchRoute(props.title,props.initialState);
 ```
     
 > **React-Navigation 接入示例**
-<span id="SCH"></span>
+<span id="SCH">&nbsp;</span>
 ```js
 
 import React from 'react-native';
