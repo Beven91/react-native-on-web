@@ -259,7 +259,7 @@ reactAppContext.route.setMatchRoute(props.title,props.initialState);
 ```
     
 > **React-Navigation 接入示例**
-<span id="SCH">&nbsp;</span>
+
 ```js
 
 import React from 'react-native';
@@ -272,6 +272,10 @@ const isNodeServerRuntime =  global.__CLIENT__ !== true
 
 //自定义路由组件
 class SSRNavigator = (routeConfigs, stackConfig)=>{
+```
+<span id="SCH">_</span>
+```js
+
     //如果需要进行服务端与客户端区分可以使用如下代码进行变更
     //const NavContainer = isNodeServerRuntime? ServerNavContainer: BrowserNavContainer;
     return createNavigator(TabRouter(routeConfigs, stackConfig))(NavigationContainer);
