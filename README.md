@@ -8,6 +8,8 @@
 
     自带fetch 支持跨域
 
+    基于 [react-native-web](https://github.com/necolas/react-native-web)
+
 
 ### 二、安装篇
 

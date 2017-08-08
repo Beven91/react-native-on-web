@@ -4,8 +4,7 @@
  * 描述：react-native LayoutAnimation  web实现
  */
 
-import {checkPropTypes, PropTypes} from "react";
-import {UIManager} from 'react-native';
+import { checkPropTypes, PropTypes } from 'react';
 
 const Types = {
   spring: true,
@@ -43,7 +42,7 @@ const configType = PropTypes.shape({
 
 
 function checkConfig(config, locationring, name) {
-  checkPropTypes({config: configType}, {config}, location, name);
+  checkPropTypes({ config: configType }, { config }, locationring, name);
 }
 
 function configureNext(config, onAnimationDidEnd) {

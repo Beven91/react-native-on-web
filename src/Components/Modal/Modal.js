@@ -3,7 +3,7 @@
  * 日期：2016-11-16
  * 描述：无
  */
-import { View, Platform,Easing, StyleSheet, Animated, Dimensions } from "react-native-web";
+import { Easing, StyleSheet, Animated, Dimensions } from 'react-native-web';
 import React, { PropTypes } from 'react';
 
 const AnimateValue = (v) => new Animated.Value(v);
@@ -32,10 +32,10 @@ const AnimateValue = (v) => new Animated.Value(v);
  *     return (
  *       <View style={{marginTop: 22}}>
  *         <Modal
- *           animationType={"slide"}
+ *           animationType={'slide'}
  *           transparent={false}
  *           visible={this.state.modalVisible}
- *           onRequestClose={() => {alert("Modal has been closed.")}}
+ *           onRequestClose={() => {alert('Modal has been closed.')}}
  *           >
  *          <View style={{marginTop: 22}}>
  *           <View>
@@ -158,17 +158,17 @@ export default class Modal extends React.Component {
      * 初始化模态窗口初始化动画样式
      */
     getInitialStyle(state) {
-        let {transparent} = this.props;
-        let modalStyle = { backgroundColor: transparent ? 'transparent' : 'white', backfaceVisibility: 'hidden' }
+        let { transparent } = this.props;
+        let modalStyle = { backgroundColor: transparent ? 'transparent' : 'white', backfaceVisibility: 'hidden',perspective: 1000 }
         switch (this.getAnimationType()) {
-            case "slide":
+            case 'slide':
                 let interpolate = this.translateX.interpolate({
                     inputRange: [0, 1],
                     outputRange: [this.screenWidth, 0]
                 });
-                modalStyle.transform = [{ translate3d: '0,0,0' },{ translateX: interpolate }];
+                modalStyle.transform = [{ translate3d: '0,0,0' }, { translateX: interpolate }];
                 break;
-            case "fade":
+            case 'fade':
                 let interpolate2 = this.opacity.interpolate({
                     inputRange: [0, 1],
                     outputRange: [0, 1]
@@ -216,7 +216,7 @@ export default class Modal extends React.Component {
      * 组件更新完毕
      */
     componentDidUpdate() {
-        this.setState({ shouldUpdate: false });
+        this.state.shouldUpdate = false;
     }
 
     /**
@@ -256,7 +256,7 @@ export default class Modal extends React.Component {
      * 获取窗口进入动画类型
      */
     getAnimationType() {
-        return this.props.animationType || "slide";
+        return this.props.animationType || 'slide';
     }
 
     /**
@@ -278,7 +278,7 @@ export default class Modal extends React.Component {
     slideAnimation() {
         let toValue = this.props.visible ? 1 : 0;
         //circle,cubic,ease,in,inOut,out,linear
-        return Animated.timing(this.translateX, { toValue: toValue, duration: 200,easing:Easing.linear });
+        return Animated.timing(this.translateX, { toValue: toValue, duration: 260, easing: Easing.inOut(Easing.ease) });
     }
 
     /**

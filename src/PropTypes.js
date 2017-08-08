@@ -1,5 +1,5 @@
-import React from "react";
-import "react-native-web";
+import React from 'react';
+import 'react-native-web';
 
 const PropTypes = React.PropTypes;
 
