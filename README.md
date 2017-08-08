@@ -3,10 +3,6 @@
 [![Build Status][travis-image]][travis-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
 [![NPM version][npm-image]][npm-url]
-[![Windows Tests][windows-image]][windows-url]
-[![js-standard-style][standard-image]][standard-url]
-[![Conventional Commits][conventional-commits-image]][conventional-commits-url]
-[![Slack][slack-image]][slack-url]
 
 ### 一、简介篇
 
@@ -332,3 +328,10 @@
 
 ### 九、开源许可
 基于 [MIT License](http://zh.wikipedia.org/wiki/MIT_License) 开源，使用代码只需说明来源，或者引用 [license.txt](https://github.com/sofish/typo.css/blob/master/license.txt) 即可。
+
+[travis-url]: https://travis-ci.org/react-native-on-web/react-native-on-web
+[travis-image]: https://img.shields.io/travis/react-native-on-web/react-native-on-web/master.svg
+[coveralls-url]: https://coveralls.io/github/react-native-on-web/react-native-on-web
+[coveralls-image]: https://img.shields.io/coveralls/react-native-on-web/react-native-on-web.svg
+[npm-url]: https://www.npmjs.com/package/react-native-on-web
+[npm-image]: https://img.shields.io/npm/v/react-native-on-web.svg
