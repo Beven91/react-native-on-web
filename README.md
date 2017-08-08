@@ -1,5 +1,13 @@
 ## react-native-on-web
 
+[![Build Status][travis-image]][travis-url]
+[![Coverage Status][coveralls-image]][coveralls-url]
+[![NPM version][npm-image]][npm-url]
+[![Windows Tests][windows-image]][windows-url]
+[![js-standard-style][standard-image]][standard-url]
+[![Conventional Commits][conventional-commits-image]][conventional-commits-url]
+[![Slack][slack-image]][slack-url]
+
 ### 一、简介篇
 
   <p>使React-Native 支持Web平台开发</p>
@@ -11,34 +19,39 @@
 
 ### 二、安装篇
 
- npm install react-native-on-web
+    npm install react-native-on-web
      
 ### 三、生成篇
 
-- 安装cli
+安装cli
 
-      npm install react-native-on-web-cli -g
+    npm install react-native-on-web-cli -g
+
+切换到react-native工程根目录下：    
  
-- 初始化
+- 初始化(生成web平台)
 
-      react-native-on-web init //在你的react-native目录下执行此命令 -> 生成web平台
+        react-native-on-web init  
     
-- 启动
+- 启动(启动web平台)
 
-      react-native-on-web start //在你的react-native目录下执行此命令 -> 启动web平台
+        react-native-on-web start  
     
-- 移除web
+- 移除(移除web平台)
 
-      react-native-on-web remove //在你的react-native目录下执行此命令 -> 移除web平台
+        react-native-on-web remove 
     
-- 打包发布
+- 发布(发布web平台)
 
-      react-native-on-web bundle d:/release/  打包发布到指定目录下
+        react-native-on-web bundle d:/release/
 
-- 升级react-native-on-web
+- 升级(升级react-native-on-web)(从2.0.29开始支持)
 
-      react-native-on-web upgrade //更新web平台react-native-on-web (从2.0.29开始支持)
+        react-native-on-web upgrade 
 
+- 查看帮助
+
+        react-native-on-web
 
 ### 四、.packager.js篇
 
@@ -246,7 +259,7 @@
 
 ```
     
-**React-Navigation 接入示例**
+> **React-Navigation 接入示例**
 
 ```js
 
