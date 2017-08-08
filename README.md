@@ -14,29 +14,29 @@
      
 ### 三、生成篇
 
-安装cli
+- 安装cli
 
-    npm install react-native-on-web-cli -g
+      npm install react-native-on-web-cli -g
  
-初始化
+- 初始化
 
-    react-native-on-web init //在你的react-native目录下执行此命令 -> 生成web平台
+      react-native-on-web init //在你的react-native目录下执行此命令 -> 生成web平台
     
-启动
+- 启动
 
-    react-native-on-web start //在你的react-native目录下执行此命令 -> 启动web平台
+      react-native-on-web start //在你的react-native目录下执行此命令 -> 启动web平台
     
-移除web
+- 移除web
 
-    react-native-on-web remove //在你的react-native目录下执行此命令 -> 移除web平台
+      react-native-on-web remove //在你的react-native目录下执行此命令 -> 移除web平台
     
-打包发布
+- 打包发布
 
-    react-native-on-web bundle d:/release/  打包发布到指定目录下
+      react-native-on-web bundle d:/release/  打包发布到指定目录下
 
-升级react-native-on-web
+- 升级react-native-on-web
 
-    react-native-on-web upgrade //更新web平台react-native-on-web (从2.0.29开始支持)
+      react-native-on-web upgrade //更新web平台react-native-on-web (从2.0.29开始支持)
 
 
 ### 四、.packager.js篇
@@ -224,20 +224,20 @@
 
 ### 八、关于路由接入篇
 
-    默认react-native-on-web生成的工程，没有路由，
+<p>默认react-native-on-web生成的工程，没有路由，</p>
+<p>如果需要接入路由可以使用一些能在三端使用的路由</p>
+<p>例如：react-navigation react-router等</p>
+<p>路由接入需要考虑两个方向：</p>
 
-    如果需要接入路由可以使用一些能在三端使用的路由
-
-    例如：react-navigation react-router等
-
-    路由接入需要考虑两个方向：
 
     
-**1.服务端路由工作**
+- 一、服务端路由工作
 
+    <p>
     默认接入路由有React部分进行路由配置，以及路由匹配
     只需要在React路由匹配成功部分执行以下部分就可以达到SSR(Server Side Render)部分
     标题以及状态等信息配置
+    </p>
 
 ```js
 
@@ -247,8 +247,8 @@
     reactAppContext.route.setMatchRoute(props.title,props.initialState);
 
 ```
-    
-**1.1react-navigation 接入示例**
+    
+React-Navigation 接入示例
 
 ```js
 
@@ -310,7 +310,7 @@
 
 ```
 
-**2.客户端路由工作**
+- 二、客户端路由工作
 
     默认无需进行特殊处理
 
