@@ -5,12 +5,13 @@
   <p>使React-Native 支持Web平台开发</p>
   <p>同时支持React同构模式，以及支持单页模式与多页模式共存，资源按需加载等。 </p>
   <p>自带fetch 支持跨域</p>
-  <p>基于 [react-native-web](https://github.com/necolas/react-native-web)</p>
+  
+  基于 [ `react-native-web` ](https://github.com/necolas/react-native-web)
 
 
 ### 二、安装篇
 
-    npm install react-native-on-web
+ npm install react-native-on-web
      
 ### 三、生成篇
 
@@ -232,9 +233,9 @@
 
 **一、服务端路由工作**
 
-    默认接入路由有React部分进行路由配置，以及路由匹配
-    只需要在React路由匹配成功部分执行以下部分就可以达到SSR(Server Side Render)部分
-    标题以及状态等信息配置
+默认接入路由有React部分进行路由配置，以及路由匹配
+只需要在React路由匹配成功部分执行以下部分就可以达到SSR(Server Side Render)部分
+标题以及状态等信息配置
 
 ```js
 
@@ -254,9 +255,13 @@
     import { TabRouter , createNavigator, addNavigationHelpers } from 'react-navigation';
 
     const reactAppContext = global['@@__reactAppContext__@@'];
+    //判断是否为nodejs服务端运行react
+    const isNodeServerRuntime =  global.__CLIENT__ !== true
 
     //自定义路由组件
     class SSRNavigator = (routeConfigs, stackConfig)=>{
+        //如果需要进行服务端与客户端区分可以使用如下代码进行变更
+        //const NavContainer = isNodeServerRuntime? ServerNavContainer: BrowserNavContainer;
         return createNavigator(TabRouter(routeConfigs, stackConfig))(NavigationContainer);
     }
 
@@ -309,7 +314,8 @@
 
 **二、客户端路由工作**
 
-    默认无需进行特殊处理
+默认无需进行特殊处理 如果需要进行客户特殊处理，可以参见 上述例子使用 `isNodeServerRuntime`
+来分别使用不同的NavigatorView进行处理，当然如果使用react-router则可以用来区分不同的history等
 
 ### 九、开源许可
 基于 [MIT License](http://zh.wikipedia.org/wiki/MIT_License) 开源，使用代码只需说明来源，或者引用 [license.txt](https://github.com/sofish/typo.css/blob/master/license.txt) 即可。
