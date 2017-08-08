@@ -23,7 +23,7 @@
 
     npm install react-native-on-web-cli -g
 
-切换到react-native工程根目录下：    
+切换到react-native工程根目录下(或者任意目录下仅创建web)：    
  
 - 初始化(生成web平台)
 
@@ -259,7 +259,7 @@ reactAppContext.route.setMatchRoute(props.title,props.initialState);
 ```
     
 > **React-Navigation 接入示例**
-
+<span id="SCH"></span>
 ```js
 
 import React from 'react-native';
@@ -326,7 +326,7 @@ React.AppRegistry.registerComponent('demo', () => NavigatorApp);
 
 **二、客户端路由工作**
 
-默认无需进行特殊处理 如果需要进行客户特殊处理，可以参见 上述例子使用 `isNodeServerRuntime`
+默认无需进行特殊处理 如果需要进行客户特殊处理，可以参见 [上述例子](#SCH) 使用 `isNodeServerRuntime`
 来分别使用不同的NavigatorView进行处理，当然如果使用`react-router`则可以用来区分不同的history等
 
 
