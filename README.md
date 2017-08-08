@@ -55,7 +55,7 @@
 - [**React Native Game-2048 Example**](https://github.com/Beven91/game-2048)
 
 
-### 四、.packager.js篇
+### 五、.packager.js篇
 
 ```js
 {
@@ -185,14 +185,14 @@
 
 ```
 
-### 五、.babelrc 与webpack.js篇
+### 六、.babelrc 与webpack.js篇
 
 <p>默认打包工具会识别index.web.js所在目录下的.babelrc 以及webpack.js 的配置，</p>
 <p>并且将配置合并到打包工具中，</p>
 <p>当然大部分是使用.packager.js中的{webpack:{},babelrc:{}}</p>
 
 
-### 六、平台环境篇
+### 七、平台环境篇
 
 ```js
 import {Platform} from "react-native";
@@ -209,7 +209,7 @@ Navigation.web.js
     
 ```
 
-### 七、全局对象篇：
+### 八、全局对象篇：
 
 ```js
 const reactAppContext = global['@@__reactAppContext__@@']
@@ -237,7 +237,7 @@ SlideRoute:{
 
 ```
 
-### 八、关于路由接入篇
+### 九、关于路由接入篇
 
 默认 `react-native-on-web` 生成的工程，没有路由，
 如果需要接入路由可以使用一些能在三端使用的路由
@@ -265,6 +265,7 @@ reactAppContext.route.setMatchRoute(props.title,props.initialState);
     
 > **React-Navigation 接入示例**
 <a name="SCH"></a>
+
 ```js
 
 import React from 'react-native';
@@ -335,7 +336,7 @@ React.AppRegistry.registerComponent('demo', () => NavigatorApp);
 来分别使用不同的NavigatorView进行处理，当然如果使用`react-router`则可以用来区分不同的history等
 
 
-### 九、开源许可
+### 十、开源许可
 基于 [MIT License](http://zh.wikipedia.org/wiki/MIT_License) 开源，使用代码只需说明来源，或者引用 [license.txt](https://github.com/sofish/typo.css/blob/master/license.txt) 即可。
 
 [npm-url]: https://www.npmjs.com/package/react-native-on-web
