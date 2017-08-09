@@ -277,7 +277,7 @@ const reactAppContext = global['@@__reactAppContext__@@'];
 const isNodeServerRuntime =  global.__CLIENT__ !== true
 
 //自定义路由组件
-class SSRNavigator = (routeConfigs, stackConfig)=>{
+const SSRNavigator = (routeConfigs, stackConfig)=>{
     //如果需要进行服务端与客户端区分可以使用如下代码进行变更
     //const NavContainer = isNodeServerRuntime? ServerNavContainer: BrowserNavContainer;
     return createNavigator(TabRouter(routeConfigs, stackConfig))(NavigationContainer);

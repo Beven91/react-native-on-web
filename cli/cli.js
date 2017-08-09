@@ -119,7 +119,7 @@ function hasWebPlatform() {
 
 function hasPackageReactOnWeb(dir) {
   var packageJsonPath = path.join(dir, 'package.json')
-  var dependencies = fse.existsSync(packageJsonPath) ? Object.keys(require(packageJsonPath).dependencies) : []
+  var dependencies = fse.existsSync(packageJsonPath) ? Object.keys(require(packageJsonPath).dependencies || {}) : []
   return dependencies.indexOf('react-native-on-web') > -1
 }
 
