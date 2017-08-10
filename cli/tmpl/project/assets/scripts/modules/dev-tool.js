@@ -113,6 +113,7 @@
             if (typeof originErrorHandler === 'function') {
                 originErrorHandler.apply(this, error);
             }
+            console.error(error);
             thisContext.onErrorOccur(error.message, error);
         }
     }

@@ -6,10 +6,9 @@
 
 // 加载依赖
 import 'babel-polyfill'
-import "./fetch/browser-fetch.js";
+import './fetch/browser-fetch.js';
 import 'react-native-on-web-index-web-js'
-import React from 'react'
-import ReactAppContext from "./context"
+import ReactAppContext from './context'
 import { AppRegistry } from 'react-native'
 
 /**

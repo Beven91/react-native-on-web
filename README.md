@@ -50,9 +50,11 @@
         react-native-on-web
 
 
-### 四、案例
+### 四、案例篇
 
 - [**React Native Game-2048 Example**](https://github.com/Beven91/game-2048)
+
+- [**React Native Router And Code Spliter Example**](https://github.com/Beven91/ssr-router-example)
 
 
 ### 五、.packager.js篇
@@ -262,53 +264,169 @@ const reactAppContext = global['@@__reactAppContext__@@'];
 reactAppContext.route.setMatchRoute(props.title,props.initialState);
 
 ```
+
+**二、客户端路由工作**
+
+客户端不同的路由框架，有不同的处理，不过总体是使用pushState来进行客户端路由跳转
+参考如下示例:
+
+
     
 > **React-Navigation 接入示例**
 <a name="SCH"></a>
 
 ```js
 
-import React from 'react-native';
-import { IndexScreen, LoginScreen } from './routers';
-import { TabRouter , createNavigator, addNavigationHelpers } from 'react-navigation';
+//  ./navigation/index.web.js
+
+import React, { Component } from 'react';
+import { PropTypes } from 'react-native';
+import { NavigationActions, addNavigationHelpers, TabRouter, createNavigator } from 'react-navigation';
 
 const reactAppContext = global['@@__reactAppContext__@@'];
 //判断是否为nodejs服务端运行react
-const isNodeServerRuntime =  global.__CLIENT__ !== true
+const isNodeServerRuntime = global.__CLIENT__ !== true
 
-//自定义路由组件
-const SSRNavigator = (routeConfigs, stackConfig)=>{
-    //如果需要进行服务端与客户端区分可以使用如下代码进行变更
-    //const NavContainer = isNodeServerRuntime? ServerNavContainer: BrowserNavContainer;
-    return createNavigator(TabRouter(routeConfigs, stackConfig))(NavigationContainer);
-}
+class NavApp extends Component {
 
-//自定义路由组件View    
-class NavigationContainer extends React.Component {
-    constructor (props) {
-        super(props)
-    } 
-    render(){
-        const { navigation, router } = this.props;
-        const state = navigation.state;
-        //获取当前需要显示的组件
-        const Screen = router.getComponentForState(state)
-        //创建新的navigation
-        const childNavigation = addNavigationHelpers({
+    static childContextTypes = {
+        getActionForPathAndParams: PropTypes.func.isRequired,
+        getURIForAction: PropTypes.func.isRequired,
+        dispatch: PropTypes.func.isRequired,
+    };
+
+    constructor(props) {
+        super(props);
+        const { router } = this.props;
+        //初始化从reactAppContext.route 获取对应的path 这样保持客户端服务端一致
+        const path = reactAppContext.route.toString();
+        //获取初始化路由动作
+        const initAction = this.getAction(router, path, { path });
+        //react-navigation .dispatch
+        this.dispatch = this.dispatch.bind(this);
+        //当前路由状态数据
+        this.state = router.getStateForAction(initAction);
+        this.getActionForPathAndParams = this.getActionForPathAndParams.bind(this);
+        this.getURIForAction = this.getURIForAction.bind(this);
+    }
+
+    /**
+     * 获取当前的路由action 
+     * @param {Router} router react-navigation router
+     * @param {String} path 当前路由路径名 例如； /user /user/index
+     * @param {Object} params 当前路由额外的参数
+     */
+    getAction(router, path, params) {
+        return router.getActionForPathAndParams(path, params) || NavigationActions.navigate({
+            params: { path },
+            routeName: 'NotFound',
+        });
+    }
+
+    /**
+     * 获取顶级navigation
+     */
+    getNavigation() {
+        const { router } = this.props;
+        const state = this.state;
+        const navigation = addNavigationHelpers({
+            state: this.state,
+            dispatch: this.dispatch,
+        })
+        const screenNavigation = addNavigationHelpers({
             ...navigation,
             state: state.routes[state.index],
         });
-        //获取当前路由对应的Options
-        const options =  router.getScreenOptions(navigation2);
-        //这里执行服务端数据传递 传递当前路由对应页面标题 以及相关数据
-        reactAppContext.route.setMatchRoute(options.title);
-        //返回渲染组件
-        return (<Screen navigation={childNavigation} />)
+        const options = router.getScreenOptions(screenNavigation, {});
+        if (isNodeServerRuntime) {
+            //通知express
+            reactAppContext.route.setMatchRoute(options.title);
+        } else {
+            //执行客户端pushstate
+            this.pushState(router,state,options);
+        }
+        return navigation;
+    }
+
+    // 客户端pushstate调用 同时同步document.title
+    pushState(router, state,options) {
+        const { path, params } = router.getPathAndParamsForState(state);
+        const maybeHash = params && params.hash ? `#${params.hash}` : '';
+        const uri = `/${path}${maybeHash}`;
+        if (window.location.pathname !== uri) {
+            window.history.pushState({}, state.title, uri);
+        }
+        document.title = options.title;
+    }
+
+    //自定义react-navigation Navigation.dispatch
+    dispatch(action) {
+        if (isNodeServerRuntime) {
+            //服务端直接返回false
+            return false;
+        }
+        const { router } = this.props;
+        const state = router.getStateForAction(action, this.state);
+        const isChange = state && state !== this.state;
+        isChange ? this.setState(state) : undefined;
+        return (isChange || !state);
+    }
+
+    //自定义根据action获取对应的url风格字符串
+    getURIForAction(action) {
+        const { router } = this.props;
+        const state = router.getStateForAction(action, this.state) || this.state;
+        const { path } = router.getPathAndParamsForState(state);
+        return `/${path}`;
+    }
+
+    //根据路径获取对应的action信息
+    getActionForPathAndParams(path, params) {
+        return router.getActionForPathAndParams(path, params);
+    }
+
+    getChildContext() {
+        return {
+            getActionForPathAndParams: this.getActionForPathAndParams,
+            getURIForAction: this.getURIForAction,
+            dispatch: this.dispatch,
+        };
+    }
+
+    //在客户端渲染完毕后 绑定popstate事件
+    componentDidMount() {
+        const { router } = this.props;
+        window.onpopstate = e => {
+            e.preventDefault();
+            const action = this.getAction(router, window.location.pathname.substr(1));
+            if (action) this.dispatch(action);
+        };
+    }
+
+    //渲染
+    render() {
+        const { router } = this.props;
+        const Screen = router.getComponentForState(this.state);
+        const navigation = this.getNavigation();
+        return (<Screen navigation={navigation} />)
     }
 }
 
+//自定义web端navigation组件
+const SSRNavigator = (routeConfigs, stackConfig) => {
+    return createNavigator(TabRouter(routeConfigs, stackConfig))(NavApp);
+}
+
+// ./navigation/index.js
+import {StackNavigator} from 'react-navigation'
+
+// ./index.web.js
+
+import React from 'react';
+import Navigator from './navigation';
+
 //配置路由
-const NavigatorApp = SSRNavigator({
+const NavigatorApp = Navigator({
     Index: {
         screen: IndexScreen,
         path: '',
@@ -329,11 +447,6 @@ const NavigatorApp = SSRNavigator({
 React.AppRegistry.registerComponent('demo', () => NavigatorApp);
 
 ```
-
-**二、客户端路由工作**
-
-默认无需进行特殊处理 如果需要进行客户特殊处理，可以参见 [上述例子](#SCH) 使用 `isNodeServerRuntime`
-来分别使用不同的NavigatorView进行处理，当然如果使用`react-router`则可以用来区分不同的history等
 
 
 ### 十、开源许可
