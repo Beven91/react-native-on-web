@@ -8,8 +8,11 @@
             "type": "node",
             "request": "launch",
             "name": "启动程序",
-            "program": "${workspaceRoot}\\cli\\tmpl\\project\\server\\index.js",
-            "cwd":"${workspaceRoot}\\cli\\tmpl\\project\\"
+            "program": "${workspaceRoot}/packages/react-native-on-web-cli/tmpl/project/server/index.js",
+            "cwd":"${workspaceRoot}/packages/react-native-on-web-cli/tmpl/project/",
+            "env": {
+              "NODE_PATH":"${workspaceRoot}/packages/react-native-on-web-cli/tmpl/project/node_modules/"
+            }
         },
         {
             "type": "node",
