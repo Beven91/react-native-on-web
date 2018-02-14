@@ -1,12 +1,12 @@
 {
   "name": "react-native-on-web-monorepo",
   "private": true,
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "React Native for Web",
   "scripts": {
     "install": "node ./scripts/prepare.js",
     "start": "node ./test/index.js",
-    "prepublishOnly": "node ./scripts/publish.js"
+    "release": "node ./scripts/publish.js"
   },
   "keywords": [
     "react-native",

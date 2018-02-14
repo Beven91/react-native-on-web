@@ -14,13 +14,14 @@ var selfPackage = require('../package.json');
  * 同步packages目录下所有工程版本等信息
  */
 function handlePublishVersions() {
+  var cwd = path.resolve('packages');
   //依赖处理
   handleReferences();
   //处理发布
   fse
-    .readdirSync(path.resolve('packages'))
-    .filter(function (file) { return fse.existsSync(path.join(file, 'package.json')); })
-    .map(function (dir) { return path.join(dir, 'package.json') })
+    .readdirSync(cwd)
+    .filter(function (file) { return fse.existsSync(path.join(cwd, file, 'package.json')); })
+    .map(function (dir) { return path.join(cwd, dir, 'package.json') })
     .map(handlePublishVersion);
 }
 
@@ -29,10 +30,11 @@ function handlePublishVersions() {
  * @param {String} packagePath  package.json文件路径
  */
 function handlePublishVersion(packagePath) {
-  var package = require(packagePath);
-  if(package.version === selfPackage.version){
-    package.version = selfPackage.version;
-    fse.writeJSONSync(packagePath, package);
+  var pgk = require(packagePath);
+  if (pgk.version !== selfPackage.version) {
+    console.log('publish ' + pgk.name + '@' + selfPackage.version);
+    pgk.version = selfPackage.version;
+    fse.writeFileSync(packagePath, JSON.stringify(pgk, null, 2));
     var npm = new Npm(path.dirname(packagePath));
     npm.publish();
   }
