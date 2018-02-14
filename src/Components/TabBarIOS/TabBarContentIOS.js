@@ -5,7 +5,7 @@
  */
 import React from "react";
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, ColorPropType } from "react-native-web";
+import { View, StyleSheet } from "react-native-web";
 
 export default class TabBarContentIOS extends React.Component {
 

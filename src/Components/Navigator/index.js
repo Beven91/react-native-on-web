@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { View, Platform,Easing, StyleSheet, Animated, Dimensions } from "react-native-web";
+import { View, StyleSheet } from "react-native-web";
 import invariant from './lib/invariant';
 import NavigationContext from './context';
 import PropTypes from 'prop-types';
@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 const SCENE_DISABLED_NATIVE_PROPS = '';
 
 const styles = StyleSheet.create({
-  baseScene: {flex:1},
+  baseScene: { flex: 1 },
   disabledSceneStyle: {},
   container: {},
 });
@@ -169,11 +169,11 @@ class Navigator extends React.Component {
   }
 
   _emitDidFocus(route) {
-    this.navigationContext.emit('didfocus', {route});
+    this.navigationContext.emit('didfocus', { route });
   }
 
   _emitWillFocus(route) {
-    this.navigationContext.emit('willfocus', {route});
+    this.navigationContext.emit('willfocus', { route });
   }
 
   _getDestIndexWithinBounds(n) {
@@ -234,7 +234,7 @@ class Navigator extends React.Component {
       },
     };
     if (sceneIndex !== this.state.transitionFromIndex &&
-        sceneIndex !== this.state.presentedIndex) {
+      sceneIndex !== this.state.presentedIndex) {
       // If we are not in a transition from this index, make sure opacity is 0
       // to prevent the enabled scene from flashing over the presented scene
       enabledSceneNativeProps.style.opacity = 0;
@@ -254,7 +254,7 @@ class Navigator extends React.Component {
     }
   }
 
-   _popN(n) {
+  _popN(n) {
     if (n === 0) {
       return;
     }
@@ -278,7 +278,7 @@ class Navigator extends React.Component {
   _transitionTo(index, velocity, spring, cb) {
     //TODO: Add support for scene transition animations
     this._hideScenes();
-    this.setState({presentedIndex: index}, () => {
+    this.setState({ presentedIndex: index }, () => {
       if (cb) {
         cb();
       }

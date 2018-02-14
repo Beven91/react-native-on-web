@@ -4,7 +4,8 @@
  * 描述：react-native LayoutAnimation  web实现
  */
 
-import { checkPropTypes, PropTypes } from 'react';
+import { checkPropTypes } from 'react';
+import PropTypes from 'prop-types';
 
 const Types = {
   spring: true,

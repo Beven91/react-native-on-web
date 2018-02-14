@@ -3,8 +3,6 @@
  * 日期：2016-11-18
  * 描述：无
  */
-import { View, I18nManager, Platform, StyleSheet, Animated, Dimensions } from "react-native-web";
-import createDOMElement from "react-native-web/dist/modules/createDOMElement";
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -28,6 +26,7 @@ export default class Picker extends React.Component {
    */
   constructor(props) {
     super(props);
+    this._onChange = this._onChange.bind(this);
     this.state = {
       selectedValue: this.props.selectedValue
     }
@@ -74,28 +73,26 @@ export default class Picker extends React.Component {
   }
 
   render() {
-    let {style, children} = this.props;
-    let {selectedValue} = this.state;
-    return createDOMElement('select', {
-      children: children,
-      ref: PICKER,
-      value: selectedValue,
-      onChange: this._onChange.bind(this),
-      style: [styles.picker, style]
-    });
+    let { style, children } = this.props;
+    let { selectedValue } = this.state;
+    return (
+      <select ref={PICKER} value={selectedValue} onChange={this._onChange} style={[styles.picker, style]}  >
+        ${children}
+      </select>
+    )
   }
 }
 
-Picker.Item = React.createClass({
-  propTypes: {
+Picker.Item = class Item extends React.Component {
+  static propTypes = {
     value: PropTypes.any, // string or integer basically
     label: PropTypes.string,
-  },
+  }
 
-  render: function () {
+  render() {
     return <option value={this.props.value}>{this.props.label}</option>;
-  },
-});
+  }
+};
 
 //样式表
 const styles = {
