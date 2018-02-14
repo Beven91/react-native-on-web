@@ -15,7 +15,7 @@ export default class hello extends Component {
           Welcome to React Native!
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit index.ios.js
+          To get started, edit index.web.js
         </Text>
         <Text style={styles.instructions}>
           Press Cmd+R to reload,
