@@ -4,7 +4,8 @@
  * 描述：无
  */
 import { Easing, StyleSheet, Animated, Dimensions } from 'react-native-web';
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const AnimateValue = (v) => new Animated.Value(v);
 

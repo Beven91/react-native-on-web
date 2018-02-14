@@ -3,7 +3,8 @@
  * 日期：2016-11-18
  * 描述：无
  */
-import React, { PropTypes } from "react";
+import React from "react";
+import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, ColorPropType } from "react-native-web";
 
 export default class TabBarContentIOS extends React.Component {

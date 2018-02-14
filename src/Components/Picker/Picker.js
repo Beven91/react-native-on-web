@@ -5,7 +5,8 @@
  */
 import { View, I18nManager, Platform, StyleSheet, Animated, Dimensions } from "react-native-web";
 import createDOMElement from "react-native-web/dist/modules/createDOMElement";
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const PICKER = 'picker';
 

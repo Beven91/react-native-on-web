@@ -4,6 +4,7 @@
  * 描述：无
  */
 import React from "react";
+import PropTypes from 'prop-types';
 import { View, StyleSheet, ColorPropType } from "react-native-web";
 import TabBarItemIOS from "./TabBarItemIOS";
 import TabBarContentIOS from "./TabBarContentIOS";
@@ -29,7 +30,7 @@ export default class TabBarIOS extends React.Component {
         /**
          * A Boolean value that indicates whether the tab bar is translucent
          */
-        translucent: React.PropTypes.bool,
+        translucent: PropTypes.bool,
         /**
          * Specifies tab bar item positioning. Available values are:
          * - fill - distributes items across the entire width of the tab bar
@@ -39,7 +40,7 @@ export default class TabBarIOS extends React.Component {
          * this value defaults to `fill`, in a horizontally regular one (e.g. iPad)
          * it defaults to center.
          */
-        itemPositioning: React.PropTypes.oneOf(['fill', 'center', 'auto']),
+        itemPositioning: PropTypes.oneOf(['fill', 'center', 'auto']),
     };
 
     /**

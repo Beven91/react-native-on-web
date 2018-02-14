@@ -1,7 +1,5 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import 'react-native-web';
-
-const PropTypes = React.PropTypes;
 
 const ImageSourcePropType = PropTypes.oneOfType([
     PropTypes.shape({

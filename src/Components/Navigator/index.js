@@ -4,8 +4,7 @@ import React from 'react';
 import { View, Platform,Easing, StyleSheet, Animated, Dimensions } from "react-native-web";
 import invariant from './lib/invariant';
 import NavigationContext from './context';
-
-const PropTypes = React.PropTypes;
+import PropTypes from 'prop-types';
 
 const SCENE_DISABLED_NATIVE_PROPS = '';
 

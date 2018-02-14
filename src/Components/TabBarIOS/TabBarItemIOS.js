@@ -5,6 +5,7 @@
  */
 import React from "react";
 import LocalPropTypes from "../../PropTypes.js";
+import PropTypes from 'prop-types';
 import { Image, View, Text, StyleSheet, ColorPropType, TouchableOpacity } from "react-native-web";
 
 export default class TabBarItemIOS extends React.Component {
@@ -13,16 +14,16 @@ export default class TabBarItemIOS extends React.Component {
         /**
          * Little red bubble that sits at the top right of the icon.
          */
-        badge: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.number,
+        badge: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
         ]),
         /**
          * Items comes with a few predefined system icons. Note that if you are
          * using them, the title and selectedIcon will be overridden with the
          * system ones.
          */
-        systemIcon: React.PropTypes.oneOf([
+        systemIcon: PropTypes.oneOf([
             'bookmarks',
             'contacts',
             'downloads',
@@ -49,22 +50,22 @@ export default class TabBarItemIOS extends React.Component {
          * Callback when this tab is being selected, you should change the state of your
          * component to set selected={true}.
          */
-        onPress: React.PropTypes.func,
+        onPress: PropTypes.func,
         /**
          * If set to true it renders the image as original,
          * it defaults to being displayed as a template
          */
-        renderAsOriginal: React.PropTypes.bool,
+        renderAsOriginal: PropTypes.bool,
         /**
          * It specifies whether the children are visible or not. If you see a
          * blank content, you probably forgot to add a selected one.
          */
-        selected: React.PropTypes.bool,
+        selected: PropTypes.bool,
         /**
          * Text that appears under the icon. It is ignored when a system icon
          * is defined.
          */
-        title: React.PropTypes.string,
+        title: PropTypes.string,
 
         unselectedTintColor: ColorPropType,
 
