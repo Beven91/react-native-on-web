@@ -5,7 +5,7 @@
   "description": "React Native for Web",
   "scripts": {
     "install": "node ./scripts/prepare.js",
-    "test": "node ./test/index.js",
+    "start": "node ./test/index.js",
     "prepublishOnly": "node ./scripts/publish.js"
   },
   "keywords": [
@@ -21,12 +21,13 @@
   "author": "beven",
   "license": "MIT",
   "devDependencies": {
+    "babel-eslint": "^8.2.1",
     "chai": "^4.1.2",
     "eslint": "^4.0.0",
     "eslint-plugin-react": "^7.1.0",
     "fs-extra": "^4.0.1",
     "mocha": "^3.2.0",
-    "npm-shell": "^1.0.9"
+    "npm-shell": "^1.0.10"
   },
   "dependencies": {}
 }
