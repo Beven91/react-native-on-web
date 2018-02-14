@@ -26,8 +26,6 @@
     "http-proxy": "^1.16.2",
     "morgan": "^1.7.0",
     "node-fetch": "^1.6.3",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
     "react-native-on-web": "4.0.15",
     "whatwg-fetch": "^2.0.3",
     "winston": "^2.4.0"
