@@ -10,7 +10,8 @@ import Modal from './components/Modal/Modal';
 import ToastAndroid from './components/ToastAndroid/ToastAndroid';
 import TabBarIOS from './components/TabBarIOS/TabBarIOS';
 import Picker from './components/Picker/Picker';
-import LayoutAnimation from './apis/LayoutAnimation/LayoutAnimation.js'
+import LayoutAnimation from './apis/LayoutAnimation/LayoutAnimation.js';
+import AsyncStorage from './apis/AsyncStorage.js';
 import Navigator from './components/Navigator';
 
 Object.assign(ReactNative, React, {
@@ -19,6 +20,7 @@ Object.assign(ReactNative, React, {
     TabBarIOS,
     Picker,
     Navigator,
+    AsyncStorage,
     LayoutAnimation,
 });
 

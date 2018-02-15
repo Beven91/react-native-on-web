@@ -22,7 +22,14 @@ var defaultConfig = {
     'babel-polyfill': use('node_modules/babel-polyfill'),
     'NativeModules': path.resolve('node_modules/react-native-on-web'),
     'react-native': path.resolve('node_modules/react-native-on-web'),
-    'whatwg-fetch': use('node_modules/whatwg-fetch')
+    'whatwg-fetch': use('node_modules/whatwg-fetch'),
+    'react-native-web/dist/exports/AsyncStorage':'react-native-on-web/src/apis/AsyncStorage',
+    'react-native-web/dist/exports/LayoutAnimation':'react-native-on-web/src/apis/LayoutAnimation/LayoutAnimation',
+    'react-native-web/dist/exports/Modal':'react-native-on-web/src/components/Modal/Modal',
+    'react-native-web/dist/exports/Navigator':'react-native-on-web/src/components/Navigator',
+    'react-native-web/dist/exports/ToastAndroid':'react-native-on-web/src/components/ToastAndroid/ToastAndroid',
+    'react-native-web/dist/exports/TabBarIOS':'react-native-on-web/src/components/TabBarIOS/TabBarIOS',
+    'react-native-web/dist/exports/Picker':'react-native-on-web/src/components/Picker/Picker',
   }
 }
 
