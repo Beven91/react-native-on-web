@@ -16,7 +16,7 @@ var runAppVariableName = '@@__reactRunApplicationName__@@';
 /**
  * 环境适配类
  */
-function AppContext () {
+function AppContext() {
   // 初始化环境
   var env = this.env = process.env.NODE_ENV || 'development'
   this.isPro = env == 'production'
@@ -46,14 +46,14 @@ AppContext.prototype.on = function (env, handler) {
  * 设置react runApplication 名称
  * @param name 使用AppRegistry的app名称
  */
-AppContext.prototype.setRunReactAppName = function(name){
+AppContext.prototype.setRunReactAppName = function (name) {
   this[runAppVariableName] = name;
 }
 
 /**
  * 获取react runApplication 名称
  */
-AppContext.prototype.getRunReactAppName = function(name){
+AppContext.prototype.getRunReactAppName = function (name) {
   return this[runAppVariableName];
 }
 

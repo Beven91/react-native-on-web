@@ -12,5 +12,5 @@ const app = appContext.getParam('app')
 
 // 开发环境初始化
 appContext.onDev(() => {
-    require('react-native-on-web/packager/webpack/middleware/hot.bundle.js')(app);
+  require('react-native-on-web/packager/webpack/middleware/hot.bundle.js')(app);
 })

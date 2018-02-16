@@ -17,8 +17,8 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }))
 
 //添加request上下文 appContext
-app.use((req, resp, next)=>{
-    //附加 AppContext属性到request上下
-    req.AppContext = appContext;
-    next();
+app.use((req, resp, next) => {
+  //附加 AppContext属性到request上下
+  req.AppContext = appContext;
+  next();
 });

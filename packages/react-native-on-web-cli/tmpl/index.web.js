@@ -5,10 +5,10 @@
  */
 
 import React, { Component } from 'react'
-import { AppRegistry, StyleSheet, Text, View,Image } from 'react-native'
+import { AppRegistry, StyleSheet, Text, View } from 'react-native'
 
 export default class hello extends Component {
-  render () {
+  render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
   }
 })
 
-AppRegistry.registerComponent('app',()=>hello)
+AppRegistry.registerComponent('app', () => hello)

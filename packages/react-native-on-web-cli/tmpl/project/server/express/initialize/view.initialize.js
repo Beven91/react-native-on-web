@@ -18,9 +18,9 @@ const locals = app.locals;
 
 //添加handlebars视图引擎
 const handlebars = exphbs.create({
-    layoutsDir: path.join(__dirname, '..', 'webapp/views/layout'),
-    defaultLayout: 'layout',
-    extname: '.hbs'
+  layoutsDir: path.join(__dirname, '..', 'webapp/views/layout'),
+  defaultLayout: 'layout',
+  extname: '.hbs'
 })
 
 //设置视图引擎

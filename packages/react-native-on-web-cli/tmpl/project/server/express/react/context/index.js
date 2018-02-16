@@ -8,11 +8,11 @@ const VariableName = '@@__reactAppContext__@@'
 
 class ReactAppContextClass {
 
-  get context () {
+  get context() {
     return global[VariableName]
   }
 
-  set context (value) {
+  set context(value) {
     global[VariableName] = value
   }
 }

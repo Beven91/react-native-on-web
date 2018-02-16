@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "react-native-web": "^0.4.0",
-    "rnw-bundler": "^2.0.5",
+    "rnw-bundler": "^2.0.6",
     "yargs": "^11.0.0"
   }
 }

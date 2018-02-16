@@ -22,13 +22,13 @@ fse.ensureDirSync(webLogDir);
 
 //配置日志拆分
 var accessLogStream = FileStreamRotator.getStream({
-    date_format: 'YYYYMMDD',
-    filename: path.join(webLogDir, 'access-%DATE%.log'),
-    frequency: 'daily',
-    verbose: false
+  date_format: 'YYYYMMDD',
+  filename: path.join(webLogDir, 'access-%DATE%.log'),
+  frequency: 'daily',
+  verbose: false
 });
 
 //配置日志中间件
 app.use(morgan('combined', {
-    stream: accessLogStream
+  stream: accessLogStream
 }))

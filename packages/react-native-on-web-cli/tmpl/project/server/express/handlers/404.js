@@ -7,28 +7,28 @@
 //引入依赖>>
 class NotfoundHandler {
 
-    /**
-     * 组件构造函数
-     */
-    constructor(req, resp, next) {
-        this.onRequest(req, resp, next);
-    }
+  /**
+   * 组件构造函数
+   */
+  constructor(req, resp, next) {
+    this.onRequest(req, resp, next);
+  }
 
-    /**
-     * 中间件处理
-     */
-    onRequest(req, resp, next) {
-        return this.do404Response(req, resp, next);
-    }
+  /**
+   * 中间件处理
+   */
+  onRequest(req, resp, next) {
+    return this.do404Response(req, resp, next);
+  }
 
-    /**
-     * 执行404返回
-     */
-    do404Response(req, resp, next) {
-        resp.status(404).render('shared/404', {
-            title: '找不到页面...',
-        });
-    }
+  /**
+   * 执行404返回
+   */
+  do404Response(req, resp, next) {
+    resp.status(404).render('shared/404', {
+      title: '找不到页面...',
+    });
+  }
 }
 
 module.exports = (req, resp, next) => new NotfoundHandler(req, resp, next);

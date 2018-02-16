@@ -203,7 +203,7 @@ import {Platform} from "react-native";
 Platform.OS == 'web'
 
 //使用此表达式来判断是服务端还是浏览器端
-const isBrowserRuntime = global.__CLIENT__ ===true
+process.env.RNW_RUNTIME === "Client";
 
 //关于文件，跟react-native一致 ，增加.web.js后缀判断 例如:
 Button.web.js
@@ -285,7 +285,7 @@ import { NavigationActions, addNavigationHelpers, TabRouter, createNavigator } f
 
 const reactAppContext = global['@@__reactAppContext__@@'];
 //判断是否为nodejs服务端运行react
-const isNodeServerRuntime = global.__CLIENT__ !== true
+const isNodeServerRuntime = process.env.RNW_RUNTIME === "Client";
 
 class NavApp extends Component {
 

@@ -23,7 +23,7 @@ app.use('/fetch', (req, resp, next) => {
   proxyPool
     .createProxy(proxyUrl)
     .then((proxy) => {
-       proxy.web(req, resp, {}, (ex, a, b, c) => next(ex));
+      proxy.web(req, resp, {}, (ex, a, b, c) => next(ex));
     })
     .catch((ex) => {
       logger.error(ex)
