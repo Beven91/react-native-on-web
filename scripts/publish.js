@@ -29,6 +29,7 @@ function handlePublishVersions() {
  * @param {String} packagePath  package.json文件路径
  */
 function handlePublishVersion(packagePath) {
+  console.log(packagePath);
   var pgk = require(packagePath);
   if (pgk.version !== selfPackage.version) {
     console.log('publish ' + pgk.name + '@' + selfPackage.version);
@@ -51,6 +52,7 @@ function handleReferences(packagePath) {
     }
   })
   fse.writeFileSync(packagePath, JSON.stringify(projectPackage, null, 2));
+  return packagePath;
 }
 
 //开始处理
