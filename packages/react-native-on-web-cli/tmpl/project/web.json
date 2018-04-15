@@ -1,6 +1,0 @@
-{
-    "port": 8080,
-    "cdnUrl":"",
-    "cdnVariableName":"__cdnUrl__",
-    "indexWeb":"../index.web.js"
-}
