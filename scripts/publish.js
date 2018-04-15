@@ -15,13 +15,12 @@ var selfPackage = require('../package.json');
  */
 function handlePublishVersions() {
   var cwd = path.resolve('packages');
-  //依赖处理
-  handleReferences();
   //处理发布
   fse
     .readdirSync(cwd)
     .filter(function (file) { return fse.existsSync(path.join(cwd, file, 'package.json')); })
     .map(function (dir) { return path.join(cwd, dir, 'package.json') })
+    .map(handleReferences)
     .map(handlePublishVersion);
 }
 
@@ -43,11 +42,15 @@ function handlePublishVersion(packagePath) {
 /**
  * 同步模板工程版本引用
  */
-function handleReferences() {
-  var projectPackagePath = path.resolve('packages/react-native-on-web-cli/tmpl/project/package.json');
-  var projectPackage = require(projectPackagePath);
-  projectPackage.dependencies['react-native-on-web'] = '^' + selfPackage.version;
-  fse.writeFileSync(projectPackagePath, JSON.stringify(projectPackage, null, 2));
+function handleReferences(packagePath) {
+  var projectPackage = require(packagePath);
+  var keys = Object.keys(projectPackage.dependencies || {});
+  keys.map(function (k) {
+    if (k.indexOf('react-native-on-web') > -1) {
+      projectPackage.dependencies[k] = '^' + selfPackage.version;
+    }
+  })
+  fse.writeFileSync(packagePath, JSON.stringify(projectPackage, null, 2));
 }
 
 //开始处理
