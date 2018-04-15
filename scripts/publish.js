@@ -29,7 +29,6 @@ function handlePublishVersions() {
  * @param {String} packagePath  package.json文件路径
  */
 function handlePublishVersion(packagePath) {
-  console.log(packagePath);
   var pgk = require(packagePath);
   if (pgk.version !== selfPackage.version) {
     console.log('publish ' + pgk.name + '@' + selfPackage.version);
@@ -49,6 +48,12 @@ function handleReferences(packagePath) {
   keys.map(function (k) {
     if (k.indexOf('react-native-on-web') > -1) {
       projectPackage.dependencies[k] = '^' + selfPackage.version;
+    }
+  })
+  keys = Object.keys(projectPackage.devDependencies || {});
+  keys.map(function (k) {
+    if (k.indexOf('react-native-on-web') > -1) {
+      projectPackage.devDependencies[k] = '^' + selfPackage.version;
     }
   })
   fse.writeFileSync(packagePath, JSON.stringify(projectPackage, null, 2));
