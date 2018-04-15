@@ -1,0 +1,96 @@
+html,
+body,
+#app {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    font-family: Microsoft YaHei, arial, verdana;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    width: 100%;
+    overflow:hidden;
+}
+
+input,
+textarea {
+    outline: none;
+}
+
+.modal.toast {
+    max-width: 14.7rem;
+}
+
+.modal {
+    width: 13.5rem;
+    position: absolute;
+    z-index: 11000;
+    left: 50%;
+    margin-left: -6.75rem;
+    margin-top: 0;
+    top: 50%;
+    text-align: center;
+    border-radius: .35rem;
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(1.185);
+    transition-property: transform, opacity;
+    color: #3d4145;
+    display: none
+}
+
+.modal.modal-in {
+    opacity: 1;
+    -webkit-transition-duration: .4s;
+    transition-duration: .4s;
+    -webkit-transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1)
+}
+
+.modal.modal-out {
+    opacity: 0;
+    z-index: 10999;
+    -webkit-transition-duration: .4s;
+    transition-duration: .4s;
+    -webkit-transform: translate3d(0, 0, 0) scale(.815);
+    transform: translate3d(0, 0, 0) scale(.815)
+}
+
+.toast {
+    background: rgba(0, 0, 0, .8);
+    border-radius: 1rem;
+    color: #fff;
+    padding: 0 .8rem;
+    height: 2rem;
+    line-height: 2rem;
+    font-size: .8rem;
+    width: auto
+}
+
+.page_404,
+.page_500 {
+    height: 100%;
+    width: 100%;
+    background: url('../images/error_bg.jpg') no-repeat;
+    background-size: contain;
+    background-color: #eee;
+}
+
+.page_500 .message {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #e8e8e8;
+    font-size: 12px;
+    height: 100%;
+    word-break: break-all;
+    white-space: pre-wrap;
+    padding: 20px;
+}
+
+.page_500 .message .error-icon {
+    background-color: #E36049;
+    color: #fff;
+    padding: 2px 4px;
+    border-radius: 2px;
+    margin:10px;
+}

@@ -1,0 +1,18 @@
+{
+    "name": "web", // 应用名称
+    "script": "./server/index.js", // 实际启动脚本
+    "cwd": "./", // 当前工作路径
+    "watch": [ // 监控变化的目录，一旦变化，自动重启
+
+    ],
+    "ignore_watch": [ // 从监控目录中排除
+        "node_modules",
+        "logs",
+        "assets"
+    ],
+    "error_file": "./logs/pm2/web-error.log", // 错误日志路径
+    "out_file": "./logs/pm2/web-out.log", // 普通日志路径
+    "env": {
+        "NODE_ENV": "production" // 环境参数，当前指定为生产环境
+    }
+}

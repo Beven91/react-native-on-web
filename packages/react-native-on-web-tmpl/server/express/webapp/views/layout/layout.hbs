@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>{{title}}</title>
+    <meta name="keywords" content="react native for web" />
+    <meta name="description" content="react native for web"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no"/>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capabale" , content="yes" />
+    <link type="text/css" rel="stylesheet" href="{{cdnUrl}}/css/base.css?v={{__version__}}" />
+    <script type="text/javascript">
+        var __CLIENT__ = true;
+        var __Dev__ = {{{__isDevelopment__}}};
+        var {{__cdnUrlName__}} = "{{__cdnUrl__}}";
+    </script>
+</head>
+<body>
+    {{#if __isDevelopment__}}
+        <script type="text/javascript" src="{{cdnUrl}}/scripts/modules/dev-tool.js?v={{version}}"></script>
+    {{/if}}
+    {{{body}}} 
+</body>
+</html>
