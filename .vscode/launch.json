@@ -1,25 +1,25 @@
 {
-    // Use IntelliSense to learn about possible Node.js debug attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "启动程序",
-            "program": "${workspaceRoot}/packages/react-native-on-web-cli/tmpl/project/server/index.js",
-            "cwd":"${workspaceRoot}/packages/react-native-on-web-cli/tmpl/project/",
-            "env": {
-              "NODE_PATH":"${workspaceRoot}/packages/react-native-on-web-cli/tmpl/project/node_modules/"
-            }
-        },
-        {
-            "type": "node",
-            "request": "attach",
-            "name": "附加到进程",
-            "address": "localhost",
-            "port": 5858
-        }
-    ]
+  // Use IntelliSense to learn about possible Node.js debug attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "启动程序",
+      "program": "${workspaceRoot}/packages/react-native-on-web-tmpl/server/index.js",
+      "cwd": "${workspaceRoot}/packages/react-native-on-web-tmpl/",
+      "env": {
+        "NODE_PATH": "${workspaceRoot}/packages/react-native-on-web-tmpl/node_modules/"
+      }
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "附加到进程",
+      "address": "localhost",
+      "port": 5858
+    }
+  ]
 }

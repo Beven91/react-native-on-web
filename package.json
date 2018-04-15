@@ -1,10 +1,11 @@
 {
   "name": "react-native-on-web-monorepo",
   "private": true,
-  "version": "5.0.4",
+  "version": "5.1.0-alpha.0",
   "description": "React Native for Web",
   "scripts": {
-    "install": "node ./scripts/prepare.js",
+    "postinstall": "npm run lerna",
+    "lerna": "lerna bootstrap --hoist --ignore-scripts",
     "start": "node ./test/index.js",
     "release": "node ./scripts/publish.js"
   },
@@ -26,8 +27,11 @@
     "eslint": "^4.0.0",
     "eslint-plugin-react": "^7.1.0",
     "fs-extra": "^4.0.1",
+    "lerna": "^2.10.1",
     "mocha": "^3.2.0",
     "npm-shell": "^1.0.10"
   },
-  "dependencies": {}
+  "dependencies": {
+   
+  }
 }
