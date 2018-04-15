@@ -7,4 +7,4 @@ global.document = {
   }
 }
 
-require('rnw-bundler/src/register')(constants.configPath,constants.releaseDir);
+require('react-native-on-web-bundler/src/register')(constants.configPath,constants.releaseDir);
