@@ -10,27 +10,36 @@ var Pack = require('react-native-on-web-bundler');
 var packager = path.resolve('.packager.js');
 var projectPackager = fse.existsSync(packager) ? require(packager) : {};
 var projectRoot = hasPackageReactOnWeb(process.cwd()) ? process.cwd() : path.resolve('web');
+var nodeModulesPath = path.join(__dirname, '../');
 
 var defaultConfig = {
   projectRoot: projectRoot,
   copyNodeModules: true,
   alias: {
     'react-native-on-web-index-web-js': path.resolve(web.indexWeb),
+    'babel-polyfill': use('node_modules/babel-polyfill'),
     'NativeModules': path.resolve('node_modules/react-native-on-web'),
     'react-native': path.resolve('node_modules/react-native-on-web'),
-    'react-native-web/dist/exports/AsyncStorage':'react-native-on-web/src/apis/AsyncStorage',
-    'react-native-web/dist/exports/LayoutAnimation':'react-native-on-web/src/apis/LayoutAnimation/LayoutAnimation',
-    'react-native-web/dist/exports/Modal':'react-native-on-web/src/components/Modal/Modal',
-    'react-native-web/dist/exports/Navigator':'react-native-on-web/src/components/Navigator',
-    'react-native-web/dist/exports/ToastAndroid':'react-native-on-web/src/components/ToastAndroid/ToastAndroid',
-    'react-native-web/dist/exports/TabBarIOS':'react-native-on-web/src/components/TabBarIOS/TabBarIOS',
-    'react-native-web/dist/exports/Picker':'react-native-on-web/src/components/Picker/Picker',
+    'whatwg-fetch': use('node_modules/whatwg-fetch'),
+    'react-native-web/dist/exports/AsyncStorage': 'react-native-on-web/src/apis/AsyncStorage',
+    'react-native-web/dist/exports/LayoutAnimation': 'react-native-on-web/src/apis/LayoutAnimation/LayoutAnimation',
+    'react-native-web/dist/exports/Modal': 'react-native-on-web/src/components/Modal/Modal',
+    'react-native-web/dist/exports/Navigator': 'react-native-on-web/src/components/Navigator',
+    'react-native-web/dist/exports/ToastAndroid': 'react-native-on-web/src/components/ToastAndroid/ToastAndroid',
+    'react-native-web/dist/exports/TabBarIOS': 'react-native-on-web/src/components/TabBarIOS/TabBarIOS',
+    'react-native-web/dist/exports/Picker': 'react-native-on-web/src/components/Picker/Picker',
   }
+}
+
+function use(id) {
+  var modulePath = path.join(nodeModulesPath, id);
+  return fse.existsSync(modulePath) ? modulePath : path.resolve(id);
 }
 
 function hasPackageReactOnWeb(dir) {
   var packageJsonPath = path.join(dir, 'package.json')
-  var dependencies = fse.existsSync(packageJsonPath) ? Object.keys(require(packageJsonPath).dependencies) : []
+  var pgk = fse.existsSync(packageJsonPath) ? (require(packageJsonPath)) : {};
+  var dependencies = Object.keys(pgk.dependencies || {}).concat(Object.keys(pgk.devDependencies || {}))
   return dependencies.indexOf('react-native-on-web') > -1
 }
 

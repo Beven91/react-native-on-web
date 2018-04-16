@@ -12,7 +12,6 @@ module.exports = function (configPath, releaseDir) {
   //1.引入polyfill
   require('babel-polyfill')
 
-  var name = 'babel-plugin-react-native-web';
   var originalPlugins = config.babelRc.plugins || [];
   var plugins = originalPlugins.filter(function (name) { return name.indexOf(name) < 0 })
   config.babelRc.plugins = plugins;

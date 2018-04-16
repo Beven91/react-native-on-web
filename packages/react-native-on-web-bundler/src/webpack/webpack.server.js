@@ -37,7 +37,7 @@ var externalsNodeModules = [
 
 module.exports = Options.merge({
   target: 'node',
-  mode:  'production',
+  mode: 'production',
   stats: config.isDebug ? 'detailed' : 'errors-only',
   name: 'react-native-web server-side', // 配置名称
   context: contextPath, // 根目录
@@ -57,13 +57,13 @@ module.exports = Options.merge({
   plugins: [
     new webpack.ProgressPlugin(),
     new CleanWebpackPlugin([targetAppDir, config.targetNodeModulesDir], { root: config.releaseDir }),
-    new webpack.DefinePlugin({ 
+    new webpack.DefinePlugin({
       __DEV__: JSON.stringify(true),
       'process.env': { NODE_ENV: JSON.stringify('production') }
-     }),
+    }),
     new HappyPack(config.happyPack),
     new RequireImageXAssetPlugin(config.imageAssets),
-    new NodeModulePlugin(contextPath, config.cdnVariableName, config.releaseDir,config.copyNodeModules),
+    new NodeModulePlugin(contextPath, config.cdnVariableName, config.releaseDir, config.copyNodeModules),
     new PackageJsonPlugin()
   ],
   externals: function (context, request, callback) {
@@ -106,19 +106,12 @@ module.exports = Options.merge({
       }
     ]
   },
-  resolveLoader: {
-    modules: [
-        path.resolve('node_modules'), 
-        path.resolve('../node_modules'),
-        path.join(__dirname,'../../../')
-      ]
-  },
   resolve: {
-    modules: [
-      'node_modules',
-      path.join(__dirname,'../../../'),
-    ],
+    modules: module.paths,
     alias: config.alias,
     extensions: config.extensions
+  },
+  resolveLoader: {
+    modules: module.paths,
   }
 }, config.webpack);

@@ -133,8 +133,12 @@ module.exports = Options.merge({
     ]
   },
   resolve: {
+    modules: module.paths,
     alias: config.alias,
     extensions: config.extensions
+  },
+  resolveLoader: {
+    modules: module.paths,
   }
 }, config.webpack);
 
