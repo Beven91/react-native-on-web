@@ -8,7 +8,7 @@
 //依赖>>：
 var path = require('path');
 var yargs = require('yargs');
-var Pack = require('rnw-bundler');
+var Pack = require('react-native-on-web-bundler');
 
 var configPath = path.join(__dirname, 'rnw-config.js');
 
