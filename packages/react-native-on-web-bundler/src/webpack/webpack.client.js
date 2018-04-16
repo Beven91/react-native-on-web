@@ -17,7 +17,6 @@ var Arrays = dantejs.Array
 // webpack plugins
 var RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlugin
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-var HappyPack = require('happypack')
 var RuntimeCapturePlugin = require('./plugin/capture.js');
 var CleanWebpackPlugin = require('clean-webpack-plugin')
 var CodeSpliterPlugin = require('webpack-code-spliter').CodeSpliterPlugin;
@@ -26,7 +25,6 @@ var Split = CodeSpliterPlugin.configure(config.splitRoutes, config.indexWebDir, 
 var isProudction = process.env.NODE_ENV === 'production'
 // 公用资源存放目录
 var assetDir = config.assetsDir
-var hasCommonChunks = config.commonChunks.length > 0;
 
 // 开发环境plugins
 var devPlugins = [
@@ -47,7 +45,7 @@ module.exports = Options.merge({
   mode: isProudction ? 'production' : 'development',
   name: 'react-native-web client-side', // 配置名称
   context: path.dirname(config.clientContextEntry), // 根目录
-  stats: config.isDebug ? 'detailed' : 'errors-only',
+  stats: { children: false, chunks: false, assets: false, modules: false },
   entry: {
     app: Arrays.filterEmpty([
       './' + path.basename(config.clientContextEntry),
@@ -69,7 +67,6 @@ module.exports = Options.merge({
   plugins: [
     new webpack.ProgressPlugin(),
     new RequireImageXAssetPlugin(config.imageAssets),
-    new HappyPack(config.happyPack),
     new RuntimeCapturePlugin(),
     new CodeSpliterPlugin(isProudction ? config.releaseDir : null),
     new webpack.DefinePlugin({
@@ -85,7 +82,15 @@ module.exports = Options.merge({
       {
         // jsx 以及js es6
         test: /\.js$|\.jsx$/,
-        loader: require.resolve('happypack/loader') + '?id=happybabel',
+        loader: [{
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+            presets: config.babelRc.presets,
+            plugins: config.babelRc.plugins,
+            babelrc: config.babelRc.babelrc,
+          }
+        }],
         exclude: config.babelRc.ignore
       },
       {
@@ -141,7 +146,3 @@ module.exports = Options.merge({
     modules: module.paths,
   }
 }, config.webpack);
-
-if (!hasCommonChunks) {
-  delete module.exports.entry.common;
-}

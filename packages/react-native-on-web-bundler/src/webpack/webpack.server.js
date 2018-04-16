@@ -16,7 +16,6 @@ var Options = require('../helpers/options.js');
 var NodeModulePlugin = require('webpack-node-module-plugin').NodeModulePlugin
 var RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlugin
 var CleanWebpackPlugin = require('clean-webpack-plugin')
-var HappyPack = require('happypack')
 var PackageJsonPlugin = require('./plugin/package.js')
 
 // 代码目录
@@ -61,7 +60,6 @@ module.exports = Options.merge({
       __DEV__: JSON.stringify(true),
       'process.env': { NODE_ENV: JSON.stringify('production') }
     }),
-    new HappyPack(config.happyPack),
     new RequireImageXAssetPlugin(config.imageAssets),
     new NodeModulePlugin(contextPath, config.cdnVariableName, config.releaseDir, config.copyNodeModules),
     new PackageJsonPlugin()
@@ -80,7 +78,15 @@ module.exports = Options.merge({
       {
         // jsx 以及js es6
         test: /\.js$|\.jsx$/,
-        loader: require.resolve('happypack/loader') + '?id=happybabel',
+        loader: [{
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+            presets: config.babelRc.presets,
+            plugins: config.babelRc.plugins,
+            babelrc: config.babelRc.babelrc,
+          }
+        }],
       },
       {
         // 图片类型模块资源访问

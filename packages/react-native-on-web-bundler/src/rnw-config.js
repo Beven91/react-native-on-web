@@ -4,12 +4,10 @@
 
 // 引入依赖>>
 var path = require('path')
-var os = require('os')
 var fs = require('fs');
 var rc = require('./babelRC.js');
 var Options = require('./helpers/options')
 var Configuration = require('./helpers/configuration');
-var HappyPack = require('happypack')
 
 // 加载自定义配置
 var customPackager = Configuration.get()
@@ -76,7 +74,12 @@ module.exports = {
   // 打包复制忽略项
   ignores: ['node_modules/**/*', '.gitignore'].concat(customPackager.ignores),
   //common模块
-  commonChunks: customPackager.commonChunks || [],
+  commonChunks: [
+    'babel-polyfill',
+    'react',
+    'react-dom',
+    'react-native-on-web'
+  ].concat(customPackager.commonChunks||[]),
   // 静态资源后缀名
   static: customPackager.static([
     '.bmp', '.ico', '.gif', '.jpg', '.jpeg', '.png', '.psd', '.svg', '.webp', // Image formats
@@ -95,23 +98,6 @@ module.exports = {
   externalModules: nodeModules.filter(function (x) {
     return (['.bin'].indexOf(x) === -1 && !rc.include2(x))
   }),
-  // 快速构建插件配置
-  happyPack: {
-    id: 'happybabel',
-    loaders: [
-      require.resolve('./loaders/sourcemap.js'),
-      {
-        loader: 'babel-loader',
-        options: {
-          cacheDirectory:true,
-          presets: babelRc.presets,
-          plugins: babelRc.plugins,
-          babelrc:babelRc.babelrc,
-        }
-      }],
-    threadPool: HappyPack.ThreadPool({ size: Math.min(3, os.cpus().length) }),
-    verbose: true
-  },
   // 图片压缩配置
   minOptions: customPackager.minOptions || {
     contextName: cdnVariableName,
