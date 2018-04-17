@@ -25,8 +25,8 @@ module.exports = {
       require.resolve('babel-plugin-react-native-web'),
       [
         require.resolve('babel-plugin-transform-react-remove-prop-types'), {
-        'mode': 'wrap'
-      }]
+          'mode': 'wrap'
+        }]
     ],
     extensions: ['.web.js', '.js']
   }, packager.babelrc),
@@ -47,7 +47,7 @@ function include(js) {
 function includes(js) {
   js = js.split('node_modules').pop();
   for (var i = 0, k = MODULES_REG.length; i < k; i++) {
-    if (js.indexOf('react-native-on-web') < 0 && MODULES_REG[i].test(js)) {
+    if (MODULES_REG[i].test(js)) {
       return true;
     }
   }

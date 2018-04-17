@@ -41,7 +41,7 @@ var proPlugins = [
 ]
 
 module.exports = Options.merge({
-  devtool: isProudction ? 'source-map' : 'cheap-module-source-map',
+  devtool: 'source-map',
   mode: isProudction ? 'production' : 'development',
   name: 'react-native-web client-side', // 配置名称
   context: path.dirname(config.clientContextEntry), // 根目录
