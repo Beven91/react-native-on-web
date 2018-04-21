@@ -21,7 +21,7 @@ var PackageJsonPlugin = require('./plugin/package.js')
 // 代码目录
 var contextPath = path.dirname(config.serverContextEntry)
 // 服务端打包存放目标目录
-var targetAppDir = config.targetAppDir;
+var serverAppDir = config.serverAppDir;
 // 设置需要设置成externals的node_modules模块
 var externalsNodeModules = [
   'react-native',
@@ -47,15 +47,15 @@ module.exports = Options.merge({
     // 设置根目录为assets/app目录 目的：打包服务端js时，
     // 产生的资源文件例如：图片 存放到前端资源目录(assets/app)
     // 使资源文件与webpack.client打包位置保持一致
-    path: config.assetsAppDir,
+    path: config.clientAppDir,
     // 设置打包服务端js存放目标目录文件名
-    filename: path.relative(config.assetsAppDir, targetAppDir) + '/[name].js',
+    filename: path.relative(config.clientAppDir, serverAppDir) + '/[name].js',
     publicPath: config.publicPath,
     libraryTarget: 'commonjs2'
   },
   plugins: [
     new webpack.ProgressPlugin(),
-    new CleanWebpackPlugin([targetAppDir, config.targetNodeModulesDir], { root: config.releaseDir }),
+    new CleanWebpackPlugin('*', { exclude: ['assets'], root: config.releaseDir }),
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(true),
       'process.env': { NODE_ENV: JSON.stringify('production') }
@@ -97,7 +97,10 @@ module.exports = Options.merge({
             options: config.minOptions
           },
           {
-            loader: 'file-loader'
+            loader: 'file-loader',
+            options: {
+              name: './images/[hash].[ext]'
+            }
           }
         ]
       },

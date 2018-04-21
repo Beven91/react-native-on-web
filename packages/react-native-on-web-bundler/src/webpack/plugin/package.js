@@ -127,7 +127,7 @@ ReleasePackageJson.prototype.configPackage = function () {
   pgk.scripts = {
     'init': 'npm install --registry=https://registry.npm.taobao.org',
     'pm2': 'pm2 start pm2.json',
-    'start': 'cross-env NODE_ENV=production node ./server/index.js'
+    'start': 'cross-env NODE_ENV=production node ./www/index.js'
   }
   this.writeJson(pgkfile, pgk)
 }
@@ -161,10 +161,10 @@ ReleasePackageJson.prototype.configWeb = function () {
  */
 ReleasePackageJson.prototype.configIndex = function () {
   var releaseDir = config.releaseDir
-  var file = path.join(releaseDir, 'server/index.js')
+  var file = path.join(releaseDir, 'www/index.js')
   if (fse.existsSync(file)) {
     logger.debug("Config alias")
-    var outfile = path.join(releaseDir, 'server/index.js')
+    var outfile = path.join(releaseDir, 'www/index.js')
     var indexContent = fse.readFileSync(file).toString()
     var indexRequire = '(' + this.targetRequireAlias.toString() + ')()'
     indexContent = indexRequire + indexContent
@@ -195,7 +195,7 @@ ReleasePackageJson.prototype.configAlias = function () {
   });
   aliasCode.push(newAlias.join(',\n'));
   aliasCode.push('}');
-  fse.writeFileSync(path.join(releaseDir, 'server/alias.js'), aliasCode.join('\n'));
+  fse.writeFileSync(path.join(releaseDir, 'www/alias.js'), aliasCode.join('\n'));
 }
 
 /**

@@ -19,14 +19,13 @@ var RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlu
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 var RuntimeCapturePlugin = require('./plugin/capture.js');
 var CleanWebpackPlugin = require('clean-webpack-plugin')
+var AssetsPlugin = require('./plugin/assets');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CodeSpliterPlugin = require('webpack-code-spliter').CodeSpliterPlugin;
 var Split = CodeSpliterPlugin.configure(config.splitRoutes, config.indexWebDir, 'pages', config.splitHandle)
 var AutoDllPlugin = require('autodll-webpack-plugin-webpack-4');
 
 var isProudction = process.env.NODE_ENV === 'production'
-// 公用资源存放目录
-var assetDir = config.assetsDir
 // 是否为同构模式
 var isomorphic = config.isomorphic;
 var noop = function () { }
@@ -39,7 +38,8 @@ var devPlugins = [
 
 // 生产环境plugins
 var proPlugins = [
-  new CleanWebpackPlugin(assetDir, { root: config.releaseDir }),
+  new AssetsPlugin(),  
+  new CleanWebpackPlugin('*', { root: config.clientAppDir }),
   new BundleAnalyzerPlugin({
     analyzerMode: 'static',
     openAnalyzer: false
@@ -59,14 +59,14 @@ module.exports = Options.merge({
     ])
   },
   output: {
-    path: config.assetsAppDir,
-    filename: '[name].js',
-    chunkFilename: '[name]',
+    path: config.clientAppDir,
+    filename: isProudction ? '[name]-[hash].js' : '[name].js',
+    chunkFilename: isProudction ? '[name]-[chunkhash].js' : '[name].js',
     publicPath: config.publicPath
   },
   optimization: {
     splitChunks: {
-      name:  'app',
+      name: 'app',
       chunks: 'initial'
     }
   },
@@ -140,7 +140,10 @@ module.exports = Options.merge({
               : null
           ),
           {
-            loader: 'file-loader'
+            loader: 'file-loader',
+            options: {
+              name: './images/[hash].[ext]'
+            }
           }
         ].filter(function (v) { return !!v })
       },

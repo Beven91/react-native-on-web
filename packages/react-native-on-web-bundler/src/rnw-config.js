@@ -14,7 +14,7 @@ var customPackager = Configuration.get()
 // 工程根目录
 var projectRoot = customPackager.projectRoot || process.cwd();
 // 发布目录
-var releaseDir = customPackager.releaseDir || path.join(projectRoot, '..', 'release/react-web/')
+var releaseDir = customPackager.releaseDir || path.join(projectRoot, 'dist')
 // 发布后目标node_modules目录
 var targetNodeModulesDir = path.join(releaseDir, 'node_modules')
 //所有node_modules模块名字列表
@@ -47,12 +47,10 @@ module.exports = {
   clientContextEntry: customPackager.clientContextEntry,
   // 服务端代码打包入口
   serverContextEntry: indexWeb,
-  // webpack打包静态资源存放目录
-  assetsDir: path.join(releaseDir, 'assets'),
   // webpack.client 输出目录
-  assetsAppDir: path.join(releaseDir, 'assets', publicPath),
+  clientAppDir: path.join(releaseDir, 'assets'),
   // 服务端打包目标目录
-  targetAppDir: releaseDir,
+  serverAppDir: releaseDir,
   // 工程根目录
   projectRoot: projectRoot,
   // 打包发布后的目录
