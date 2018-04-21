@@ -71,15 +71,17 @@ function runAppPack(packs, context) {
  */
 function runPack(configPath, client, server, releaseDir) {
   var handlers = [cleanPack];
+  releaseDir = path.join(releaseDir, 'react-web');
+  //设置打包配置文件环境变量
+  var config = Configuration.session(configPath, releaseDir)
+  client = Options.unAssign(client, true);
+  server = Options.unAssign(server, config.isomorphic)
   if (client) {
     handlers.push(clientPack);
   }
   if (server) {
     handlers.push(serverPack);
   }
-  releaseDir = path.join(releaseDir, 'react-web');
-  //设置打包配置文件环境变量
-  Configuration.session(configPath, releaseDir)
   var context = {
     releaseDir: releaseDir,
     configPath: configPath,

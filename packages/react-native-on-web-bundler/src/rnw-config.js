@@ -24,11 +24,13 @@ var indexWeb = customPackager.serverContextEntry || path.join(projectRoot, 'inde
 //babelRc配置
 var babelRc = rc.babelRc;
 //静态资源url虚拟目录路径
-var publicPath = customPackager.publicPath || '/app/';
+var publicPath = customPackager.publicPath || '';
 //静态资源访问cdn变量名 打包后的url cdn +'/app/xxx/s.jpg'  cdn为全局变量名称
 var cdnVariableName = customPackager.cdnVariableName || '""';
 
 module.exports = {
+  //是否使用同构模式 如果设置为false 则不使用node作为web服务，打包仅打包前端静态资源部分
+  isomorphic: Options.unAssign(customPackager.isomorphic, true) !== false,
   //是否为调试模式 调试模式会输出webpack详细信息
   isDebug: customPackager.isDebug,
   //index.web.js所在目录
@@ -79,7 +81,7 @@ module.exports = {
     'react',
     'react-dom',
     'react-native-on-web'
-  ].concat(customPackager.commonChunks||[]),
+  ].concat(customPackager.commonChunks || []),
   // 静态资源后缀名
   static: customPackager.static([
     '.bmp', '.ico', '.gif', '.jpg', '.jpeg', '.png', '.psd', '.svg', '.webp', // Image formats

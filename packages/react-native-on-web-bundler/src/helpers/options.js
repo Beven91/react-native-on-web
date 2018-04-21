@@ -60,4 +60,12 @@ Options.prototype._merge = function (target, source) {
   return target;
 }
 
+Options.prototype.unAssign = function (v, dv) {
+  if (v === null || v === undefined || v === '') {
+    return dv;
+  } else {
+    return v;
+  }
+}
+
 module.exports = new Options();

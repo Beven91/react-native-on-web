@@ -11,6 +11,7 @@
     "url": "git@github.com:Beven91/rnw-bundler.git"
   },
   "dependencies": {
+    "autodll-webpack-plugin-webpack-4": "^1.0.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.4",
@@ -30,6 +31,7 @@
     "eslint-plugin-react": "^7.5.1",
     "file-loader": "^1.1.11",
     "fs-extra": "^5.0.0",
+    "html-webpack-plugin": "^3.2.0",
     "image-web-loader": "^2.1.0",
     "minimatch": "^3.0.4",
     "npm-shell": "^1.0.10",

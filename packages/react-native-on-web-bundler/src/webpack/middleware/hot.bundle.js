@@ -7,7 +7,6 @@ module.exports = function (app, configPath, releaseDir) {
 
   Configuration.session(configPath,releaseDir);
   //客户端热部署...........
-
   // 读取webpack配置文件
   let webpackConfig = require('../webpack.client.js')
   // 创建一个webpack编译器
@@ -15,6 +14,7 @@ module.exports = function (app, configPath, releaseDir) {
   // 添加webpack打包服务中间件到app中
   app.use(webpackDevMiddleware(compiler, {
     noInfo: true,
+    stats:compiler.options.stats,
     publicPath: webpackConfig.output.publicPath
   }))
 

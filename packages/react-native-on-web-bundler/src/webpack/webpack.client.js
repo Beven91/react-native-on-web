@@ -19,15 +19,21 @@ var RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlu
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 var RuntimeCapturePlugin = require('./plugin/capture.js');
 var CleanWebpackPlugin = require('clean-webpack-plugin')
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CodeSpliterPlugin = require('webpack-code-spliter').CodeSpliterPlugin;
 var Split = CodeSpliterPlugin.configure(config.splitRoutes, config.indexWebDir, 'pages', config.splitHandle)
+var AutoDllPlugin = require('autodll-webpack-plugin-webpack-4');
 
 var isProudction = process.env.NODE_ENV === 'production'
 // 公用资源存放目录
 var assetDir = config.assetsDir
+// 是否为同构模式
+var isomorphic = config.isomorphic;
+var noop = function () { }
 
 // 开发环境plugins
 var devPlugins = [
+  new AutoDllPlugin({ inherit: true, inject: true, entry: { dll: config.commonChunks } }),
   new webpack.HotModuleReplacementPlugin()
 ]
 
@@ -48,8 +54,8 @@ module.exports = Options.merge({
   stats: { children: false, chunks: false, assets: false, modules: false },
   entry: {
     app: Arrays.filterEmpty([
-      './' + path.basename(config.clientContextEntry),
-      isProudction ? undefined : 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true'
+      isProudction ? undefined : 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true',
+      './' + path.basename(config.clientContextEntry)
     ])
   },
   output: {
@@ -60,11 +66,19 @@ module.exports = Options.merge({
   },
   optimization: {
     splitChunks: {
-      name: isProudction ? 'app' : true,
+      name:  'app',
       chunks: 'initial'
     }
   },
   plugins: [
+    (
+      isomorphic ?
+        noop :
+        new HtmlWebpackPlugin({
+          filename: 'index.html',
+          template: path.resolve('www/express/views/index.cshtml')
+        })
+    ),
     new webpack.ProgressPlugin(),
     new RequireImageXAssetPlugin(config.imageAssets),
     new RuntimeCapturePlugin(),
@@ -117,14 +131,18 @@ module.exports = Options.merge({
         // 图片类型模块资源访问
         test: /\.(png|jpg|jpeg|gif|webp|bmp|ico|jpeg)$/,
         loader: [
-          {
-            loader: 'image-web-loader',
-            options: config.minOptions
-          },
+          (
+            isProudction ?
+              {
+                loader: 'image-web-loader',
+                options: config.minOptions
+              }
+              : null
+          ),
           {
             loader: 'file-loader'
           }
-        ]
+        ].filter(function (v) { return !!v })
       },
       {
         // url类型模块资源访问
