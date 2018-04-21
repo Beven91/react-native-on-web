@@ -3,15 +3,22 @@ var webConfig = require('./web.json')
 
 module.exports = {
   /**
+   * 是否为同构模式 默认为tue
+   * 如果是同构模式，使用react-native-on-web bundle会打包服务端与客户单，且www会执行同构渲染
+   * 否则，使用react-native-on-web bundle 仅打包客户端代码，www不会执行同构渲染
+   * 非同构模式下，使用的视图文件在www/express/views/index.cshtml
+   */
+  isomorphic:true,
+  /**
    * require('image!xx') 寻址目录列表
    * 默认会寻找android或者ios目录或者web目录assets/images下的图片文件
    * 可以追加路径
    */
   imageAssets: [],
   // 静态资源打包后通过express访问的路径前缀  例如: /app/
-  publicPath: '/app/',
+  publicPath: '',
   // 客户端代码打包入口文件
-  clientContextEntry: path.resolve('server/express/react/client.js'),
+  clientContextEntry: path.resolve('www/express/react/client.js'),
   // 服务端代码打包入口文件
   serverContextEntry: path.resolve(webConfig.indexWeb),
   //额外配置babelrc 例如: (config)=> ... 或者 {persets:[...]}
@@ -87,8 +94,8 @@ module.exports = {
   splitHandle:null,
   // 别名配置
   alias: {
-    'logger': path.resolve('server/framework/logger/index.js'),
-    'app-context': path.resolve('server/framework/env/enviroment.js')
+    'logger': path.resolve('www/framework/logger/index.js'),
+    'app-context': path.resolve('www/framework/env/enviroment.js')
   },
   // 发布忽略列表
   ignores: [

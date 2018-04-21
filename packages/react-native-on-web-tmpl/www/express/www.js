@@ -18,6 +18,7 @@ import appContext from 'app-context'
 import childProcess from 'child_process'
 import express from 'express'
 import logger from 'logger'
+import bundlerc from '../../.bundlerc';
 
 // 获取webconfig数据
 const config = appContext.getParam('web')
@@ -43,8 +44,10 @@ require('./initialize/bundle.initialize.js')
 require('./initialize/static.initialize.js')
 // 初始化视图引擎，以及静态资源配置
 require('./initialize/view.initialize.js')
-// 初始化react配置
-require('./initialize/react.initialize.js')
+// 初始化react同构
+if (bundlerc.isomorphic) {
+  require('./initialize/react.initialize.js')
+}
 /*----->其他初始化写这里 ----------------->*/
 // 初始化网站异常处理
 require('./initialize/error.initialize.js')

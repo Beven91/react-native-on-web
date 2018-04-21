@@ -1,12 +1,9 @@
 {
   "name": "react-native-on-web-tmpl",
   "version": "5.1.0-alpha.3",
-  "main": "./server/index.js",
+  "main": "./www/index.js",
   "scripts": {
-    "init": "npm install",
-    "dev": "cross-env  NODE_ENV=development node ./server/index.js",
-    "start": "cross-env  NODE_ENV=development node ./server/index.js",
-    "full_start": "npm run init && npm run start"
+    "start": "cross-env  NODE_ENV=development node ./www/index.js"
   },
   "author": "",
   "license": "MIT",

@@ -18,7 +18,7 @@ const locals = app.locals;
 
 //添加handlebars视图引擎
 const handlebars = exphbs.create({
-  layoutsDir: path.join(__dirname, '..', 'webapp/views/layout'),
+  layoutsDir: path.join(__dirname, '..', 'views/layout'),
   defaultLayout: 'layout',
   extname: '.hbs'
 })
@@ -29,7 +29,7 @@ app.engine('hbs', handlebars.engine);
 //设置视图引擎
 app.set('view engine', 'hbs');
 //设置视图基础目录
-app.set('views', path.join(__dirname, '..', 'webapp/views'));
+app.set('views', path.join(__dirname, '..', 'views'));
 
 //设置全局编译数据
 locals.__version__ = webConfig.version;

@@ -34,8 +34,10 @@ class ReactClientApp {
    * 启动应用程序
    */
   runApplication() {
-    const { appName } = this.reactAppContext
-    AppRegistry.runApplication(appName, { rootTag: document.getElementById('app') })
+    const { appName } = this.reactAppContext || {};
+    const keys = AppRegistry.getAppKeys();
+    const runApp = appName || keys[0];
+    AppRegistry.runApplication(runApp, { rootTag: document.getElementById('app') })
   }
 }
 
