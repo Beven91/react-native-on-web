@@ -10,4 +10,10 @@ import appContext from 'app-context';
 // 获取express app对象
 const app = appContext.getParam('app')
 
-require('react-native-on-web/packager/webpack/middleware/hot.bundle.js')(app);
+appContext.onDev(()=>{
+  require('react-native-on-web/packager/webpack/middleware/hot.bundle.js')(app);
+})
+
+appContext.onPro(()=>{
+  require('react-native-on-web/packager/webpack/middleware/bundle.js')(app);
+})
