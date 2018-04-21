@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "启动程序",
-      "program": "${workspaceRoot}/packages/react-native-on-web-tmpl/server/index.js",
+      "program": "${workspaceRoot}/packages/react-native-on-web-tmpl/www/index.js",
       "cwd": "${workspaceRoot}/packages/react-native-on-web-tmpl/",
       "env": {
         "NODE_PATH": "${workspaceRoot}/packages/react-native-on-web-tmpl/node_modules/"
