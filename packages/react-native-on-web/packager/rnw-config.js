@@ -7,8 +7,8 @@ var fse = require('fs-extra');
 var web = require(path.resolve('web.json'));
 var Pack = require('react-native-on-web-bundler');
 
-var packager = path.resolve('.packager.js');
-var projectPackager = fse.existsSync(packager) ? require(packager) : {};
+var bundlerc = path.resolve('.bundlerc.js');
+var bundleOptions = fse.existsSync(bundlerc) ? require(bundlerc):{};
 var projectRoot = hasPackageReactOnWeb(process.cwd()) ? process.cwd() : path.resolve('web');
 var nodeModulesPath = path.join(__dirname, '../');
 
@@ -43,4 +43,4 @@ function hasPackageReactOnWeb(dir) {
   return dependencies.indexOf('react-native-on-web') > -1
 }
 
-module.exports = Pack.Options.merge(defaultConfig, projectPackager);
+module.exports = Pack.Options.merge(defaultConfig, bundleOptions);
