@@ -1,0 +1,17 @@
+@html.raw(model.fontface)
+@html.raw(model.stylesheet)
+<div id="app">@html.raw(model.initialHTML)</div>
+<script type="text/javascript">
+  window['@@__reactAppContext__@@']=@html.raw(model.reactAppContext)
+</script>
+@{
+  var jsAssets = (model.Webpack || {}).jsAssets || [];
+  jsAssets.forEach(function(js){
+    <script type="text/javascript" src="@js"></script>
+  })
+}
+@{
+  if(model.splitRouteJs){
+    <script type="text/javascript" src="@model.splitRouteJs"></script>
+  }
+}

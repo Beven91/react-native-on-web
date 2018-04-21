@@ -16,7 +16,7 @@ module.exports = {
    */
   imageAssets: [],
   // 静态资源打包后通过express访问的路径前缀  例如: /app/
-  publicPath: '',
+  publicPath: '/app/',
   // 客户端代码打包入口文件
   clientContextEntry: path.resolve('www/express/react/client.js'),
   // 服务端代码打包入口文件
@@ -107,7 +107,6 @@ module.exports = {
   ],
   // 图片压缩配置
   minOptions: {
-    contextName: webConfig.cdnVariableName,
     gifsicle: {
       interlaced: false
     },
