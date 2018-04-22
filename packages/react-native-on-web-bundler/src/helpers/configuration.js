@@ -11,10 +11,9 @@ var cacheConfiguration = null;
 
 function Configuration() {
   this.print();
-  var configPath = process.env['PACK-CONFIG-PATH'] || path.resolve('.packager.js')
-  var releaseDir = process.env['PACK-RELEASE-DIR'];
+  var configPath = Configuration.configPath;
   var config = this.config = fse.existsSync(configPath) ? require(configPath) : {};
-  config.releaseDir = config.releaseDir || releaseDir || path.resolve('release/react-web');
+  config.releaseDir = config.releaseDir || Configuration.releaseDir || path.resolve('release/react-web');
   config.projectRoot = config.projectRoot || process.cwd();
   this.check(config, configPath);
   this.mergeStatic(config);
@@ -56,20 +55,8 @@ Configuration.get = function () {
  * 强制刷新配置
  */
 Configuration.session = function (configPath, releaseDir) {
-  var isEqual = configPath === process.env['PACK-CONFIG-PATH'];
-  if (configPath) {
-    process.env['PACK-CONFIG-PATH'] = configPath;
-  }
-  if (releaseDir) {
-    process.env['PACK-RELEASE-DIR'] = releaseDir;
-  }
-  configPath = process.env['PACK-CONFIG-PATH'];
-  if (!fse.existsSync(configPath)) {
-    logger.warn('configPath is not exists :' + configPath + ' , use default config')
-  } else if (!isEqual) {
-    //logger.info('Config Path:  ' + process.env['PACK-CONFIG-PATH'])
-  }
-  //logger.info('Config Path:  ' + configPath)
+  this.configPath = configPath;
+  this.releaseDir = releaseDir;
   cacheConfiguration = null;
   return Configuration.get();
 }
