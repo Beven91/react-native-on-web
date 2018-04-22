@@ -1,12 +1,12 @@
 {
   "name": "react-native-on-web-tmpl",
-  "version": "5.1.0-beta.0",
+  "version": "5.1.0-beta.2",
   "main": "./www/index.js",
   "scripts": {
     "start": "cross-env  NODE_ENV=development node ./www/index.js",
-    "build-client":"react-native-on-web bundle --client --releaseDir=./dist",
-    "build-server":"react-native-on-web bundle --server --releaseDir=./dist",
-    "build":"react-native-on-web bundle --releaseDir=./dist"
+    "build-client": "react-native-on-web bundle --client --releaseDir=./dist",
+    "build-server": "react-native-on-web bundle --server --releaseDir=./dist",
+    "build": "react-native-on-web bundle --releaseDir=./dist"
   },
   "author": "",
   "license": "MIT",
@@ -27,9 +27,9 @@
     "node-razor": "0.0.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-native-on-web": "^5.1.0-beta.0",
-    "react-native-on-web-cli":"^5.1.0-beta.0",
-    "resize-observer-polyfill":"^1.5.0",
+    "react-native-on-web": "^5.1.0-beta.2",
+    "react-native-on-web-cli": "^5.1.0-beta.2",
+    "resize-observer-polyfill": "^1.5.0",
     "whatwg-fetch": "^2.0.3",
     "winston": "^2.4.0"
   }

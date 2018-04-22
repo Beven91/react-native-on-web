@@ -1,6 +1,6 @@
 {
   "name": "react-native-on-web-bundler",
-  "version": "5.1.0-beta.0",
+  "version": "5.1.0-beta.2",
   "description": "",
   "main": "./src/index.js",
   "scripts": {
@@ -37,13 +37,13 @@
     "style-loader": "^0.20.3",
     "url-loader": "^0.6.2",
     "webpack": "^4.5.0",
-    "copy-webpack-plugin":"^4.5.1",
+    "copy-webpack-plugin": "^4.5.1",
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.14",
     "webpack-code-spliter": "^2.0.1",
     "webpack-dev-middleware": "^3.1.2",
     "webpack-hot-middleware": "^2.21.2",
-    "webpack-node-module-plugin": "^1.0.10"
+    "webpack-node-module-plugin": "^2.0.0"
   },
   "devDependencies": {},
   "author": "",
