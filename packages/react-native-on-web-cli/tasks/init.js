@@ -83,6 +83,7 @@ ReactNativeWeb.prototype.updatePackage = function () {
   if (fse.existsSync(file)) {
     var pgk = require(file);
     pgk.name = 'web';
+    pgk.version = '1.0.0';
     pgk.dependencies = pgk.devDependencies;
     pgk.devDependencies = {};
     fse.writeJsonSync(file, pgk);
