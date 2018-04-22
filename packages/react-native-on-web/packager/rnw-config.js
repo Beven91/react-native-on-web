@@ -18,8 +18,7 @@ var defaultConfig = {
   alias: {
     'react-native-on-web-index-web-js': path.resolve(web.indexWeb),
     'babel-polyfill': use('node_modules/babel-polyfill'),
-    'NativeModules': path.resolve('node_modules/react-native-on-web'),
-    'react-native': path.resolve('node_modules/react-native-on-web'),
+    'NativeModules': 'react-native-web',
     'whatwg-fetch': use('node_modules/whatwg-fetch'),
     'react-native-web/dist/exports/AsyncStorage': 'react-native-on-web/src/apis/AsyncStorage',
     'react-native-web/dist/exports/LayoutAnimation': 'react-native-on-web/src/apis/LayoutAnimation/LayoutAnimation',

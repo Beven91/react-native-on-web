@@ -1,6 +1,6 @@
 {
   "name": "react-native-on-web",
-  "version": "5.1.0-alpha.3",
+  "version": "5.1.0-beta.0",
   "description": "React Native for Web",
   "main": "src/index.js",
   "scripts": {},
@@ -32,8 +32,8 @@
     "mocha": "^3.2.0"
   },
   "dependencies": {
-    "react-native-web": "^0.5.0",
-    "react-native-on-web-bundler": "^5.1.0-alpha.3",
+    "react-native-web": "^0.6.0",
+    "react-native-on-web-bundler": "^5.1.0-beta.0",
     "yargs": "^11.0.0"
   }
 }
