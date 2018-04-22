@@ -16,6 +16,30 @@
     },
     {
       "type": "node",
+      "request": "launch",
+      "name": "调试打包客户端",
+      "cwd": "${workspaceRoot}/packages/react-native-on-web-tmpl/",
+      "program": "${workspaceRoot}/packages/react-native-on-web/packager/index.js",
+      "args": [
+        "--client",
+        "--releaseDir",
+        "./dist"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "调试打包服务端",
+      "cwd": "${workspaceRoot}/packages/react-native-on-web-tmpl/",
+      "program": "${workspaceRoot}/packages/react-native-on-web/packager/index.js",
+      "args": [
+        "--server",
+        "--releaseDir",
+        "./dist"
+      ]
+    },
+    {
+      "type": "node",
       "request": "attach",
       "name": "附加到进程",
       "address": "localhost",
