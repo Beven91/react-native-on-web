@@ -1,12 +1,14 @@
 {
   "name": "react-native-on-web-monorepo",
   "private": true,
-  "version": "5.1.0-alpha.3",
+  "version": "5.1.0-beta.1",
   "description": "React Native for Web",
   "scripts": {
     "postinstall": "npm run lerna",
     "lerna": "lerna bootstrap --hoist --ignore-scripts",
-    "start": "node ./test/index.js",
+    "start": "cd packages/react-native-on-web-tmpl && npm start",
+    "test-build-client":"cd packages/react-native-on-web-tmpl && npm run build-client",
+    "test-build-server":"cd packages/react-native-on-web-tmpl && npm run build-server",
     "release": "node ./scripts/publish.js"
   },
   "keywords": [
