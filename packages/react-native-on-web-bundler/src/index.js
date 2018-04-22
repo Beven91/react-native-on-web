@@ -8,56 +8,51 @@
 var path = require('path');
 var fse = require('fs-extra');
 var logger = require('./helpers/logger')
-var Npm = require('npm-shell');
 var Options = require('./helpers/options');
 var Configuration = require('./helpers/configuration')
 
-var env = { NODE_ENV: 'production' }
-
 //执行服务端打包
-function serverPack() {
+function serverPack(context, callback) {
   logger.info('Bundle server side .......');
-  var sp = (new Npm()).node('node_modules/webpack/bin/webpack.js', [
-    '--colors',
-    '--config',
-    path.join(__dirname, '/webpack/webpack.server.js')
-  ], Options.assign(env, process.env));
-  return sp.status === 0;
+  process.env['NODE_ENV'] = 'production';
+  var webpack = require('webpack');
+  var compiler = webpack(require('./webpack/webpack.server'));
+  compiler.run(callback)
 }
 
 //执行客户端端打包
-function clientPack() {
+function clientPack(context, callback) {
   logger.info('Bundle client side .......');
-  var sp = (new Npm()).node('node_modules/webpack/bin/webpack.js', [
-    '--colors',
-    '--config',
-    path.join(__dirname, '/webpack/webpack.client.js')
-  ], Options.assign(env, process.env));
-  return sp.status === 0;
+  process.env['NODE_ENV'] = 'production';
+  var webpack = require('webpack');
+  var compiler = webpack(require('./webpack/webpack.client'));
+  compiler.run(callback)
 }
 
 //清除发布目录
-function cleanPack(context) {
+function cleanPack(context, callback) {
   var config = require(context.configPath);
   //如果是完全打包，则发布前执行删除发布目录
   if (context.client && context.server) {
     logger.info('Remove dir:' + config.releaseDir);
     fse.removeSync(config.releaseDir || context.releaseDir);
   }
-  return true;
+  callback();
 }
 
 //执行构建流程
 function runAppPack(packs, context) {
-  var handle = null;
-  for (var i = 0, k = packs.length; i < k; i++) {
-    handle = packs[i];
-    if (!handle(context)) {
-      return logger.error('Bundle error.....');
-    }
+  try {
+    packs.reverse().reduce(function (previous, current) {
+      return function () { current(context, previous); }
+    }, function () {
+      logger.info('Bundle complete!');
+    })();
+  } catch (ex) {
+    logger.error(ex.stack);
+    logger.error('Bundle error.....');
+    logger.info('Bundle complete!');
   }
-  //如果采用npm install模式 构建发布后的node_modules
-  logger.info('Bundle complete!');
 }
 
 /**
@@ -71,11 +66,11 @@ function runAppPack(packs, context) {
  */
 function runPack(configPath, client, server, releaseDir) {
   var handlers = [cleanPack];
+  releaseDir = path.isAbsolute(releaseDir) ? releaseDir : path.resolve(releaseDir);
   releaseDir = path.join(releaseDir, 'react-web');
   //设置打包配置文件环境变量
   var config = Configuration.session(configPath, releaseDir)
-  client = Options.unAssign(client, true);
-  server = Options.unAssign(server, config.isomorphic)
+  server = config.isomorphic ? server : false;
   if (client) {
     handlers.push(clientPack);
   }
