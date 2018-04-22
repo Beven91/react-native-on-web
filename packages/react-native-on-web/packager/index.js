@@ -45,7 +45,7 @@ if (process.argv.length <= 2) {
 
 var config = yargs.argv;
 
-var both = !('client' in config) && !('server' in config)
+var both = (config.client === undefined) && (config.server === undefined)
 config.client = both || (config.client !== undefined && config.client !== false);
 config.server = both || (config.server !== undefined && config.server !== false);
 
