@@ -8,16 +8,13 @@ module.exports = function (configPath, releaseDir) {
   require('../helpers/configuration').session(configPath, releaseDir);
 
   var config = require('../rnw-config.js')
+  var Options = require('../helpers/options');
 
   //1.引入polyfill
   require('babel-polyfill')
 
-  var originalPlugins = config.babelRc.plugins || [];
-  var plugins = originalPlugins.filter(function (name) { return name.indexOf(name) < 0 })
-  config.babelRc.plugins = plugins;
   //2.启用babel-register
-  require('babel-register')(config.babelRc);
-  config.babelRc.plugins = originalPlugins;
+  require('babel-register')(Options.merge({}, config.babelRc));
 
   //3.react-native 别名处理
   require('./react-native-register.js');
