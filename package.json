@@ -9,6 +9,7 @@
     "start": "cd packages/react-native-on-web-tmpl && npm start",
     "test-build-client":"cd packages/react-native-on-web-tmpl && npm run build-client",
     "test-build-server":"cd packages/react-native-on-web-tmpl && npm run build-server",
+    "test-build":"cd packages/react-native-on-web-tmpl && npm run build",
     "release": "node ./scripts/publish.js"
   },
   "keywords": [
