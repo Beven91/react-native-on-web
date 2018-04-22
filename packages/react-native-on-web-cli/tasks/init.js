@@ -106,7 +106,7 @@ ReactNativeWeb.prototype.updateWebConfig = function () {
  */
 ReactNativeWeb.prototype.install = function () {
   logger.info('ReactNativeOnWeb: init web ...')
-  new Npm(this.targetProjectRoot).run('init');
+  new Npm(this.targetProjectRoot).install();
   if (fse.existsSync(path.join(this.targetProjectRoot, '..', 'package.json'))) {
     new Npm(path.join(this.targetProjectRoot, '..')).install();
   }
