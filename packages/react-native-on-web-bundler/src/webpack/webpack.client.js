@@ -10,7 +10,7 @@ module.paths.unshift(require('path').resolve('node_modules'))
 var path = require('path')
 var webpack = require('webpack')
 var dantejs = require('dantejs')
-var config = require('../rnw-config.js')
+var config = require('../rnw-config.js')();
 var Options = require('../helpers/options');
 var Arrays = dantejs.Array
 

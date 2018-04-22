@@ -5,6 +5,8 @@
  */
 var path = require('path');
 var fse = require('fs-extra');
+// 配置文件
+var config = require('../../rnw-config.js')();
 
 function AssetsPlugin() {
 
@@ -29,7 +31,7 @@ AssetsPlugin.prototype.apply = function (compiler) {
       jsAssets: findAssets(assets, 'js', publicPath),
       cssAssets: findAssets(assets, 'css', publicPath)
     }
-    fse.writeJSONSync(path.resolve('assets.json'), webpack);
+    fse.writeJSONSync(path.join(config.releaseDir, 'assets.json'), webpack);
     callback();
   });
 }

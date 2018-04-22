@@ -9,15 +9,17 @@ module.paths.unshift(require('path').resolve('node_modules'));
 
 var path = require('path')
 var webpack = require('webpack')
-var config = require('../rnw-config.js')
+var config = require('../rnw-config.js')();
 var Options = require('../helpers/options.js');
 
 // webpack plugins
 var NodeModulePlugin = require('webpack-node-module-plugin').NodeModulePlugin
 var RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlugin
 var CleanWebpackPlugin = require('clean-webpack-plugin')
-var PackageJsonPlugin = require('./plugin/package.js')
+var PackageJsonPlugin = require('./plugin/package.js');
 
+//babelRc
+var babelRc = config.babelRc;
 // 代码目录
 var contextPath = path.dirname(config.serverContextEntry)
 // 服务端打包存放目标目录
@@ -33,6 +35,16 @@ var externalsNodeModules = [
   'react-mixin',
   'react-native-on-web'
 ].concat(config.externalModules)
+
+//服务端babel别名
+babelRc.plugins.unshift([
+  'module-resolver', {
+    'alias': Options.merge({
+      'react-native-on-web/packager/register': 'react-native-on-web/provider',
+      'react-native-on-web/packager/hot.bundle.js': 'react-native-on-web/packager/bundle.js'
+    }, config.alias)
+  }
+])
 
 module.exports = Options.merge({
   target: 'node',
@@ -55,13 +67,13 @@ module.exports = Options.merge({
   },
   plugins: [
     new webpack.ProgressPlugin(),
-    new CleanWebpackPlugin('*', { exclude: ['assets'], root: config.releaseDir }),
+    new CleanWebpackPlugin('*', { exclude: ['assets/**/*'], root: config.releaseDir }),
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(true),
       'process.env': { NODE_ENV: JSON.stringify('production') }
     }),
     new RequireImageXAssetPlugin(config.imageAssets),
-    new NodeModulePlugin(contextPath, config.cdnVariableName, config.releaseDir, config.copyNodeModules),
+    new NodeModulePlugin(contextPath, config.cdnVariableName, config.releaseDir, babelRc),
     new PackageJsonPlugin()
   ],
   externals: function (context, request, callback) {
@@ -82,9 +94,9 @@ module.exports = Options.merge({
           loader: 'babel-loader',
           options: {
             cacheDirectory: true,
-            presets: config.babelRc.presets,
-            plugins: config.babelRc.plugins,
-            babelrc: config.babelRc.babelrc,
+            presets: babelRc.presets,
+            plugins: babelRc.plugins,
+            babelrc: babelRc.babelrc,
           }
         }],
       },

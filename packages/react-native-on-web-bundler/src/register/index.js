@@ -7,7 +7,7 @@ module.exports = function (configPath, releaseDir) {
 
   require('../helpers/configuration').session(configPath, releaseDir);
 
-  var config = require('../rnw-config.js')
+  var config = require('../rnw-config.js')();
   var Options = require('../helpers/options');
 
   //1.引入polyfill
