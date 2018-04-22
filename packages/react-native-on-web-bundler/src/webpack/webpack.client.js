@@ -23,22 +23,19 @@ var AssetsPlugin = require('./plugin/assets');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CodeSpliterPlugin = require('webpack-code-spliter').CodeSpliterPlugin;
 var Split = CodeSpliterPlugin.configure(config.splitRoutes, config.indexWebDir, 'pages', config.splitHandle)
-var AutoDllPlugin = require('autodll-webpack-plugin-webpack-4');
 
 var isProudction = process.env.NODE_ENV === 'production'
 // 是否为同构模式
 var isomorphic = config.isomorphic;
 var noop = function () { }
-
 // 开发环境plugins
 var devPlugins = [
-  new AutoDllPlugin({ inherit: true, inject: true, entry: { dll: config.commonChunks } }),
   new webpack.HotModuleReplacementPlugin()
 ]
 
 // 生产环境plugins
 var proPlugins = [
-  new AssetsPlugin(),  
+  new AssetsPlugin(),
   new CleanWebpackPlugin('*', { root: config.clientAppDir }),
   new BundleAnalyzerPlugin({
     analyzerMode: 'static',
@@ -105,7 +102,7 @@ module.exports = Options.merge({
             babelrc: config.babelRc.babelrc,
           }
         }],
-        exclude: config.babelRc.ignore
+        exclude: config.rc.exclude
       },
       {
         //代码拆分
