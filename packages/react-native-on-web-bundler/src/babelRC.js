@@ -6,14 +6,11 @@
 var Options = require('./helpers/options');
 var Configuration = require('./helpers/configuration.js')
 
-var packager = Configuration.get();
-var allCompile = packager.compileAll;
-var IGNORE_EXP = /node_modules[/\\](babel-|regenerator-transform|happypack|babel|webpack)/;
-// node_modules下需要编译的es6模块
-// 注意：数组项必须为正则表达式
-var MODULES_REG = [
+var config = Configuration.get();
+var excludeExp = /node_modules[/\\](babel-|regenerator-transform|happypack|babel|webpack)/;
+var includeExps = [
   /react-native-/
-].concat((packager.es6Modules || []))
+].concat((config.es6Modules || []))
 
 module.exports = {
   babelRc: Options.merge({
@@ -29,27 +26,30 @@ module.exports = {
         }]
     ],
     extensions: ['.web.js', '.js']
-  }, packager.babelrc),
+  }, config.babelrc),
   exclude: exclude,
   include2: include
 }
 
 function exclude(js) {
-  var inNodeModules = /node_modules/.test(js)
-  return (inNodeModules && !include(js))
+  return !include(js);
 }
 
 function include(js) {
-  var inNodeModules = /node_modules/.test(js)
-  return !inNodeModules || (allCompile ? !IGNORE_EXP.test(js) : includes(js));
-}
-
-function includes(js) {
-  js = js.split('node_modules').pop();
-  for (var i = 0, k = MODULES_REG.length; i < k; i++) {
-    if (MODULES_REG[i].test(js)) {
-      return true;
+  if (/react-native-on-web-bundler/.test(js)) {
+    return false;
+  } else if (!/node_modules/.test(js)) {
+    return true;
+  } else if (config.compileAll) {
+    return !excludeExp.test(js)
+  } else if (excludeExp.test(js)) {
+    return false;
+  } else {
+    js = js.split('node_modules').pop();
+    for (var i = 0, k = includeExps.length; i < k; i++) {
+      if (includeExps[i].test(js)) {
+        return true;
+      }
     }
   }
 }
-
