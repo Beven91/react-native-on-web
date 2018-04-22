@@ -45,6 +45,10 @@ if (process.argv.length <= 2) {
 
 var config = yargs.argv;
 
+var both = !('client' in config) && !('server' in config)
+config.client = both || (config.client !== undefined && config.client !== false);
+config.server = both || (config.server !== undefined && config.server !== false);
+
 if (!config.releaseDir) {
   return console.error('ReactNativeOnWeb: missing options --releaseDir ')
 }
