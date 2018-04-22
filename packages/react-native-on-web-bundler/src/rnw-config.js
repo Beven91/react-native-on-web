@@ -39,6 +39,7 @@ module.exports = {
   cdnVariableName: cdnVariableName,
   //babel 编译配置
   babelRc: Options.assign({}, babelRc),
+  rc:rc,
   //发布后的启动端口 可以不填写 默认根据web.json的port
   targetPort: customPackager.targetPort,
   // webpack静态资源访问目录
