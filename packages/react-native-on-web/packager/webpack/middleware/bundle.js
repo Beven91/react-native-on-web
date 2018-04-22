@@ -1,7 +1,7 @@
 var path = require('path');
 var fs = require('fs');
 
-var file = path.resolve('assets.js');
+var file = path.resolve('assets.json');
 var webpack = fs.existsSync(file) ? require(file) : {};
 
 module.exports = function (app) {
