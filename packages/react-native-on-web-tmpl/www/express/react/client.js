@@ -5,11 +5,12 @@
  */
 
 // 加载依赖
-import 'babel-polyfill'
+import 'babel-polyfill';
+import './polyfill/resize-observer';
 import './fetch/browser-fetch.js';
-import 'react-native-on-web-index-web-js'
-import ReactAppContext from './context'
-import { AppRegistry } from 'react-native'
+import 'react-native-on-web-index-web-js';
+import ReactAppContext from './context';
+import { AppRegistry } from 'react-native';
 
 /**
  * React App类

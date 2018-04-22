@@ -1,6 +1,6 @@
 {
   "name": "react-native-on-web-tmpl",
-  "version": "5.1.0-alpha.3",
+  "version": "5.1.0-beta.0",
   "main": "./www/index.js",
   "scripts": {
     "start": "cross-env  NODE_ENV=development node ./www/index.js"
@@ -8,6 +8,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "resize-observer-polyfill":"^1.5.0",
     "body-parser": "^1.15.0",
     "code-spliter-router": "^1.0.2",
     "colors": "^1.1.2",
@@ -24,7 +25,7 @@
     "node-razor": "0.0.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-native-on-web": "^5.1.0-alpha.3",
+    "react-native-on-web": "^5.1.0-beta.0",
     "whatwg-fetch": "^2.0.3",
     "winston": "^2.4.0"
   }
