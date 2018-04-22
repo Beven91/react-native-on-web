@@ -1,4 +1,6 @@
 
+var path = require('path');
+
 /**
  * 属性合并工具
  */
@@ -66,6 +68,17 @@ Options.prototype.unAssign = function (v, dv) {
   } else {
     return v;
   }
+}
+
+Options.prototype.relativeAlias = function (alias, projectRoot) {
+  var keys = Object.keys(alias || {});
+  keys.forEach(function (k) {
+    var name = alias[k];
+    if (path.isAbsolute(name)) {
+      alias[k] = './' + path.relative(projectRoot, name).replace(/\\/g, '/');
+    }
+  })
+  return alias;
 }
 
 module.exports = new Options();

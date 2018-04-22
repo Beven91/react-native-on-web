@@ -56,7 +56,7 @@ module.exports = Options.merge({
     ])
   },
   output: {
-    path: config.clientAppDir,
+    path: path.join(config.clientAppDir, config.publicPath || ''),
     filename: isProudction ? '[name]-[hash].js' : '[name].js',
     chunkFilename: isProudction ? '[name]-[chunkhash].js' : '[name].js',
     publicPath: config.publicPath

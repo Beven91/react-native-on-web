@@ -11,6 +11,7 @@ var path = require('path')
 var webpack = require('webpack')
 var config = require('../rnw-config.js')();
 var Options = require('../helpers/options.js');
+var ModuleResolver = require('babel-plugin-module-resolver');
 
 // webpack plugins
 var NodeModulePlugin = require('webpack-node-module-plugin').NodeModulePlugin
@@ -39,10 +40,13 @@ var externalsNodeModules = [
 //服务端babel别名
 babelRc.plugins.unshift([
   'module-resolver', {
+    resolvePath(sourcePath, currentFile, opts) {
+      return ModuleResolver.resolvePath(sourcePath, currentFile, opts);
+    },
     'alias': Options.merge({
       'react-native-on-web/packager/register': 'react-native-on-web/provider',
-      'react-native-on-web/packager/hot.bundle.js': 'react-native-on-web/packager/bundle.js'
-    }, config.alias)
+      'react-native-on-web/packager/webpack/middleware/hot.bundle.js': 'react-native-on-web/packager/webpack/middleware/bundle.js'
+    }, Options.relativeAlias(config.alias, config.projectRoot))
   }
 ])
 
@@ -67,13 +71,13 @@ module.exports = Options.merge({
   },
   plugins: [
     new webpack.ProgressPlugin(),
-    new CleanWebpackPlugin('*', { exclude: ['assets/**/*'], root: config.releaseDir }),
+    new CleanWebpackPlugin(path.basename(config.releaseDir), { exclude: ['assets','assets.json','spliter.json'], root: path.dirname(config.releaseDir) }),
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(true),
       'process.env': { NODE_ENV: JSON.stringify('production') }
     }),
     new RequireImageXAssetPlugin(config.imageAssets),
-    new NodeModulePlugin(contextPath, config.cdnVariableName, config.releaseDir, babelRc),
+    new NodeModulePlugin(contextPath, config.cdnVariableName, config.releaseDir, babelRc, config.ignores),
     new PackageJsonPlugin()
   ],
   externals: function (context, request, callback) {

@@ -42,6 +42,9 @@ ReleasePackageJson.prototype.configPackage = function () {
   pgk.dependencies = Options.assign(topLevelDeps, pgk.dependencies);
   delete pgk.dependencies['react-native'];
   delete pgk.devDependencies
+  Object.keys(pgk.dependencies).forEach(function (k) {
+    pgk.dependencies[k] = pgk.dependencies[k].replace(/(\^|~)/, '');
+  })
   pgk.scripts = {
     'init': 'npm install --registry=https://registry.npm.taobao.org',
     'pm2': 'pm2 start pm2.json',
@@ -81,7 +84,7 @@ ReleasePackageJson.prototype.configWeb = function () {
  */
 ReleasePackageJson.prototype.writeJson = function (file, content) {
   fse.ensureDirSync(path.dirname(file))
-  fse.writeJSONSync(file, content)
+  fse.writeFileSync(file, JSON.stringify(content, null, 2));
 }
 
 function PackageJsonPlugin() {
