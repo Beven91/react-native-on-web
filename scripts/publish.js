@@ -67,13 +67,14 @@ function handleReferences(packagePath) {
  */
 function handlePrePublishVersion(project) {
   if (project.indexOf('react-native-on-web-tmpl') > -1) {
-    var pgkPath = path.join(project, 'package.json');
-    var bakPath = path.join(project, 'package.json.bak');
+    var pgkPath = project;
+    var bakPath = project + '.bak';
     var pgk = require(pgkPath);
     delete pgk.dependencies;
     delete pgk.devDependencies;
-    fse.moveSync(pgkPath, bakPath);
-    fse.writeFileSync(pgkPath, JSON.stringify(pgk, null, 2));
+    fse.moveSync(pgkPath, bakPath,{ overwrite:true });
+    fse.removeSync(pgkPath);
+    fse.writeFileSync(pgkPath, JSON.stringify(pgk, null, 2),);
   }
 }
 
@@ -82,9 +83,10 @@ function handlePrePublishVersion(project) {
  */
 function handlePostPublishVersion(project) {
   if (project.indexOf('react-native-on-web-tmpl') > -1) {
-    var pgkPath = path.join(project, 'package.json');
-    var bakPath = path.join(project, 'package.json.bak');
-    fse.moveSync(bakPath, pgkPath);
+    var pgkPath = project;
+    var bakPath = project + '.bak';
+    fse.moveSync(bakPath, pgkPath,{ overwrite:true });
+    fse.removeSync(bakPath);
   }
 }
 

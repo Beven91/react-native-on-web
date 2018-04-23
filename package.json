@@ -1,7 +1,7 @@
 {
   "name": "react-native-on-web-monorepo",
   "private": true,
-  "version": "5.1.0-beta.3",
+  "version": "5.1.0-beta.7",
   "description": "React Native for Web",
   "scripts": {
     "postinstall": "npm run lerna",
@@ -10,6 +10,7 @@
     "test-build-client":"cd packages/react-native-on-web-tmpl && npm run build-client",
     "test-build-server":"cd packages/react-native-on-web-tmpl && npm run build-server",
     "test-build":"cd packages/react-native-on-web-tmpl && npm run build",
+    "test-init":"cd packages/react-native-on-web-cli && npm run test",
     "release": "node ./scripts/publish.js"
   },
   "keywords": [

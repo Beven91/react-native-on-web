@@ -79,14 +79,15 @@ ReactNativeWeb.prototype.copyIndexWeb = function () {
  * 修改package.json
  */
 ReactNativeWeb.prototype.updatePackage = function () {
-  var file = path.join(this.targetProjectRoot, 'package.json');
+  var file = path.join(this.targetProjectRoot, 'package.json.bak');
   if (fse.existsSync(file)) {
-    var pgk = require(file);
+    var pgk = fse.readJsonSync(file);
     pgk.name = 'web';
     pgk.version = '1.0.0';
     pgk.dependencies = pgk.devDependencies;
     pgk.devDependencies = {};
-    fse.writeJsonSync(file, pgk);
+    fse.removeSync(file);
+    fse.writeJsonSync(path.join(this.targetProjectRoot, 'package.json'), pgk);
   }
 }
 
