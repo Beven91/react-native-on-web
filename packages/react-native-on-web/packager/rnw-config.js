@@ -8,7 +8,7 @@ var web = require(path.resolve('web.json'));
 var Pack = require('react-native-on-web-bundler');
 
 var bundlerc = path.resolve('.bundlerc.js');
-var bundleOptions = fse.existsSync(bundlerc) ? require(bundlerc):{};
+var bundleOptions = fse.existsSync(bundlerc) ? require(bundlerc) : {};
 var projectRoot = hasPackageReactOnWeb(process.cwd()) ? process.cwd() : path.resolve('web');
 
 var defaultConfig = {
@@ -17,13 +17,11 @@ var defaultConfig = {
   alias: {
     'react-native-on-web-index-web-js': path.resolve(web.indexWeb),
     'NativeModules': 'react-native-web',
-    'react-native-web/dist/exports/AsyncStorage': 'react-native-on-web/src/apis/AsyncStorage',
     'react-native-web/dist/exports/LayoutAnimation': 'react-native-on-web/src/apis/LayoutAnimation/LayoutAnimation',
     'react-native-web/dist/exports/Modal': 'react-native-on-web/src/components/Modal/Modal',
     'react-native-web/dist/exports/Navigator': 'react-native-on-web/src/components/Navigator',
     'react-native-web/dist/exports/ToastAndroid': 'react-native-on-web/src/components/ToastAndroid/ToastAndroid',
     'react-native-web/dist/exports/TabBarIOS': 'react-native-on-web/src/components/TabBarIOS/TabBarIOS',
-    'react-native-web/dist/exports/Picker': 'react-native-on-web/src/components/Picker/Picker',
   }
 }
 
