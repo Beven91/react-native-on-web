@@ -9,7 +9,7 @@ var fs = require('fs');
 var urlloader = require('url-loader');
 
 //全局配置
-var config = require('../rnw-config.js');
+var config = require('../rnw-config.js')();
 //基础路径
 var publicPath = config.publicPath;
 var serverResolves = config.serverResolves;

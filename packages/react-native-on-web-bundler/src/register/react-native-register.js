@@ -13,7 +13,7 @@ var ORIGINAL_JS_EXTENSION = require.extensions['.js'];
 var ORIGINAL_JSON_EXTENSION = require.extensions['.json'];
 var ORIGINAL_NODE_EXTENSION = require.extensions['.node'];
 // 配置
-var config = require('../rnw-config.js');
+var config = require('../rnw-config.js')();
 
 //RequireImageXAssetPlugin 用于支持require('image!x')
 var xAssetsPlugin = new (imageWeb.RequireImageXAssetPlugin)(config.imageAssets);
