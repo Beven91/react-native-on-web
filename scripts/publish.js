@@ -10,7 +10,7 @@ var Npm = require('npm-shell');
 
 var selfPackage = require('../package.json');
 
-/** 
+/**
  * 同步packages目录下所有工程版本等信息
  */
 function handlePublishVersions() {
@@ -31,11 +31,13 @@ function handlePublishVersions() {
 function handlePublishVersion(packagePath) {
   var pgk = require(packagePath);
   if (pgk.version !== selfPackage.version) {
+    handlePrePublishVersion(packagePath);
     console.log('publish ' + pgk.name + '@' + selfPackage.version);
     pgk.version = selfPackage.version;
     fse.writeFileSync(packagePath, JSON.stringify(pgk, null, 2));
     var npm = new Npm(path.dirname(packagePath));
     npm.publish();
+    handlePostPublishVersion(packagePath);
   }
 }
 
@@ -58,6 +60,32 @@ function handleReferences(packagePath) {
   })
   fse.writeFileSync(packagePath, JSON.stringify(projectPackage, null, 2));
   return packagePath;
+}
+
+/**
+ * 发布前处理
+ */
+function handlePrePublishVersion(project) {
+  if (project.indexOf('react-native-on-web-tmpl') > -1) {
+    var pgkPath = path.join(project, 'package.json');
+    var bakPath = path.join(project, 'package.json.bak');
+    var pgk = require(pgkPath);
+    delete pgk.dependencies;
+    delete pgk.devDependencies;
+    fse.moveSync(pgkPath, bakPath);
+    fse.writeFileSync(pgkPath, JSON.stringify(pgk, null, 2));
+  }
+}
+
+/**
+ * 发布后处理
+ */
+function handlePostPublishVersion(project) {
+  if (project.indexOf('react-native-on-web-tmpl') > -1) {
+    var pgkPath = path.join(project, 'package.json');
+    var bakPath = path.join(project, 'package.json.bak');
+    fse.moveSync(bakPath, pgkPath);
+  }
 }
 
 //开始处理
