@@ -38,5 +38,6 @@ require.extensions['.node'] = ORIGINAL_NODE_EXTENSION;
 module.constructor._resolveFilename = function (name, mod, isMain) {
   name = xAssetsPlugin.getRequest(name, path.dirname(mod.id)) || name;
   var id = ReactNativeWebAlias[name] || name
+  mod.paths.push(path.resolve('node_modules'));
   return ORIGINAL_RESOLVE_FILENAME.call(this, id, mod, isMain)
 }
