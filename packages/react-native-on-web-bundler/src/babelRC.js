@@ -19,6 +19,7 @@ module.exports = {
     babelrc: false,
     compact: true,
     plugins: [
+      require('./helpers/babel-plugin-react-native-on-web')(config.alias),
       require.resolve('babel-plugin-react-native-web'),
       [
         require.resolve('babel-plugin-transform-react-remove-prop-types'), {
