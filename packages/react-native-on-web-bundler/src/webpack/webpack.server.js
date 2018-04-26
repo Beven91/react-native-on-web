@@ -22,7 +22,7 @@ var PackageJsonPlugin = require('./plugin/package.js');
 //babelRc
 var babelRc = config.babelRc;
 // 代码目录
-var contextPath = path.dirname(config.serverContextEntry)
+var contextPath = path.dirname(config.serverContextEntry);
 // 服务端打包存放目标目录
 var serverAppDir = config.serverAppDir;
 // 设置需要设置成externals的node_modules模块
@@ -38,7 +38,7 @@ var externalsNodeModules = [
 ].concat(config.externalModules)
 
 //服务端babel别名
-babelRc.plugins.unshift([
+config.babelRc.plugins.unshift([
   'module-resolver', {
     resolvePath(sourcePath, currentFile, opts) {
       return ModuleResolver.resolvePath(sourcePath, currentFile, opts);
@@ -50,14 +50,16 @@ babelRc.plugins.unshift([
   }
 ])
 
+var copyBabel = Options.merge({}, config.babelRc);
+
 module.exports = Options.merge({
   target: 'node',
-  mode: 'production',
+  mode: 'development',
   stats: config.isDebug ? 'detailed' : 'errors-only',
   name: 'react-native-web server-side', // 配置名称
   context: contextPath, // 根目录
   entry: {
-    'server': ['./' + path.basename(config.serverContextEntry)]
+    'server': ['./' + path.relative(contextPath, config.serverContextEntry).replace(/\\/g, '/')]
   },
   output: {
     // 设置根目录为assets/app目录 目的：打包服务端js时，
@@ -71,13 +73,13 @@ module.exports = Options.merge({
   },
   plugins: [
     new webpack.ProgressPlugin(),
-    new CleanWebpackPlugin(path.basename(config.releaseDir), { exclude: ['assets','assets.json','spliter.json'], root: path.dirname(config.releaseDir) }),
+    new CleanWebpackPlugin(path.basename(config.releaseDir), { exclude: ['assets', 'assets.json', 'spliter.json'], root: path.dirname(config.releaseDir) }),
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(true),
       'process.env': { NODE_ENV: JSON.stringify('production') }
     }),
     new RequireImageXAssetPlugin(config.imageAssets),
-    new NodeModulePlugin(contextPath, config.cdnVariableName, config.releaseDir, babelRc, config.ignores),
+    new NodeModulePlugin(contextPath, config.cdnVariableName, config.releaseDir, copyBabel, config.ignores),
     new PackageJsonPlugin()
   ],
   externals: function (context, request, callback) {

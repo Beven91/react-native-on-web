@@ -50,7 +50,7 @@ module.exports = function () {
     // 服务端代码打包入口
     serverContextEntry: indexWeb,
     // webpack.client 输出目录
-    clientAppDir: path.join(releaseDir, 'assets'),
+    clientAppDir: path.join(releaseDir, 'assets', customPackager.publicPath),
     // 服务端打包目标目录
     serverAppDir: releaseDir,
     // 工程根目录
