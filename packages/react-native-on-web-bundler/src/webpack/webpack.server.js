@@ -37,11 +37,20 @@ var externalsNodeModules = [
   'react-native-on-web'
 ].concat(config.externalModules)
 
+var copyBabel = Options.merge({}, config.babelRc);
+
+copyBabel.plugins = [].concat(config.babelRc.plugins);
+
 //服务端babel别名
-config.babelRc.plugins.unshift([
+copyBabel.plugins.unshift([
   'module-resolver', {
     resolvePath(sourcePath, currentFile, opts) {
-      return ModuleResolver.resolvePath(sourcePath, currentFile, opts);
+      var name = ModuleResolver.resolvePath(sourcePath, currentFile, opts);
+      if (name) {
+        var full = path.join(path.dirname(currentFile), name);
+        var name2 = path.relative(config.projectRoot, full);
+        return name2.indexOf('..' + path.sep) > -1 ? name.replace('../', '') : name;
+      }
     },
     'alias': Options.merge({
       'react-native-on-web/packager/register': 'react-native-on-web/provider',
@@ -49,8 +58,6 @@ config.babelRc.plugins.unshift([
     }, Options.relativeAlias(config.alias, config.projectRoot))
   }
 ])
-
-var copyBabel = Options.merge({}, config.babelRc);
 
 module.exports = Options.merge({
   target: 'node',

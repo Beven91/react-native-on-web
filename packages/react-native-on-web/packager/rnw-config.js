@@ -4,18 +4,18 @@
 
 var path = require('path');
 var fse = require('fs-extra');
-var web = require(path.resolve('web.json'));
 var Pack = require('react-native-on-web-bundler');
 
 var bundlerc = path.resolve('.bundlerc.js');
 var bundleOptions = fse.existsSync(bundlerc) ? require(bundlerc) : {};
-var projectRoot = hasPackageReactOnWeb(process.cwd()) ? process.cwd() : path.resolve('web');
+var selfRoot = process.cwd();
+var projectRoot = hasPackageReactOnWeb(selfRoot) ? selfRoot : path.resolve('web');
 
 var defaultConfig = {
   projectRoot: projectRoot,
   copyNodeModules: true,
   alias: {
-    'react-native-on-web-index-web-js': path.resolve(web.indexWeb),
+    'react-native-on-web-index-web-js': bundleOptions.serverContextEntry,
     'NativeModules': 'react-native-web',
     'react-native-web/dist/exports/LayoutAnimation': 'react-native-on-web/src/apis/LayoutAnimation/LayoutAnimation',
     'react-native-web/dist/exports/AsyncStorage': 'react-native-on-web/src/apis/AsyncStorage',
