@@ -1,4 +1,4 @@
-## react-native-on-web
+## react-native-on-web-cli
 
 [![NPM version][npm-image]][npm-url]
 
