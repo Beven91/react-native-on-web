@@ -1,4 +1,4 @@
-## rnw-bundler
+## react-native-on-web-bundler
 
 [![NPM version][npm-image]][npm-url]
 
@@ -176,5 +176,5 @@ Pack.runPack(configPath,bundleServer,bundleClient)
 ### 六、开源许可
 基于 [MIT License](http://zh.wikipedia.org/wiki/MIT_License) 开源，使用代码只需说明来源，或者引用 [license.txt](https://github.com/sofish/typo.css/blob/master/license.txt) 即可。
 
-[npm-url]: https://www.npmjs.com/package/rnw-bundler
-[npm-image]: https://img.shields.io/npm/v/rnw-bundler.svg
+[npm-url]: https://www.npmjs.com/package/react-native-on-web-bundler
+[npm-image]: https://img.shields.io/npm/v/react-native-on-web-bundler.svg
