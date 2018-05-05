@@ -36,7 +36,7 @@
     "react-hot-loader": "4.0.1",
     "style-loader": "^0.20.3",
     "url-loader": "^0.6.2",
-    "webpack": "^4.5.0",
+    "webpack": "^4.7.0",
     "copy-webpack-plugin": "^4.5.1",
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.14",
