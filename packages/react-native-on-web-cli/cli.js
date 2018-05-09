@@ -103,6 +103,7 @@ ReactNativeOnWebCli.prototype.upgrade = function () {
     logger.info('ReactNativeOnWeb: update react-native-on-web module .....');
     npm.unInstall('react-native-on-web');
     npm.install('react-native-on-web --save');
+    npm.install('react-native-on-web-cli --save');
     // logger.info('ReactNativeOnWeb: update global react-native-on-web module .....');
     // npm.install('react-native-on-web -g');
     logger.info('ReactNativeOnWeb: update complete ');

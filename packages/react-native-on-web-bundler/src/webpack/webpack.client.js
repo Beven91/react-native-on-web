@@ -156,7 +156,7 @@ module.exports = Options.merge({
     ]
   },
   resolve: {
-    modules: module.paths,
+    modules: ['node_modules'].concat(module.paths),
     alias: config.alias,
     extensions: config.extensions
   },
