@@ -104,6 +104,12 @@ ReactNativeOnWebCli.prototype.upgrade = function () {
     npm.unInstall('react-native-on-web');
     npm.install('react-native-on-web --save');
     npm.install('react-native-on-web-cli --save');
+    var file = path.join(projectRoot, '.packager.js');
+    if (fse.existsSync(file)) {
+      var bundlerc = String(fse.readFileSync(file));
+      var entry = bundlerc.clientContextEntry || '';
+      bundlerc.clientContextEntry = entry.replace('server/express/react', 'www/express/react');
+    }
     // logger.info('ReactNativeOnWeb: update global react-native-on-web module .....');
     // npm.install('react-native-on-web -g');
     logger.info('ReactNativeOnWeb: update complete ');
