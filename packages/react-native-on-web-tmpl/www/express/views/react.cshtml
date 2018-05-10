@@ -1,8 +1,11 @@
 @html.raw(model.fontface)
 @html.raw(model.stylesheet)
 <div id="app">@html.raw(model.initialHTML)</div>
+@{
+  var name='\'@@__reactAppContext__@@\'';
+}
 <script type="text/javascript">
-  window['@@__reactAppContext__@@']=@html.raw(model.reactAppContext)
+  window[@html.raw(name)]=@html.raw(model.reactAppContext)
 </script>
 @{
   var jsAssets = (model.Webpack || {}).jsAssets || [];
