@@ -27,8 +27,8 @@
     "node-razor": "0.0.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-native-on-web": "^5.1.3",
-    "react-native-on-web-cli": "^5.1.3",
+    "react-native-on-web": "^5.1.5",
+    "react-native-on-web-cli": "^5.1.5",
     "resize-observer-polyfill": "^1.5.0",
     "whatwg-fetch": "^2.0.3",
     "winston": "^2.4.0"
