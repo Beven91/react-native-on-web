@@ -61,8 +61,11 @@ function fileResolver(md, filename) {
  * 图片resolve
  */
 function imgResolve(md, filename) {
+  var buffer = fs.readFileSync(filename);
   var context = getContext(filename,{});
-  var exp = imageloader.sync.call(context,'');
+  var context2 = getContext(filename, '?limit=1');
+  var content = urlloader.call(context2, buffer);
+  var exp = imageloader.sync.call(context,content);
   var fn = new Function('module,__webpack_public_path__', exp);
   fn(md, publicPath);
 }
