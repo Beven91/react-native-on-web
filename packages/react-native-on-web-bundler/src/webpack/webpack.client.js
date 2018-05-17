@@ -135,7 +135,7 @@ module.exports = Options.merge({
           {
             loader: 'file-loader',
             options: {
-              name: './images/[hash].[ext]'
+              name: 'images/[hash].[ext]'
             }
           }
         ].filter(function (v) { return !!v })
