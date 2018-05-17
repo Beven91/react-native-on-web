@@ -128,14 +128,10 @@ module.exports = Options.merge({
         // 图片类型模块资源访问
         test: /\.(png|jpg|jpeg|gif|webp|bmp|ico|jpeg)$/,
         loader: [
-          (
-            isProudction ?
-              {
-                loader: 'image-web-loader',
-                options: config.minOptions
-              }
-              : null
-          ),
+          {
+            loader: 'image-web-loader',
+            options: config.minOptions
+          },
           {
             loader: 'file-loader',
             options: {
