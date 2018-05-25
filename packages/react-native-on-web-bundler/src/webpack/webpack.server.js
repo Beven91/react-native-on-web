@@ -53,7 +53,7 @@ copyBabel.plugins.unshift([
       }
     },
     'alias': Options.merge({
-      'react-native-on-web/packager/register': 'react-native-on-web/provider',
+      'react-native-on-web/packager/register': 'path',
       'react-native-on-web/packager/webpack/middleware/hot.bundle.js': 'react-native-on-web/packager/webpack/middleware/bundle.js'
     }, Options.relativeAlias(config.alias, config.projectRoot))
   }
@@ -66,7 +66,9 @@ module.exports = Options.merge({
   name: 'react-native-web server-side', // 配置名称
   context: contextPath, // 根目录
   entry: {
-    'server': ['./' + path.relative(contextPath, config.serverContextEntry).replace(/\\/g, '/')]
+    'server': [
+      './' + path.relative(contextPath, config.serverContextEntry).replace(/\\/g, '/')
+    ]
   },
   output: {
     // 设置根目录为assets/app目录 目的：打包服务端js时，

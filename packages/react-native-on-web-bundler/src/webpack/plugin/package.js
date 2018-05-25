@@ -36,6 +36,9 @@ ReleasePackageJson.prototype.configPackage = function () {
   var releaseDir = config.releaseDir
   var pgk = require(path.resolve('package.json'))
   var pgkfile = path.join(releaseDir, 'package.json')
+  var nodeBundlName = 'node_modules/react-native-on-web/packager/webpack/';
+  var nodeBundle = path.resolve(nodeBundlName);
+  var targetNodeBundle = path.join(releaseDir,nodeBundlName);
   var indexWebPackageFile = path.join(path.dirname(config.serverContextEntry), 'package.json');
   var indexWebPackage = fse.existsSync(indexWebPackageFile) ? require(indexWebPackageFile) : {};
   var topLevelDeps = indexWebPackage.dependencies || {};
@@ -51,6 +54,7 @@ ReleasePackageJson.prototype.configPackage = function () {
     'start': 'cross-env NODE_ENV=production node ./www/index.js'
   }
   this.writeJson(pgkfile, pgk)
+  fse.copySync((nodeBundle),targetNodeBundle,);
 }
 
 /**
@@ -92,7 +96,7 @@ function PackageJsonPlugin() {
 
 PackageJsonPlugin.prototype.apply = function (compiler) {
   var maker = new ReleasePackageJson(compiler.options.output)
-  compiler.plugin('done', function (compilation) {
+  compiler.plugin('done', function () {
     maker.make()
   })
 }
