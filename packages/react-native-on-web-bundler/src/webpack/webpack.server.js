@@ -37,6 +37,9 @@ var externalsNodeModules = [
   'react-native-on-web'
 ].concat(config.externalModules)
 
+var baseName = path.relative(config.clientAppDir, serverAppDir);
+var targetIndexWeb = path.join(config.clientAppDir, path.dirname(baseName), path.basename(config.serverContextEntry));
+
 var copyBabel = Options.merge({}, config.babelRc);
 
 copyBabel.plugins = [].concat(config.babelRc.plugins);
@@ -53,6 +56,7 @@ copyBabel.plugins.unshift([
       }
     },
     'alias': Options.merge({
+      'react-native-on-web-index-web-js': path.relative(path.join(config.releaseDir), targetIndexWeb),
       'react-native-on-web/packager/register': 'path',
       'react-native-on-web/packager/webpack/middleware/hot.bundle.js': 'react-native-on-web/packager/webpack/middleware/bundle.js'
     }, Options.relativeAlias(config.alias, config.projectRoot))
@@ -76,7 +80,7 @@ module.exports = Options.merge({
     // 使资源文件与webpack.client打包位置保持一致
     path: config.clientAppDir,
     // 设置打包服务端js存放目标目录文件名
-    filename: path.relative(config.clientAppDir, serverAppDir) + '/[name].js',
+    filename: baseName + '/[name].js',
     publicPath: config.publicPath,
     libraryTarget: 'commonjs2'
   },
