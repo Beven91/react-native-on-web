@@ -17,7 +17,15 @@ function serverPack(context, callback) {
   process.env['NODE_ENV'] = 'production';
   var webpack = require('webpack');
   var compiler = webpack(require('./webpack/webpack.server'));
-  compiler.run(callback)
+  compiler.run(function (err, context) {
+    if (err) {
+      return logger.error(err.stack);
+    } else if (context.hasErrors()) {
+      const stats = context.toJson();
+      return logger.error(stats.errors.join('\n'));
+    }
+    callback();
+  })
 }
 
 //执行客户端端打包
@@ -26,7 +34,15 @@ function clientPack(context, callback) {
   process.env['NODE_ENV'] = 'production';
   var webpack = require('webpack');
   var compiler = webpack(require('./webpack/webpack.client'));
-  compiler.run(callback)
+  compiler.run(function (err, context) {
+    if (err) {
+      return logger.error(err.stack);
+    } else if (context.hasErrors()) {
+      const stats = context.toJson();
+      return logger.error(stats.errors.join('\n'));
+    }
+    callback();
+  })
 }
 
 //清除发布目录
@@ -95,6 +111,3 @@ module.exports = {
   runPack: runPack,
   Options: Options
 }
-
-
-
