@@ -14,7 +14,10 @@ var Configuration = require('./helpers/configuration')
 //执行服务端打包
 function serverPack(context, callback) {
   logger.info('Bundle server side .......');
-  process.env['NODE_ENV'] = 'production';
+  Object.defineProperty(process.env, 'NODE_ENV', { value: 'production' })
+  Object.defineProperty(process.env, 'SERVERSIDE', { value: true })
+  //重新读取配置
+  Configuration.get(true);
   var webpack = require('webpack');
   var compiler = webpack(require('./webpack/webpack.server'));
   compiler.run(function (err, context) {
@@ -31,7 +34,10 @@ function serverPack(context, callback) {
 //执行客户端端打包
 function clientPack(context, callback) {
   logger.info('Bundle client side .......');
-  process.env['NODE_ENV'] = 'production';
+  Object.defineProperty(process.env, 'NODE_ENV', { value: 'production' })
+  Object.defineProperty(process.env, 'SERVERSIDE', { value: false })
+  //重新读取配置
+  Configuration.get(true);
   var webpack = require('webpack');
   var compiler = webpack(require('./webpack/webpack.client'));
   compiler.run(function (err, context) {
@@ -85,7 +91,7 @@ function runPack(configPath, client, server, releaseDir) {
   releaseDir = path.isAbsolute(releaseDir) ? releaseDir : path.resolve(releaseDir);
   releaseDir = path.join(releaseDir, 'react-web');
   //设置打包配置文件环境变量
-  var config = Configuration.session(configPath, releaseDir)
+  var config = Configuration.session(configPath, releaseDir, true)
   server = config.isomorphic ? server : false;
   if (client) {
     handlers.push(clientPack);

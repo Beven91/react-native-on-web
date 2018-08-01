@@ -1,6 +1,9 @@
 var path = require('path')
 var webConfig = require('./web.json')
 
+console.log(process.env.NODE_ENV);
+console.log(process.env.SERVERSIDE);
+
 module.exports = {
   /**
    * 是否为同构模式 默认为tue

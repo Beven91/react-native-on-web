@@ -44,7 +44,16 @@ Configuration.prototype.check = function (config, configPath) {
 /**
  * 配置配置对象
  */
-Configuration.get = function () {
+Configuration.get = function (refresh) {
+  if (refresh) {
+    var configPath = Configuration.configPath;
+    var rootRc = path.resolve('.bundlerc.js');
+    delete require.cache[require.resolve(configPath)];
+    if (fse.existsSync(rootRc)) {
+      delete require.cache[require.resolve(rootRc)]
+    }
+    cacheConfiguration = new Configuration();
+  }
   if (!cacheConfiguration) {
     cacheConfiguration = new Configuration();
   }
@@ -54,11 +63,11 @@ Configuration.get = function () {
 /**
  * 强制刷新配置
  */
-Configuration.session = function (configPath, releaseDir) {
+Configuration.session = function (configPath, releaseDir, refresh) {
   this.configPath = configPath;
   this.releaseDir = releaseDir;
   cacheConfiguration = null;
-  return Configuration.get();
+  return Configuration.get(refresh);
 }
 
 /**

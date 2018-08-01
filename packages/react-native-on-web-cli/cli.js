@@ -39,7 +39,7 @@ ReactNativeOnWebCli.prototype.run = function (name) {
 }
 
 /**
- * 在react-native目录下生成一个react-native web工程 
+ * 在react-native目录下生成一个react-native web工程
  */
 ReactNativeOnWebCli.prototype.initReactWeb = function () {
   // 生成工程
@@ -47,7 +47,7 @@ ReactNativeOnWebCli.prototype.initReactWeb = function () {
 }
 
 /**
- * 启动web 
+ * 启动web
  */
 ReactNativeOnWebCli.prototype.start = function () {
   if (!hasWebPlatform()) {
@@ -89,7 +89,7 @@ ReactNativeOnWebCli.prototype.bundle = function (releaseDir, mode) {
       pack = path.join(__dirname, '../packager/index.js')
     }
     var argv = process.argv.slice(3)
-    new Npm(projectRoot).node(pack, argv)
+    new Npm(projectRoot).node(pack, argv, { NODE_ENV: 'production' })
   }
 }
 
