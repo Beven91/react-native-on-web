@@ -1,8 +1,9 @@
 var path = require('path')
 var webConfig = require('./web.json')
 
-console.log(process.env.NODE_ENV);
-console.log(process.env.SERVERSIDE);
+// if(process.env.SERVERSIDE){
+     //服务端打包时，可以使用此配置来过滤掉一些仅在客户端的配置
+// }
 
 module.exports = {
   /**

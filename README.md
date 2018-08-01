@@ -57,9 +57,14 @@
 - [**React Native Router And Code Spliter Example**](https://github.com/Beven91/ssr-router-example)
 
 
-### 五、.packager.js篇
+### 五、.bundlerc.js篇
 
 ```js
+//如果你希望有些配置在服务端打包不适用 可以使用一下方式判断环境
+if(process.env.SERVERSIDE){
+  //当前为服务端打包
+}
+//完整配置介绍
 {
     targetPort: 8080,
     /**
