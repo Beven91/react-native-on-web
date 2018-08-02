@@ -5,6 +5,7 @@
  */
 
 // 加载依赖
+import 'babel-polyfill';
 import './fetch/node-fetch'
 import urlParser from 'url'
 import path from 'path';
