@@ -15,7 +15,7 @@ var Configuration = require('./helpers/configuration')
 function serverPack(context, callback) {
   logger.info('Bundle server side .......');
   Object.defineProperty(process.env, 'NODE_ENV', { value: 'production' })
-  Object.defineProperty(process.env, 'SERVERSIDE', { value: true })
+  Object.defineProperty(process.env, 'SERVERSIDE', { get: function () { return true } })
   //重新读取配置
   Configuration.get(true);
   var webpack = require('webpack');
@@ -35,7 +35,7 @@ function serverPack(context, callback) {
 function clientPack(context, callback) {
   logger.info('Bundle client side .......');
   Object.defineProperty(process.env, 'NODE_ENV', { value: 'production' })
-  Object.defineProperty(process.env, 'SERVERSIDE', { value: false })
+  Object.defineProperty(process.env, 'SERVERSIDE', { get: function () { return true } })
   //重新读取配置
   Configuration.get(true);
   var webpack = require('webpack');
