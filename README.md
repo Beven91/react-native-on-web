@@ -60,7 +60,7 @@
 ### 五、.bundlerc.js篇
 
 ```js
-//如果你希望有些配置在服务端打包不适用 可以使用一下方式判断环境
+//如果你希望有些配置在服务端打包不使用 可以使用一下方式判断环境
 if(process.env.SERVERSIDE){
   //当前为服务端打包
 }
@@ -196,7 +196,7 @@ if(process.env.SERVERSIDE){
 
 <p>默认打包工具会识别index.web.js所在目录下的.babelrc 以及webpack.js 的配置，</p>
 <p>并且将配置合并到打包工具中，</p>
-<p>当然大部分是使用.packager.js中的{webpack:{},babelrc:{}}</p>
+<p>当然大部分是使用.bundlerc.js中的{webpack:{},babelrc:{}}</p>
 
 
 ### 七、平台环境篇
