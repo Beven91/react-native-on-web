@@ -1,7 +1,7 @@
 {
   "name": "react-native-on-web-monorepo",
   "private": true,
-  "version": "5.2.13",
+  "version": "5.2.14",
   "description": "React Native for Web",
   "scripts": {
     "postinstall": "npm run lerna",
@@ -41,6 +41,6 @@
     "npm-shell": "^1.0.10"
   },
   "dependencies": {
-    "react-native-on-web-cli": "^5.2.12"
+    "react-native-on-web-cli": "^5.2.13"
   }
 }
