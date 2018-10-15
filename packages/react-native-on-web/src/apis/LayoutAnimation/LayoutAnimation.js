@@ -66,7 +66,7 @@ function create(duration, type, creationProp) {
   };
 }
 
-var Presets = {
+let Presets = {
   easeInEaseOut: create(
     300, Types.easeInEaseOut, Properties.opacity
   ),

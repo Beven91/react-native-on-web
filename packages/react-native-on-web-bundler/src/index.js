@@ -1,25 +1,29 @@
 /**
- * 名称：react-native-on-web 打包发布入口 
+ * 名称：react-native-on-web 打包发布入口
  * 日期：2017-05-18
  * 作者：Beven
  * 描述：用于进行web平台打包发布
  */
-//依赖>>：
-var path = require('path');
-var fse = require('fs-extra');
-var logger = require('./helpers/logger')
-var Options = require('./helpers/options');
-var Configuration = require('./helpers/configuration')
+// 依赖>>：
+let path = require('path');
+let fse = require('fs-extra');
+let logger = require('./helpers/logger');
+let Options = require('./helpers/options');
+let Configuration = require('./helpers/configuration');
 
-//执行服务端打包
+// 执行服务端打包
 function serverPack(context, callback) {
   logger.info('Bundle server side .......');
-  Object.defineProperty(process.env, 'NODE_ENV', { value: 'production' })
-  Object.defineProperty(process.env, 'SERVERSIDE', { configurable: true, get: function () { return true } })
-  //重新读取配置
+  Object.defineProperty(process.env, 'NODE_ENV', { value: 'production' });
+  Object.defineProperty(process.env, 'SERVERSIDE', {
+    configurable: true, get: function () {
+      return true;
+    },
+  });
+  // 重新读取配置
   Configuration.get(true);
-  var webpack = require('webpack');
-  var compiler = webpack(require('./webpack/webpack.server'));
+  let webpack = require('webpack');
+  let compiler = webpack(require('./webpack/webpack.server'));
   compiler.run(function (err, context) {
     if (err) {
       return logger.error(err.stack);
@@ -28,18 +32,22 @@ function serverPack(context, callback) {
       return logger.error(stats.errors.join('\n'));
     }
     callback();
-  })
+  });
 }
 
-//执行客户端端打包
+// 执行客户端端打包
 function clientPack(context, callback) {
   logger.info('Bundle client side .......');
-  Object.defineProperty(process.env, 'NODE_ENV', { value: 'production' })
-  Object.defineProperty(process.env, 'SERVERSIDE', { configurable: true, get: function () { return true } })
-  //重新读取配置
+  Object.defineProperty(process.env, 'NODE_ENV', { value: 'production' });
+  Object.defineProperty(process.env, 'SERVERSIDE', {
+    configurable: true, get: function () {
+      return true;
+    },
+  });
+  // 重新读取配置
   Configuration.get(true);
-  var webpack = require('webpack');
-  var compiler = webpack(require('./webpack/webpack.client'));
+  let webpack = require('webpack');
+  let compiler = webpack(require('./webpack/webpack.client'));
   compiler.run(function (err, context) {
     if (err) {
       return logger.error(err.stack);
@@ -48,13 +56,13 @@ function clientPack(context, callback) {
       return logger.error(stats.errors.join('\n'));
     }
     callback();
-  })
+  });
 }
 
-//清除发布目录
+// 清除发布目录
 function cleanPack(context, callback) {
-  var config = require(context.configPath);
-  //如果是完全打包，则发布前执行删除发布目录
+  let config = require(context.configPath);
+  // 如果是完全打包，则发布前执行删除发布目录
   if (context.client && context.server) {
     logger.info('Remove dir:' + config.releaseDir);
     fse.removeSync(config.releaseDir || context.releaseDir);
@@ -62,11 +70,13 @@ function cleanPack(context, callback) {
   callback();
 }
 
-//执行构建流程
+// 执行构建流程
 function runAppPack(packs, context) {
   try {
     packs.reverse().reduce(function (previous, current) {
-      return function () { current(context, previous); }
+      return function () {
+        current(context, previous);
+      };
     }, function () {
       logger.info('Bundle complete!');
     })();
@@ -87,11 +97,11 @@ function runAppPack(packs, context) {
  *                优先级：configPath优先级高于本参数
  */
 function runPack(configPath, client, server, releaseDir) {
-  var handlers = [cleanPack];
+  let handlers = [cleanPack];
   releaseDir = path.isAbsolute(releaseDir) ? releaseDir : path.resolve(releaseDir);
   releaseDir = path.join(releaseDir, 'react-web');
-  //设置打包配置文件环境变量
-  var config = Configuration.session(configPath, releaseDir, true)
+  // 设置打包配置文件环境变量
+  let config = Configuration.session(configPath, releaseDir, true);
   server = config.isomorphic ? server : false;
   if (client) {
     handlers.push(clientPack);
@@ -99,12 +109,12 @@ function runPack(configPath, client, server, releaseDir) {
   if (server) {
     handlers.push(serverPack);
   }
-  var context = {
+  let context = {
     releaseDir: releaseDir,
     configPath: configPath,
     client: client,
-    server: server
-  }
+    server: server,
+  };
   runAppPack(handlers, context);
 }
 
@@ -115,5 +125,5 @@ process.on('uncaughtException', function (e) {
 
 module.exports = {
   runPack: runPack,
-  Options: Options
-}
+  Options: Options,
+};

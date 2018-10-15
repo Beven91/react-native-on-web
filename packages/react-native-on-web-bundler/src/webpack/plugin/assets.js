@@ -3,37 +3,37 @@
  * @date 2018-04-21
  * @description 用于提供给服务端需要加载那些js以及css
  */
-var path = require('path');
-var fse = require('fs-extra');
+let path = require('path');
+let fse = require('fs-extra');
 // 配置文件
-var config = require('../../rnw-config.js')();
+let config = require('../../rnw-config.js')();
 
 function AssetsPlugin() {
 
 }
 
 AssetsPlugin.prototype.findAssets = function (assets, type, publicPath) {
-  var reg = new RegExp('\\.' + type + '$');
+  let reg = new RegExp('\\.' + type + '$');
   return assets.filter(function (name) {
     return reg.test(name);
   }).map(function (name) {
     return publicPath + name;
-  })
-}
+  });
+};
 
 AssetsPlugin.prototype.apply = function (compiler) {
-  var findAssets = this.findAssets;
-  var options = compiler.options || {};
-  var publicPath = options.output.publicPath;
+  let findAssets = this.findAssets;
+  let options = compiler.options || {};
+  let publicPath = options.output.publicPath;
   compiler.plugin('emit', function (compilation, callback) {
-    var assets = Object.keys(compilation.assets);
-    var webpack = {
+    let assets = Object.keys(compilation.assets);
+    let webpack = {
       jsAssets: findAssets(assets, 'js', publicPath),
-      cssAssets: findAssets(assets, 'css', publicPath)
-    }
+      cssAssets: findAssets(assets, 'css', publicPath),
+    };
     fse.writeJSONSync(path.join(config.releaseDir, 'assets.json'), webpack);
     callback();
   });
-}
+};
 
 module.exports = AssetsPlugin;

@@ -7,26 +7,26 @@
 // 添加搜索路径
 module.paths.unshift(require('path').resolve('node_modules'));
 
-var path = require('path')
-var webpack = require('webpack')
-var config = require('../rnw-config.js')();
-var Options = require('../helpers/options.js');
-var ModuleResolver = require('babel-plugin-module-resolver');
+let path = require('path');
+let webpack = require('webpack');
+let config = require('../rnw-config.js')();
+let Options = require('../helpers/options.js');
+let ModuleResolver = require('babel-plugin-module-resolver');
 
 // webpack plugins
-var NodeModulePlugin = require('webpack-node-module-plugin').NodeModulePlugin
-var RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlugin
-var CleanWebpackPlugin = require('clean-webpack-plugin')
-var PackageJsonPlugin = require('./plugin/package.js');
+let NodeModulePlugin = require('webpack-node-module-plugin').NodeModulePlugin;
+let RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlugin;
+let CleanWebpackPlugin = require('clean-webpack-plugin');
+let PackageJsonPlugin = require('./plugin/package.js');
 
-//babelRc
-var babelRc = config.babelRc;
+// babelRc
+let babelRc = config.babelRc;
 // 代码目录
-var contextPath = path.dirname(config.serverContextEntry);
+let contextPath = path.dirname(config.serverContextEntry);
 // 服务端打包存放目标目录
-var serverAppDir = config.serverAppDir;
+let serverAppDir = config.serverAppDir;
 // 设置需要设置成externals的node_modules模块
-var externalsNodeModules = [
+let externalsNodeModules = [
   'react-native',
   'babel-polyfill',
   'babel-runtime',
@@ -34,34 +34,34 @@ var externalsNodeModules = [
   'react-dom',
   'react-deep-force-update',
   'react-mixin',
-  'react-native-on-web'
-].concat(config.externalModules)
+  'react-native-on-web',
+].concat(config.externalModules);
 
-var baseName = path.relative(config.clientAppDir, serverAppDir);
-var targetIndexWeb = path.join(config.clientAppDir, path.dirname(baseName), path.basename(config.serverContextEntry));
+let baseName = path.relative(config.clientAppDir, serverAppDir);
+let targetIndexWeb = path.join(config.clientAppDir, path.dirname(baseName), path.basename(config.serverContextEntry));
 
-var copyBabel = Options.merge({}, config.babelRc);
+let copyBabel = Options.merge({}, config.babelRc);
 
 copyBabel.plugins = [].concat(config.babelRc.plugins);
 
-//服务端babel别名
+// 服务端babel别名
 copyBabel.plugins.unshift([
   'module-resolver', {
     resolvePath(sourcePath, currentFile, opts) {
-      var name = ModuleResolver.resolvePath(sourcePath, currentFile, opts);
+      let name = ModuleResolver.resolvePath(sourcePath, currentFile, opts);
       if (name) {
-        var full = path.join(path.dirname(currentFile), name);
-        var name2 = path.relative(config.projectRoot, full);
+        let full = path.join(path.dirname(currentFile), name);
+        let name2 = path.relative(config.projectRoot, full);
         return name2.indexOf('..' + path.sep) > -1 ? name.replace('../', '') : name;
       }
     },
     'alias': Options.merge({
       'react-native-on-web-index-web-js': path.relative(path.join(config.releaseDir), targetIndexWeb),
       'react-native-on-web/packager/register': 'path',
-      'react-native-on-web/packager/webpack/middleware/hot.bundle.js': 'react-native-on-web/packager/webpack/middleware/bundle.js'
-    }, Options.relativeAlias(config.alias, config.projectRoot))
-  }
-])
+      'react-native-on-web/packager/webpack/middleware/hot.bundle.js': 'react-native-on-web/packager/webpack/middleware/bundle.js',
+    }, Options.relativeAlias(config.alias, config.projectRoot)),
+  },
+]);
 
 module.exports = Options.merge({
   target: 'node',
@@ -71,8 +71,8 @@ module.exports = Options.merge({
   context: contextPath, // 根目录
   entry: {
     'server': [
-      './' + path.relative(contextPath, config.serverContextEntry).replace(/\\/g, '/')
-    ]
+      './' + path.relative(contextPath, config.serverContextEntry).replace(/\\/g, '/'),
+    ],
   },
   output: {
     // 设置根目录为assets/app目录 目的：打包服务端js时，
@@ -82,27 +82,29 @@ module.exports = Options.merge({
     // 设置打包服务端js存放目标目录文件名
     filename: baseName + '/[name].js',
     publicPath: config.publicPath,
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
   },
   plugins: [
     new webpack.ProgressPlugin(),
     new CleanWebpackPlugin(path.basename(config.releaseDir), { exclude: ['assets', 'assets.json', 'spliter.json'], root: path.dirname(config.releaseDir) }),
     new webpack.DefinePlugin({
-      __DEV__: JSON.stringify(true),
-      'process.env': { NODE_ENV: JSON.stringify('production') }
+      '__DEV__': JSON.stringify(true),
+      'process.env': { NODE_ENV: JSON.stringify('production') },
     }),
     new RequireImageXAssetPlugin(config.imageAssets),
     new NodeModulePlugin(contextPath, config.cdnVariableName, config.releaseDir, copyBabel, config.ignores),
-    new PackageJsonPlugin()
+    new PackageJsonPlugin(),
   ],
   externals: function (context, request, callback) {
-    request = request.trim()
-    var isExternal = externalsNodeModules.filter(function (v) { return (request + '/').indexOf(v + '/') == 0; }).length > 0
-    return isExternal ? callback(null, 'commonjs ' + request) : callback()
+    request = request.trim();
+    let isExternal = externalsNodeModules.filter(function (v) {
+      return (request + '/').indexOf(v + '/') == 0;
+    }).length > 0;
+    return isExternal ? callback(null, 'commonjs ' + request) : callback();
   },
   node: {
     __filename: false,
-    __dirname: false
+    __dirname: false,
   },
   module: {
     rules: [
@@ -116,7 +118,7 @@ module.exports = Options.merge({
             presets: babelRc.presets,
             plugins: babelRc.plugins,
             babelrc: babelRc.babelrc,
-          }
+          },
         }],
       },
       {
@@ -125,15 +127,15 @@ module.exports = Options.merge({
         loader: [
           {
             loader: 'image-web-loader',
-            options: config.minOptions
+            options: config.minOptions,
           },
           {
             loader: 'file-loader',
             options: {
-              name: 'images/[hash].[ext]'
-            }
-          }
-        ]
+              name: 'images/[hash].[ext]',
+            },
+          },
+        ],
       },
       {
         // url类型模块资源访问
@@ -141,17 +143,17 @@ module.exports = Options.merge({
         loader: 'url-loader',
         query: {
           name: '[hash].[ext]',
-          limit: 10000
-        }
-      }
-    ]
+          limit: 10000,
+        },
+      },
+    ],
   },
   resolve: {
     modules: ['node_modules'].concat(module.paths),
     alias: config.alias,
-    extensions: config.extensions
+    extensions: config.extensions,
   },
   resolveLoader: {
     modules: module.paths,
-  }
+  },
 }, config.webpack);

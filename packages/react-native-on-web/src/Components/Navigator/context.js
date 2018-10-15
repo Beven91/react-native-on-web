@@ -6,7 +6,7 @@ import invariant from './lib/invariant';
 import NavigationEvent from './event';
 import EventSubscription from './lib/emitter/EventSubscription';
 
-const emptyFunction = () => {};
+const emptyFunction = () => { };
 
 /**
  * Class that contains the info and methods for app navigation.
@@ -37,7 +37,7 @@ class NavigationContext {
     if (emitter) {
       return emitter.addListener(eventType, listener, context);
     }
-    return {remove: emptyFunction};
+    return { remove: emptyFunction };
   }
 
   emit(eventType: String, data: any, didEmitCallback: ?Function): void {

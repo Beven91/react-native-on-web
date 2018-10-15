@@ -5,43 +5,43 @@
  */
 
 // 添加搜索路径
-module.paths.unshift(require('path').resolve('node_modules'))
+module.paths.unshift(require('path').resolve('node_modules'));
 
-var path = require('path')
-var webpack = require('webpack')
-var dantejs = require('dantejs')
-var config = require('../rnw-config.js')();
-var Options = require('../helpers/options');
-var Arrays = dantejs.Array
+let path = require('path');
+let webpack = require('webpack');
+let dantejs = require('dantejs');
+let config = require('../rnw-config.js')();
+let Options = require('../helpers/options');
+let Arrays = dantejs.Array;
 
 // webpack plugins
-var RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlugin
-var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-var RuntimeCapturePlugin = require('./plugin/capture.js');
-var CleanWebpackPlugin = require('clean-webpack-plugin')
-var AssetsPlugin = require('./plugin/assets');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var CodeSpliterPlugin = require('webpack-code-spliter').CodeSpliterPlugin;
-var Split = CodeSpliterPlugin.configure(config.splitRoutes, config.indexWebDir, 'pages', config.splitHandle)
+let RequireImageXAssetPlugin = require('image-web-loader').RequireImageXAssetPlugin;
+let BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+let RuntimeCapturePlugin = require('./plugin/capture.js');
+let CleanWebpackPlugin = require('clean-webpack-plugin');
+let AssetsPlugin = require('./plugin/assets');
+let HtmlWebpackPlugin = require('html-webpack-plugin');
+let CodeSpliterPlugin = require('webpack-code-spliter').CodeSpliterPlugin;
+let Split = CodeSpliterPlugin.configure(config.splitRoutes, config.indexWebDir, 'pages', config.splitHandle);
 
-var isProudction = process.env.NODE_ENV === 'production'
+let isProudction = process.env.NODE_ENV === 'production';
 // 是否为同构模式
-var isomorphic = config.isomorphic;
-var noop = function () { }
+let isomorphic = config.isomorphic;
+let noop = function () { };
 // 开发环境plugins
-var devPlugins = [
-  new webpack.HotModuleReplacementPlugin()
-]
+let devPlugins = [
+  new webpack.HotModuleReplacementPlugin(),
+];
 
 // 生产环境plugins
-var proPlugins = [
+let proPlugins = [
   new AssetsPlugin(),
   new CleanWebpackPlugin('*', { root: config.clientAppDir }),
   new BundleAnalyzerPlugin({
     analyzerMode: 'static',
-    openAnalyzer: false
-  })
-]
+    openAnalyzer: false,
+  }),
+];
 
 module.exports = Options.merge({
   devtool: 'source-map',
@@ -52,20 +52,20 @@ module.exports = Options.merge({
   entry: {
     app: Arrays.filterEmpty([
       isProudction ? undefined : 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true',
-      './' + path.basename(config.clientContextEntry)
-    ])
+      './' + path.basename(config.clientContextEntry),
+    ]),
   },
   output: {
     path: path.join(config.clientAppDir),
     filename: isProudction ? '[name]-[hash].js' : '[name].js',
     chunkFilename: isProudction ? '[name]-[chunkhash].js' : '[name].js',
-    publicPath: config.publicPath
+    publicPath: config.publicPath,
   },
   optimization: {
     splitChunks: {
       name: 'app',
-      chunks: 'initial'
-    }
+      chunks: 'initial',
+    },
   },
   plugins: [
     (
@@ -73,7 +73,7 @@ module.exports = Options.merge({
         noop :
         new HtmlWebpackPlugin({
           filename: 'index.html',
-          template: path.resolve('www/express/views/index.cshtml')
+          template: path.resolve('www/express/views/index.cshtml'),
         })
     ),
     new webpack.ProgressPlugin(),
@@ -81,11 +81,11 @@ module.exports = Options.merge({
     new RuntimeCapturePlugin(),
     new CodeSpliterPlugin(isProudction ? config.releaseDir : null),
     new webpack.DefinePlugin({
-      __DEV__: JSON.stringify(isProudction),
+      '__DEV__': JSON.stringify(isProudction),
       'process.env': {
         RNW_RUNTIME: JSON.stringify('Client'),
-        NODE_ENV: JSON.stringify(isProudction ? 'production' : 'development')
-      }
+        NODE_ENV: JSON.stringify(isProudction ? 'production' : 'development'),
+      },
     }),
   ].concat(isProudction ? proPlugins : devPlugins),
   module: {
@@ -100,18 +100,18 @@ module.exports = Options.merge({
             presets: config.babelRc.presets,
             plugins: config.babelRc.plugins,
             babelrc: config.babelRc.babelrc,
-          }
+          },
         }],
-        exclude: config.rc.exclude
+        exclude: config.rc.exclude,
       },
       {
-        //代码拆分
+        // 代码拆分
         test: /\.js$|\.jsx$/,
         include: Split.includes,
         loader: [
           {
             loader: Split.loader,
-            options: Split.options
+            options: Split.options,
           },
           {
             loader: 'babel-loader',
@@ -120,8 +120,8 @@ module.exports = Options.merge({
               presets: config.babelRc.presets,
               plugins: config.babelRc.plugins,
               babelrc: config.babelRc.babelrc,
-            }
-          }
+            },
+          },
         ],
       },
       {
@@ -130,15 +130,17 @@ module.exports = Options.merge({
         loader: [
           {
             loader: 'image-web-loader',
-            options: config.minOptions
+            options: config.minOptions,
           },
           {
             loader: 'file-loader',
             options: {
-              name: 'images/[hash].[ext]'
-            }
-          }
-        ].filter(function (v) { return !!v })
+              name: 'images/[hash].[ext]',
+            },
+          },
+        ].filter(function (v) {
+          return !!v;
+        }),
       },
       {
         // url类型模块资源访问
@@ -146,17 +148,17 @@ module.exports = Options.merge({
         loader: 'url-loader',
         query: {
           name: '[hash].[ext]',
-          limit: 10000
-        }
-      }
-    ]
+          limit: 10000,
+        },
+      },
+    ],
   },
   resolve: {
     modules: ['node_modules'].concat(module.paths),
     alias: config.alias,
-    extensions: config.extensions
+    extensions: config.extensions,
   },
   resolveLoader: {
     modules: module.paths,
-  }
+  },
 }, config.webpack);

@@ -6,15 +6,15 @@
  */
 
 // 引入依赖>>
-var path = require('path')
-var fse = require('fs-extra')
-var logger = require('./logger.js')
-var Npm = require('npm-shell')
+let path = require('path');
+let fse = require('fs-extra');
+let logger = require('./logger.js');
+let Npm = require('npm-shell');
 
 // 构建任务黑名单
-var blackList = ['run']
-var runRoot = process.cwd()
-var projectRoot = hasPackageReactOnWeb(runRoot) ? runRoot : path.join(runRoot, 'web')
+let blackList = ['run'];
+let runRoot = process.cwd();
+let projectRoot = hasPackageReactOnWeb(runRoot) ? runRoot : path.join(runRoot, 'web');
 
 /**
  * CLI 构造函数
@@ -28,23 +28,23 @@ function ReactNativeOnWebCli() {
  */
 ReactNativeOnWebCli.prototype.run = function (name) {
   if (blackList.indexOf(name) > -1) {
-    throw new Error(name + ' is not suported')
+    throw new Error(name + ' is not suported');
   }
-  var handler = this[name]
+  let handler = this[name];
   if (typeof handler === 'function') {
-    return handler.bind(this)
+    return handler.bind(this);
   } else {
-    throw new Error(name + ' is not suported')
+    throw new Error(name + ' is not suported');
   }
-}
+};
 
 /**
  * 在react-native目录下生成一个react-native web工程
  */
 ReactNativeOnWebCli.prototype.initReactWeb = function () {
   // 生成工程
-  require('./tasks/init.js')()
-}
+  require('./tasks/init.js')();
+};
 
 /**
  * 启动web
@@ -56,79 +56,79 @@ ReactNativeOnWebCli.prototype.start = function () {
   if (!fse.existsSync(path.join(projectRoot, 'node_modules'))) {
     new Npm(projectRoot).install();
   }
-  new Npm(projectRoot).run('start')
-}
+  new Npm(projectRoot).run('start');
+};
 
 /**
  * 删除web工程
  */
 ReactNativeOnWebCli.prototype.remove = function () {
   if (hasWebPlatform()) {
-    var indexWeb = path.join(projectRoot, '..', 'index.web.js')
-    logger.info('ReactNativeOnWeb: remove web platform ......')
+    let indexWeb = path.join(projectRoot, '..', 'index.web.js');
+    logger.info('ReactNativeOnWeb: remove web platform ......');
     if (fse.existsSync(projectRoot)) {
-      fse.removeSync(projectRoot)
+      fse.removeSync(projectRoot);
     }
     if (fse.existsSync(indexWeb)) {
-      fse.removeSync(indexWeb)
+      fse.removeSync(indexWeb);
     }
-    logger.info('ReactNativeOnWeb: remove web platform successful!')
+    logger.info('ReactNativeOnWeb: remove web platform successful!');
   }
-}
+};
 
 /**
  * 打包发布
  */
 ReactNativeOnWebCli.prototype.bundle = function (releaseDir, mode) {
   if (hasWebPlatform()) {
-    logger.info('ReactNativeOnWeb: Running bundle .......')
-    var selfRoot = path.join(__dirname, 'tmpl', 'project', 'web')
-    var inProject = selfRoot.indexOf(projectRoot) > -1
-    var pack = path.join(projectRoot, 'node_modules/react-native-on-web/packager/index.js')
+    logger.info('ReactNativeOnWeb: Running bundle .......');
+    let selfRoot = path.join(__dirname, 'tmpl', 'project', 'web');
+    let inProject = selfRoot.indexOf(projectRoot) > -1;
+    let pack = path.join(projectRoot, 'node_modules/react-native-on-web/packager/index.js');
     if (projectRoot === selfRoot || inProject) {
-      pack = path.join(__dirname, '../packager/index.js')
+      pack = path.join(__dirname, '../packager/index.js');
     }
-    var argv = process.argv.slice(3)
-    new Npm(projectRoot).node(pack, argv, { NODE_ENV: 'production' })
+    let argv = process.argv.slice(3);
+    new Npm(projectRoot).node(pack, argv, { NODE_ENV: 'production' });
   }
-}
+};
 
 /**
  * 升级react-native-on-web
  */
 ReactNativeOnWebCli.prototype.upgrade = function () {
   if (hasWebPlatform()) {
-    logger.info('ReactNativeOnWeb: Starting update .......')
-    var npm = new Npm(projectRoot)
+    logger.info('ReactNativeOnWeb: Starting update .......');
+    let npm = new Npm(projectRoot);
     logger.info('ReactNativeOnWeb: update react-native-on-web module .....');
     npm.unInstall('react-native-on-web');
     npm.install('react-native-on-web --save');
     npm.install('react-native-on-web-cli --save');
-    var file = path.join(projectRoot, '.packager.js');
+    let file = path.join(projectRoot, '.packager.js');
     if (fse.existsSync(file)) {
-      var bundlerc = String(fse.readFileSync(file));
-      var entry = bundlerc.clientContextEntry || '';
+      let bundlerc = String(fse.readFileSync(file));
+      let entry = bundlerc.clientContextEntry || '';
       bundlerc.clientContextEntry = entry.replace('server/express/react', 'www/express/react');
     }
     // logger.info('ReactNativeOnWeb: update global react-native-on-web module .....');
     // npm.install('react-native-on-web -g');
     logger.info('ReactNativeOnWeb: update complete ');
   }
-}
+};
 
 function hasWebPlatform() {
-  var hasPlatform = hasPackageReactOnWeb(runRoot) || hasPackageReactOnWeb(projectRoot)
+  let hasPlatform = hasPackageReactOnWeb(runRoot) || hasPackageReactOnWeb(projectRoot);
   if (!hasPlatform) {
-    logger.error('ReactNativeOnWeb: there has not web platform you can invoke <react-native-on-web init> to create web platform')
+    logger.error('ReactNativeOnWeb: there has not web platform you can invoke <react-native-on-web init> to create web platform');
   }
-  return hasPlatform
+  return hasPlatform;
 }
 
 function hasPackageReactOnWeb(dir) {
-  var packageJsonPath = path.join(dir, 'package.json')
-  var dependencies = fse.existsSync(packageJsonPath) ? Object.keys(require(packageJsonPath).dependencies || {}) : []
-  return dependencies.indexOf('react-native-on-web') > -1
+  let packageJsonPath = path.join(dir, 'package.json');
+  let dependencies = fse.existsSync(packageJsonPath) ? Object.keys(require(packageJsonPath).dependencies || {}) : [];
+  return dependencies.indexOf('react-native-on-web') > -1;
 }
 
 // 公布cli
-module.exports = new ReactNativeOnWebCli()
+module.exports = new ReactNativeOnWebCli();

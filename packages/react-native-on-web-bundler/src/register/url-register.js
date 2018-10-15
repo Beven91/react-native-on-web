@@ -4,36 +4,36 @@
  * 描述：使服务端nodejs支持静态资源文件加载
  */
 
-//引入依赖>>
-var fs = require('fs');
-var path = require('path');
-var dantejs = require('dantejs');
-var urlloader = require('url-loader');
-var imageloader = require('image-web-loader');
+// 引入依赖>>
+let fs = require('fs');
+let path = require('path');
+let dantejs = require('dantejs');
+let urlloader = require('url-loader');
+let imageloader = require('image-web-loader');
 
-//全局配置
-var config = require('../rnw-config.js')();
-var webpack = require('../webpack/webpack.client');
-//基础路径
-var publicPath = config.publicPath;
-var serverResolves = config.serverResolves;
+// 全局配置
+let config = require('../rnw-config.js')();
+let webpack = require('../webpack/webpack.client');
+// 基础路径
+let publicPath = config.publicPath;
+let serverResolves = config.serverResolves;
 
-var rules = webpack.module.rules || [];
-var imageRule = { test: /\.(png|jpg|jpeg|gif|webp|bmp|ico|jpeg)$/ };
+let rules = webpack.module.rules || [];
+let imageRule = { test: /\.(png|jpg|jpeg|gif|webp|bmp|ico|jpeg)$/ };
 rules.filter(function (r) {
-  var loaders = dantejs.Array.ensureArray(r.loaders || r.loader);
+  let loaders = dantejs.Array.ensureArray(r.loaders || r.loader);
   return loaders.filter(function (loader) {
-    var name = (dantejs.Type.isString(loader) ? loader : loader.loader || '');
+    let name = (dantejs.Type.isString(loader) ? loader : loader.loader || '');
     if (name === 'image-web-loader') {
       imageRule = r;
     }
   }).length > 0;
-})
+});
 
 /**
  * 模块resolve
- * @param {Module} md 
- * @param {*} filename 
+ * @param {Module} md
+ * @param {*} filename
  */
 function moduleResolve(md, filename) {
   const ext = path.extname(filename);
@@ -50,10 +50,10 @@ function moduleResolve(md, filename) {
  * @param filename require的module 对应的文件物理路径
  */
 function fileResolver(md, filename) {
-  var buffer = fs.readFileSync(filename);
-  var context = getContext(filename, '?limit=1');
-  var exp = urlloader.call(context, buffer);
-  var fn = new Function('module,__webpack_public_path__', exp);
+  let buffer = fs.readFileSync(filename);
+  let context = getContext(filename, '?limit=1');
+  let exp = urlloader.call(context, buffer);
+  let fn = new Function('module,__webpack_public_path__', exp);
   fn(md, publicPath);
 }
 
@@ -61,12 +61,12 @@ function fileResolver(md, filename) {
  * 图片resolve
  */
 function imgResolve(md, filename) {
-  var buffer = fs.readFileSync(filename);
-  var context = getContext(filename,{});
-  var context2 = getContext(filename, '?limit=1');
-  var content = urlloader.call(context2, buffer);
-  var exp = imageloader.sync.call(context,content);
-  var fn = new Function('module,__webpack_public_path__', exp);
+  let buffer = fs.readFileSync(filename);
+  let context = getContext(filename, {});
+  let context2 = getContext(filename, '?limit=1');
+  let content = urlloader.call(context2, buffer);
+  let exp = imageloader.sync.call(context, content);
+  let fn = new Function('module,__webpack_public_path__', exp);
   fn(md, publicPath);
 }
 
@@ -79,7 +79,9 @@ function getContext(filename, query, options) {
     query: query,
     options: webpack,
     emitFile: function () { },
-    emitWarning: function (message) { console.warn(message) }
+    emitWarning: function (message) {
+      console.warn(message);
+    },
   };
 }
 
@@ -92,13 +94,15 @@ function unKnowResolve(md, filename) {
 
 require.extensions['.css'] = unKnowResolve;
 
-//批量注册静态资源加载器
-config.static.map(function (ext) { (!require.extensions[ext]) && (require.extensions[ext] = moduleResolve); });
+// 批量注册静态资源加载器
+config.static.map(function (ext) {
+  (!require.extensions[ext]) && (require.extensions[ext] = moduleResolve);
+});
 
 
 Object.keys(serverResolves).forEach(function (ext) {
-  var handle = serverResolves[ext];
+  let handle = serverResolves[ext];
   require.extensions['.' + ext] = function (md, file) {
     md.exports = handle(file);
-  }
-})
+  };
+});

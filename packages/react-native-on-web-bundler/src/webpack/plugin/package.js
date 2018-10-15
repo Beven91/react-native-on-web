@@ -1,61 +1,61 @@
-/***
+/** *
  * 名称：发布任务--结尾处理
  * 日期：2016-11-18
  * 描述：无
  */
 
 // 引入依赖>>
-var fse = require('fs-extra')
-var path = require('path')
-var logger = require('../../helpers/logger');
-var Options = require('../../helpers/options')
+let fse = require('fs-extra');
+let path = require('path');
+let logger = require('../../helpers/logger');
+let Options = require('../../helpers/options');
 
 // 配置文件
-var config = require('../../rnw-config.js')();
+let config = require('../../rnw-config.js')();
 
 /**
  * 发布后处理插件
  */
 function ReleasePackageJson(outputOptions) {
-  this.outputOptions = outputOptions
+  this.outputOptions = outputOptions;
 }
 
 /**
  * 发布结尾处理
  */
 ReleasePackageJson.prototype.make = function () {
-  this.configPackage()
-  this.configWeb()
-}
+  this.configPackage();
+  this.configWeb();
+};
 
 /**
  * 配置发布后的package.json
  */
 ReleasePackageJson.prototype.configPackage = function () {
-  logger.debug("Config package")
-  var releaseDir = config.releaseDir
-  var pgk = require(path.resolve('package.json'))
-  var pgkfile = path.join(releaseDir, 'package.json')
-  var nodeBundlName = 'node_modules/react-native-on-web/packager/webpack/';
-  var nodeBundle = path.resolve(nodeBundlName);
-  var targetNodeBundle = path.join(releaseDir,nodeBundlName);
-  var indexWebPackageFile = path.join(path.dirname(config.serverContextEntry), 'package.json');
-  var indexWebPackage = fse.existsSync(indexWebPackageFile) ? require(indexWebPackageFile) : {};
-  var topLevelDeps = indexWebPackage.dependencies || {};
+  logger.debug('Config package');
+  let releaseDir = config.releaseDir;
+  let pgk = require(path.resolve('package.json'));
+  let pgkfile = path.join(releaseDir, 'package.json');
+  let nodeBundlName = 'node_modules/react-native-on-web/packager/webpack/';
+  let nodeBundle = path.resolve(nodeBundlName);
+  let targetNodeBundle = path.join(releaseDir, nodeBundlName);
+  let indexWebPackageFile = path.join(path.dirname(config.serverContextEntry), 'package.json');
+  let indexWebPackage = fse.existsSync(indexWebPackageFile) ? require(indexWebPackageFile) : {};
+  let topLevelDeps = indexWebPackage.dependencies || {};
   pgk.dependencies = Options.assign(topLevelDeps, pgk.dependencies);
   delete pgk.dependencies['react-native'];
-  delete pgk.devDependencies
+  delete pgk.devDependencies;
   Object.keys(pgk.dependencies).forEach(function (k) {
     pgk.dependencies[k] = pgk.dependencies[k].replace(/(\^|~)/, '');
-  })
+  });
   pgk.scripts = {
     'init': 'npm install --registry=https://registry.npm.taobao.org',
     'pm2': 'pm2 start pm2.json',
-    'start': 'cross-env NODE_ENV=production node ./www/index.js'
-  }
-  this.writeJson(pgkfile, pgk)
-  fse.copySync((nodeBundle),targetNodeBundle,);
-}
+    'start': 'cross-env NODE_ENV=production node ./www/index.js',
+  };
+  this.writeJson(pgkfile, pgk);
+  fse.copySync((nodeBundle), targetNodeBundle);
+};
 
 /**
  * 配置web.json
@@ -63,23 +63,23 @@ ReleasePackageJson.prototype.configPackage = function () {
  * 修改资源版本号为当前时间
  */
 ReleasePackageJson.prototype.configWeb = function () {
-  var file = path.resolve('web.json')
+  let file = path.resolve('web.json');
   if (fse.existsSync(file)) {
-    logger.debug("Config web")
-    var outfile = path.join(config.releaseDir, 'web.json')
-    var webConfig = fse.readJsonSync(file)
-    var outputOptions = this.outputOptions
-    var dir = path.dirname(outputOptions.filename)
-    var originIndexWeb = webConfig.indexWeb
-    var targetIndexWeb = path.join(outputOptions.path, dir, path.basename(originIndexWeb))
+    logger.debug('Config web');
+    let outfile = path.join(config.releaseDir, 'web.json');
+    let webConfig = fse.readJsonSync(file);
+    let outputOptions = this.outputOptions;
+    let dir = path.dirname(outputOptions.filename);
+    let originIndexWeb = webConfig.indexWeb;
+    let targetIndexWeb = path.join(outputOptions.path, dir, path.basename(originIndexWeb));
     if (config.targetPort) {
       webConfig.port = config.targetPort;
     }
-    webConfig.indexWeb = path.relative(path.join(config.releaseDir), targetIndexWeb)
-    webConfig.version = new Date().getTime()
-    this.writeJson(outfile, webConfig)
+    webConfig.indexWeb = path.relative(path.join(config.releaseDir), targetIndexWeb);
+    webConfig.version = new Date().getTime();
+    this.writeJson(outfile, webConfig);
   }
-}
+};
 
 /**
  * 写出json文件
@@ -87,18 +87,18 @@ ReleasePackageJson.prototype.configWeb = function () {
  * @param content 文件内容
  */
 ReleasePackageJson.prototype.writeJson = function (file, content) {
-  fse.ensureDirSync(path.dirname(file))
+  fse.ensureDirSync(path.dirname(file));
   fse.writeFileSync(file, JSON.stringify(content, null, 2));
-}
+};
 
 function PackageJsonPlugin() {
 }
 
 PackageJsonPlugin.prototype.apply = function (compiler) {
-  var maker = new ReleasePackageJson(compiler.options.output)
+  let maker = new ReleasePackageJson(compiler.options.output);
   compiler.plugin('done', function () {
-    maker.make()
-  })
-}
+    maker.make();
+  });
+};
 
-module.exports = PackageJsonPlugin
+module.exports = PackageJsonPlugin;

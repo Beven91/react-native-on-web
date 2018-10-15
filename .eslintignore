@@ -1,0 +1,3 @@
+/packages/react-native-on-web/src/Navigator/*
+/packages/react-native-on-web-bundler/src/webpack/plugin/capture.js
+/packages/react-native-on-web-cli/logger.js

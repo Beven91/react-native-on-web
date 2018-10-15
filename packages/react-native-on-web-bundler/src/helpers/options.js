@@ -1,5 +1,5 @@
 
-var path = require('path');
+let path = require('path');
 
 /**
  * 属性合并工具
@@ -15,20 +15,16 @@ function Options() {
  * @returns {Object} 合并后的target
  */
 Options.prototype.merge = function (target, source) {
-  var isFunction = typeof source == 'function';
+  let isFunction = typeof source == 'function';
   return isFunction ? (source(target) || target) : this._merge(target, source);
-}
+};
 
 /**
  *  将来源属性对象(source)浅合并(一级属性值覆盖)到目标属性对象(target)中
  */
 Options.prototype.assign = function (target, source) {
-  source = source || {}
-  for (var i in source) {
-    target[i] = source[i]
-  }
-  return target
-}
+  return Object.assign(target, source);
+};
 
 /**
  * 深合并source属性到target对象中
@@ -41,11 +37,11 @@ Options.prototype.assign = function (target, source) {
  */
 Options.prototype._merge = function (target, source) {
   if (source) {
-    var merge = this._merge.bind(this);
+    let merge = this._merge.bind(this);
     Object.keys(source).forEach(function (key) {
-      var targetValue = target[key];
-      var sourceValue = source[key];
-      var objType = Object.prototype.toString.call(targetValue);
+      let targetValue = target[key];
+      let sourceValue = source[key];
+      let objType = Object.prototype.toString.call(targetValue);
       switch (objType) {
         case '[object Array]':
           target[key] = targetValue.concat(sourceValue || []);
@@ -57,10 +53,10 @@ Options.prototype._merge = function (target, source) {
           target[key] = sourceValue;
           break;
       }
-    })
+    });
   }
   return target;
-}
+};
 
 Options.prototype.unAssign = function (v, dv) {
   if (v === null || v === undefined || v === '') {
@@ -68,17 +64,17 @@ Options.prototype.unAssign = function (v, dv) {
   } else {
     return v;
   }
-}
+};
 
 Options.prototype.relativeAlias = function (alias, projectRoot) {
-  var keys = Object.keys(alias || {});
+  let keys = Object.keys(alias || {});
   keys.forEach(function (k) {
-    var name = alias[k];
+    let name = alias[k];
     if (path.isAbsolute(name)) {
       alias[k] = './' + path.relative(projectRoot, name).replace(/\\/g, '/');
     }
-  })
+  });
   return alias;
-}
+};
 
 module.exports = new Options();

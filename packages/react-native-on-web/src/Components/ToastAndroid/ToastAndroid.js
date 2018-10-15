@@ -4,25 +4,24 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, StyleSheet, Animated } from "react-native-web";
+import { Text, StyleSheet, Animated } from 'react-native-web';
 import { render } from 'react-dom';
 
-//短时间停留 单位：秒
+// 短时间停留 单位：秒
 const SHORT = 2000;
 
-//较长时间停留 单位：秒
+// 较长时间停留 单位：秒
 const LONG = 3500;
 
-const AnimateValue = (v) => new Animated.Value(v);
+const animateValue = (v) => new Animated.Value(v);
 
 let singleInstance = null;
 
 export default class Toast extends React.Component {
-
-  //短时间停留 单位：秒
+  // 短时间停留 单位：秒
   static SHORT = SHORT;
 
-  //较长时间停留 单位：秒
+  // 较长时间停留 单位：秒
   static LONG = LONG;
 
   /**
@@ -37,8 +36,8 @@ export default class Toast extends React.Component {
     }
   }
 
-  static showWithGravity(message,duration){
-    return this.show(...arguments);
+  static showWithGravity(...params) {
+    return this.show(...params);
   }
 
 
@@ -49,7 +48,7 @@ export default class Toast extends React.Component {
     if (!singleInstance) {
       let container = document.createElement('div');
       document.body.appendChild(container);
-      render(<Toast message={""} duration={duration} />, container);
+      render(<Toast message={''} duration={duration} />, container);
     }
   }
 
@@ -59,7 +58,7 @@ export default class Toast extends React.Component {
   static propTypes = {
     message: PropTypes.string.isRequired,
     duration: PropTypes.number,
-    timer: PropTypes.number
+    timer: PropTypes.number,
   }
 
   /**
@@ -86,9 +85,9 @@ export default class Toast extends React.Component {
           styles.toast,
           {
             transform: [
-              { scale: this.state.scale }
-            ]
-          }
+              { scale: this.state.scale },
+            ],
+          },
         ]}>
         <Text style={styles.toastInner}>{this.state.message}</Text>
       </Animated.View>
@@ -104,8 +103,8 @@ export default class Toast extends React.Component {
       duration,
       showing: false,
       remove: true,
-      scale: AnimateValue(1.185),
-      toScale: 1
+      scale: animateValue(1.185),
+      toScale: 1,
     };
   }
 
@@ -117,7 +116,7 @@ export default class Toast extends React.Component {
       this.handlers.push(callback);
     }
     setTimeout(() => {
-      let state = { duration: duration, remove: false, message: message, showing: true, scale: AnimateValue(1.185), toScale: (1) };
+      let state = { duration: duration, remove: false, message: message, showing: true, scale: animateValue(1.185), toScale: (1) };
       this.changeStatePlayAnimate(state);
     }, 20);
   }
@@ -126,7 +125,7 @@ export default class Toast extends React.Component {
   * 隐藏浮层
   */
   hide() {
-    let state = { remove: false, showing: false, scale: AnimateValue(1), toScale: (0.85) };
+    let state = { remove: false, showing: false, scale: animateValue(1), toScale: (0.85) };
     this.changeStatePlayAnimate(state);
   }
 
@@ -134,7 +133,9 @@ export default class Toast extends React.Component {
    * 设置状态播放动画
    */
   changeStatePlayAnimate(state) {
-    this.setState(state, () => { this.playAnimate(); });
+    this.setState(state, () => {
+      this.playAnimate();
+    });
   }
 
   /**
@@ -183,24 +184,24 @@ const styles = StyleSheet.create({
   toast: {
     position: 'fixed',
     zIndex: 100,
-    width:'100%',
-    left:0,
+    width: '100%',
+    left: 0,
     bottom: '15%',
-    justifyContent:'center',
-    alignItems:'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   toastInner: {
     fontSize: 14,
     lineHeight: 22,
     color: '#ffffff',
     borderRadius: 4,
-    display:'inline-block',
+    display: 'inline-block',
     backgroundColor: 'rgba(0,0,0,.65)',
     paddingLeft: 20,
     paddingRight: 20,
     paddingBottom: 10,
     paddingTop: 10,
-    marginLeft:25,
-    marginRight:25,
-  }
-})
+    marginLeft: 25,
+    marginRight: 25,
+  },
+});

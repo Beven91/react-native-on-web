@@ -1,13 +1,14 @@
-var path = require('path');
-var fs = require('fs');
+let path = require('path');
+let fs = require('fs');
 
-var file = path.resolve('assets.json');
-var webpack = fs.existsSync(file) ? require(file) : {};
+let file = path.resolve('assets.json');
+let webpack = fs.existsSync(file) ? require(file) : {};
 
 module.exports = function (app) {
   app.use(function (req, resp, next) {
     resp.locals = resp.locals || {};
     resp.locals.Webpack = webpack;
     next();
-  })
+  });
 }
+  ;

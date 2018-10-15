@@ -6,46 +6,46 @@
  */
 
 // 引入依赖>>
-var program = require('commander')
-var pgk = require('./package.json')
-var cli = require('./cli.js')
+let program = require('commander');
+let pgk = require('./package.json');
+let cli = require('./cli.js');
 
 module.exports = function (argv) {
-  //默认参数
+  // 默认参数
   if (argv.length <= 2) {
     argv.push('-h');
   }
 
   program
     .version(pgk.version)
-    .usage('reactWeb [command] [options]')
+    .usage('reactWeb [command] [options]');
 
   program
     .command('init')
     .action(cli.run('initReactWeb'))
-    .description('创建一个新的react-native web工程')
+    .description('创建一个新的react-native web工程');
 
   program
     .command('start')
     .action(cli.run('start'))
-    .description('启动web平台')
+    .description('启动web平台');
 
   program
     .command('bundle')
     .allowUnknownOption()
     .action(cli.run('bundle'))
-    .description('打包Web平台工程，例如:react-native-on-web bundle --releaseDir=d:/release --client --server(client:打包客户端,server打包服务端,不填写全部打包)')
+    .description('打包Web平台工程，例如:react-native-on-web bundle --releaseDir=d:/release --client --server(client:打包客户端,server打包服务端,不填写全部打包)');
 
   program
     .command('remove')
     .action(cli.run('remove'))
-    .description('删除web平台工程')
+    .description('删除web平台工程');
 
   program
     .command('upgrade')
     .action(cli.run('upgrade'))
-    .description('更新react-native-on-web')
+    .description('更新react-native-on-web');
 
   // 解析参数
-  program.parse(argv)
-}
+  program.parse(argv);
+};

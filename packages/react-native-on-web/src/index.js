@@ -15,13 +15,13 @@ import AsyncStorage from './apis/AsyncStorage.js';
 import Navigator from './components/Navigator';
 
 Object.assign(ReactNative, React, {
-    Modal,
-    ToastAndroid,
-    TabBarIOS,
-    Picker,
-    Navigator,
-    AsyncStorage,
-    LayoutAnimation,
+  Modal,
+  ToastAndroid,
+  TabBarIOS,
+  Picker,
+  Navigator,
+  AsyncStorage,
+  LayoutAnimation,
 });
 
 module.exports = ReactNative;

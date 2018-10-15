@@ -4,21 +4,20 @@
  * 描述：使nodejs在运行时支持es6 es7 react-native 等等
  */
 module.exports = function (configPath, releaseDir) {
-
   require('../helpers/configuration').session(configPath, releaseDir);
 
-  var config = require('../rnw-config.js')();
-  var Options = require('../helpers/options');
+  let config = require('../rnw-config.js')();
+  let Options = require('../helpers/options');
 
-  //1.引入polyfill
-  require('babel-polyfill')
+  // 1.引入polyfill
+  require('babel-polyfill');
 
-  //2.启用babel-register
+  // 2.启用babel-register
   require('babel-register')(Options.merge({}, config.babelRc));
 
-  //3.react-native 别名处理
+  // 3.react-native 别名处理
   require('./react-native-register.js');
 
-  //4.静态资源加载
+  // 4.静态资源加载
   require('./url-register.js');
-}
+};
