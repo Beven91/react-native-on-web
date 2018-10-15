@@ -1,6 +1,6 @@
 {
   "name": "react-native-on-web-bundler",
-  "version": "5.2.14",
+  "version": "5.2.15",
   "description": "",
   "main": "./src/index.js",
   "scripts": {
