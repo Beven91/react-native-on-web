@@ -46,3 +46,9 @@ let clientReactApplication = new ReactClientApp();
 
 // 启动程序
 clientReactApplication.runApplication();
+
+if (module.hot) {
+  module.hot.accept(() => {
+    clientReactApplication.runApplication();
+  });
+}

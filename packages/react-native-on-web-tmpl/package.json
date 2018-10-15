@@ -1,6 +1,6 @@
 {
   "name": "react-native-on-web-tmpl",
-  "version": "5.2.13",
+  "version": "5.2.15",
   "main": "./www/index.js",
   "scripts": {
     "start": "cross-env  NODE_ENV=development node ./www/index.js",
@@ -27,8 +27,8 @@
     "node-razor": "0.0.3",
     "react": "16.2.0",
     "react-dom": "16.2.0",
-    "react-native-on-web": "^5.2.13",
-    "react-native-on-web-cli": "^5.2.13",
+    "react-native-on-web": "^5.2.14",
+    "react-native-on-web-cli": "^5.2.14",
     "resize-observer-polyfill": "^1.5.0",
     "whatwg-fetch": "^2.0.3",
     "winston": "^2.4.0"

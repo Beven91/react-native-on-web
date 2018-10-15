@@ -46,9 +46,3 @@ const styles = StyleSheet.create({
 });
 
 AppRegistry.registerComponent('app', () => hello);
-
-// 热更新
-if (module.hot) {
-  module.hot.accept();
-}
-

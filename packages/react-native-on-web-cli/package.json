@@ -1,6 +1,6 @@
 {
   "name": "react-native-on-web-cli",
-  "version": "5.2.13",
+  "version": "5.2.14",
   "description": "react-native-on-web cli",
   "main": "index.js",
   "scripts": {
@@ -29,6 +29,6 @@
     "commander": "^2.9.0",
     "fs-extra": "^2.1.2",
     "npm-shell": "^1.0.2",
-    "react-native-on-web-tmpl": "^5.2.13"
+    "react-native-on-web-tmpl": "^5.2.14"
   }
 }
