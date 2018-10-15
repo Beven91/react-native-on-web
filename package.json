@@ -37,6 +37,7 @@
     "fs-extra": "^4.0.1",
     "lerna": "^2.10.1",
     "mocha": "^3.2.0",
+    "npm-publish-bin": "^1.0.0",
     "npm-shell": "^1.0.10"
   },
   "dependencies": {
