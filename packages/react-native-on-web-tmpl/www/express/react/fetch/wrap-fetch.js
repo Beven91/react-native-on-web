@@ -6,23 +6,23 @@
 
 module.exports = (fetch, proxy) => {
   if (typeof global === 'undefined') {
-    window.global = window
+    window.global = window;
   }
   const myfetch = (url, config) => {
     let isRelative = !/^(http:|https:)/.test(url.trim());
-    url = isRelative ? url : (global.fetch.baseUri || '') + url
+    url = isRelative ? url : (global.fetch.baseUri || '') + url;
     if (proxy && !isRelative) {
-      config = config || {}
-      config.headers = config.headers || {}
-      config.headers.___originUrl__ = url
-      return fetch('/fetch', config)
+      config = config || {};
+      config.headers = config.headers || {};
+      config.headers.___originUrl__ = url;
+      return fetch('/fetch', config);
     } else {
-      return fetch(url, config)
+      return fetch(url, config);
     }
-  }
-  global.fetch = myfetch
-  global.Response = myfetch.Response = fetch.Response
-  global.Headers = myfetch.Headers = fetch.Headers
-  global.Request = myfetch.Request = fetch.Request
-  return global.fetch
-}
+  };
+  global.fetch = myfetch;
+  global.Response = myfetch.Response = fetch.Response;
+  global.Headers = myfetch.Headers = fetch.Headers;
+  global.Request = myfetch.Request = fetch.Request;
+  return global.fetch;
+};

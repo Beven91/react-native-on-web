@@ -4,12 +4,12 @@
  * 描述：使用express自带的static服务提供
  */
 
-//引入依赖>>
+// 引入依赖>>
 import path from 'path';
-import express from 'express'
+import express from 'express';
 import appContext from 'app-context';
 
-//获取express app对象
+// 获取express app对象
 const app = appContext.getParam('app');
 
 // 设置静态资源目录

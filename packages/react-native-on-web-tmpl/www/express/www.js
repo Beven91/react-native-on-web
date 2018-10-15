@@ -14,63 +14,63 @@
  */
 
 // 依赖引入
-import appContext from 'app-context'
-import childProcess from 'child_process'
-import express from 'express'
-import logger from 'logger'
+import appContext from 'app-context';
+import childProcess from 'child_process';
+import express from 'express';
+import logger from 'logger';
 import bundlerc from '../../.bundlerc';
 
 // 获取webconfig数据
-const config = appContext.getParam('web')
+const config = appContext.getParam('web');
 // 创建一个网站服务
-const app = new express()
+const app = express();
 
 // 设置express app
-appContext.setParam('app', app)
+appContext.setParam('app', app);
 // 设置react启动appName  如果不传递 ，则默认使用注册第一个app应用程序
-appContext.setRunReactAppName()
+appContext.setRunReactAppName();
 
 // fetch跨域配置
-require('./initialize/fetch.initialize.js')
+require('./initialize/fetch.initialize.js');
 // 优先初始化request上下文信息
-require('./initialize/context.initialize.js')
+require('./initialize/context.initialize.js');
 // 性能优化初始化
-require('./initialize/perfermance.initialize.js')
+require('./initialize/perfermance.initialize.js');
 // 初始化日志配置
-require('./initialize/logger.initialize.js')
+require('./initialize/logger.initialize.js');
 // 热部署配置
-require('./initialize/bundle.initialize.js')
+require('./initialize/bundle.initialize.js');
 // 初始化静态资源
-require('./initialize/static.initialize.js')
+require('./initialize/static.initialize.js');
 // 初始化视图引擎，以及静态资源配置
-require('./initialize/view.initialize.js')
+require('./initialize/view.initialize.js');
 // 初始化react同构
 if (bundlerc.isomorphic) {
-  require('./initialize/react.initialize.js')
+  require('./initialize/react.initialize.js');
 }
-/*----->其他初始化写这里 ----------------->*/
+/* ----->其他初始化写这里 ----------------->*/
 // 初始化网站异常处理
-require('./initialize/error.initialize.js')
+require('./initialize/error.initialize.js');
 
 // 开始监听指定端口
 const server = app.listen(config.port, (err) => {
   // 设置express app
-  appContext.setParam('server', server)
+  appContext.setParam('server', server);
   if (err) {
-    logger.error('Sorry has a error occur!')
-    logger.error(err)
+    logger.error('Sorry has a error occur!');
+    logger.error(err);
   } else {
-    let port = server.address().port
-    console.log('--------------------------')
-    console.log('===> 😊  Starting Server ...')
-    console.log(`===>  Environment: ${appContext.env}`)
-    console.log(`===>  Listening on port: ${port}`)
-    console.log(`===>  Url: http://${appContext.getLocalIP()}:${port}`)
-    console.log('--------------------------')
+    let port = server.address().port;
+    console.log('--------------------------');
+    console.log('===> 😊  Starting Server ...');
+    console.log(`===>  Environment: ${appContext.env}`);
+    console.log(`===>  Listening on port: ${port}`);
+    console.log(`===>  Url: http://${appContext.getLocalIP()}:${port}`);
+    console.log('--------------------------');
     // 自动使用默认浏览器打开当前网站
     appContext.onDev(() => {
-      let opemCmd = process.platform == 'win32' ? 'start' : 'open'
-      childProcess.execSync(`${opemCmd} http://localhost:${port}`)
-    })
+      let opemCmd = process.platform == 'win32' ? 'start' : 'open';
+      childProcess.execSync(`${opemCmd} http://localhost:${port}`);
+    });
   }
-})
+});

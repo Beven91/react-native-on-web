@@ -16,12 +16,11 @@ import { AppRegistry } from 'react-native';
  * React App类
  */
 class ReactClientApp {
-
   /**
    * 构造函数
    */
   constructor(...params) {
-    this.initialize(...params)
+    this.initialize(...params);
   }
 
   /**
@@ -38,12 +37,12 @@ class ReactClientApp {
     const { appName } = this.reactAppContext || {};
     const keys = AppRegistry.getAppKeys();
     const runApp = appName || keys[0];
-    AppRegistry.runApplication(runApp, { rootTag: document.getElementById('app') })
+    AppRegistry.runApplication(runApp, { rootTag: document.getElementById('app') });
   }
 }
 
 // 初始化客户端实例
 let clientReactApplication = new ReactClientApp();
 
-//启动程序
+// 启动程序
 clientReactApplication.runApplication();

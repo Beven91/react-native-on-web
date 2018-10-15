@@ -4,16 +4,15 @@
  * 描述：用于进行服务端与客户端数据结构共享，提供统一api
  */
 
-const VariableName = '@@__reactAppContext__@@'
+const VariableName = '@@__reactAppContext__@@';
 
 class ReactAppContextClass {
-
   get context() {
-    return global[VariableName]
+    return global[VariableName];
   }
 
   set context(value) {
-    global[VariableName] = value
+    global[VariableName] = value;
   }
 }
 

@@ -1,7 +1,7 @@
 {
   "name": "react-native-on-web-monorepo",
   "private": true,
-  "version": "5.2.11",
+  "version": "5.2.12",
   "description": "React Native for Web",
   "scripts": {
     "postinstall": "npm run lerna",
@@ -27,8 +27,12 @@
   "license": "MIT",
   "devDependencies": {
     "babel-eslint": "^8.2.1",
-    "chai": "^4.1.2",
-    "eslint": "^4.0.0",
+    "eslint": "^4.15.0",
+    "eslint-config-google": "^0.9.1",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-react": "^7.1.0",
     "fs-extra": "^4.0.1",
     "lerna": "^2.10.1",

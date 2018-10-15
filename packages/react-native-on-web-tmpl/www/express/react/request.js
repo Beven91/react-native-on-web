@@ -4,8 +4,8 @@
  * 描述：处理react-router 并且返回对应的容器组件
  */
 
-//加载依赖
-import { AppRegistry } from 'react-native'
+// 加载依赖
+import { AppRegistry } from 'react-native';
 import ReactDOMServer from 'react-dom/server';
 import { getRoutejs } from 'code-spliter-router';
 
@@ -13,7 +13,6 @@ import { getRoutejs } from 'code-spliter-router';
  * React Request处理勒
  */
 export default class ReactServerRequest {
-
   /**
    * 单例构造函数
    */
@@ -26,7 +25,7 @@ export default class ReactServerRequest {
    */
   initialize(reactApplication) {
     this.reactApplication = reactApplication;
-    this.splitRoutes = reactApplication.splitRoutes
+    this.splitRoutes = reactApplication.splitRoutes;
   }
 
   /**
@@ -56,17 +55,17 @@ export default class ReactServerRequest {
     try {
       let { reactRunAppName, reactAppContext } = this.reactApplication;
       let { element, getStyleElement } = AppRegistry.getApplication(reactRunAppName);
-      let initialHTML = ReactDOMServer.renderToString(element)
+      let initialHTML = ReactDOMServer.renderToString(element);
       let clientReactAppContext = Object.assign({}, reactAppContext);
       const stylesheet = ReactDOMServer.renderToStaticMarkup(getStyleElement());
       clientReactAppContext.route = clientReactAppContext.route.routeName;
-      //调用视图引擎返回页面
+      // 调用视图引擎返回页面
       let options = {
         title: (reactAppContext.route.title || 'React native for Web'),
         initialHTML: initialHTML,
         stylesheet: stylesheet,
         splitRouteJs: this.getSplitRouteJs(),
-        reactAppContext: JSON.stringify(clientReactAppContext)
+        reactAppContext: JSON.stringify(clientReactAppContext),
       };
       this.currentResponse.status(200).render('react', options);
     } catch (ex) {

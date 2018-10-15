@@ -2,7 +2,7 @@ var path = require('path')
 var webConfig = require('./web.json')
 
 // if(process.env.SERVERSIDE){
-     //服务端打包时，可以使用此配置来过滤掉一些仅在客户端的配置
+//服务端打包时，可以使用此配置来过滤掉一些仅在客户端的配置
 // }
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
    * 否则，使用react-native-on-web bundle 仅打包客户端代码，www不会执行同构渲染
    * 非同构模式下，使用的视图文件在www/express/views/index.cshtml
    */
-  isomorphic:true,
+  isomorphic: true,
   /**
    * require('image!xx') 寻址目录列表
    * 默认会寻找android或者ios目录或者web目录assets/images下的图片文件
@@ -84,7 +84,7 @@ module.exports = {
    *    './routers/user/login.js?name=user/login'
    *  ]
    */
-  spliters:[
+  spliters: [
   ],
   /** *
    * 代码拆分loader自定义exports
@@ -95,7 +95,7 @@ module.exports = {
    *    return code;
    * }
    */
-  splitHandle:null,
+  splitHandle: null,
   // 别名配置
   alias: {
     'logger': path.resolve('www/framework/logger/index.js'),

@@ -4,34 +4,34 @@
  * 描述：用于记录M站相关应用程序日志
  */
 
-//依赖引入>>
+// 依赖引入>>
 import path from 'path';
 import winston from 'winston';
 import fse from 'fs-extra';
 import dantejs from 'dantejs';
 import 'colors';
 
-//日志保存目录
+// 日志保存目录
 const logDirectory = path.resolve('logs/app/');
 
-//日志状态颜色
+// 日志状态颜色
 const levelColors = {
   INFO: 'gray',
   ERROR: 'red',
   DEBUG: 'blue',
-  WARN: 'yellow'
-}
+  WARN: 'yellow',
+};
 
-//确保目录存在
+// 确保目录存在
 fse.ensureDirSync(logDirectory);
 
-//创建日志对象
+// 创建日志对象
 const logger = new (winston.Logger)({
   transports: [
     new (winston.transports.Console)({
       timestamp: () => Date.now(),
       colorize: true,
-      formatter: formatter
+      formatter: formatter,
     }),
     new (winston.transports.File)({
       formatter: formatter,
@@ -39,11 +39,11 @@ const logger = new (winston.Logger)({
       timestamp: 'true',
       maxsize: 10485760,
       maxFiles: 10,
-    })
-  ]
+    }),
+  ],
 });
 
-//监听全局未捕获异常，并且输出日志
+// 监听全局未捕获异常，并且输出日志
 process.on('uncaughtException', (err) => logger.error(err));
 
 /**
@@ -59,5 +59,5 @@ function formatter(options) {
   return (`【${date}】 ${level}  ${message} ${stack}`)[levelColor];
 }
 
-//公布日志对象
+// 公布日志对象
 module.exports = logger;

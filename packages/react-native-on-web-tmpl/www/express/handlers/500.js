@@ -4,12 +4,11 @@
  * 描述：在这里根据错误，进行页面跳转处理，注意，该中间件请放置在app.use最后
  */
 
-//引入依赖>>
+// 引入依赖>>
 import appContext from 'app-context';
 import logger from 'logger';
 
 class ErrorHandler {
-
   /**
    * 组件构造函数
    */

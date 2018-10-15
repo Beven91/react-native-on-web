@@ -1,6 +1,6 @@
 {
   "name": "react-native-on-web-tmpl",
-  "version": "5.1.0-beta.7",
+  "version": "5.2.12",
   "main": "./www/index.js",
   "scripts": {
     "start": "cross-env  NODE_ENV=development node ./www/index.js",
@@ -27,10 +27,20 @@
     "node-razor": "0.0.3",
     "react": "16.2.0",
     "react-dom": "16.2.0",
-    "react-native-on-web": "^5.2.11",
-    "react-native-on-web-cli": "^5.2.11",
+    "react-native-on-web": "^5.2.12",
+    "react-native-on-web-cli": "^5.2.12",
     "resize-observer-polyfill": "^1.5.0",
     "whatwg-fetch": "^2.0.3",
     "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.15.0",
+    "eslint-config-google": "^0.9.1",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-react": "^7.5.1"
   }
 }

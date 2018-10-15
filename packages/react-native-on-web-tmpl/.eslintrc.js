@@ -1,6 +1,5 @@
 module.exports = {
   "parser": "babel-eslint",
-  "extends": "google",
   "env": {
     "browser": true,
     "node": true,
@@ -18,8 +17,8 @@ module.exports = {
     }
   },
   "rules": {
-    "react/prop-types":0,
-    "no-console":0,
+    "react/prop-types": 0,
+    "no-console": 0,
     "react/no-find-dom-node": 0,
     "object-curly-spacing": 0,
     "space-before-function-paren": 0,
@@ -32,9 +31,10 @@ module.exports = {
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
+    "google"
   ],
-  "globals":{
-    "__webpack_require__":true,
-    "wx":true,
+  "globals": {
+    "__webpack_require__": true,
+    "wx": true,
   }
 };
