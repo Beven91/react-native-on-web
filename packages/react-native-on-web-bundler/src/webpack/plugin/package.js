@@ -91,6 +91,23 @@ ReleasePackageJson.prototype.writeJson = function (file, content) {
   fse.writeFileSync(file, JSON.stringify(content, null, 2));
 };
 
+
+/**
+ * 生成bundleRc
+ */
+ReleasePackageJson.prototype.generateBundleRc = function () {
+  const targetFile = path.join(config.releaseDir, '.bundlerc.js');
+  const bundleRc = require(path.resolve('.bundlerc.js'));
+  const plainObj = {};
+  Object.keys(bundleRc).forEach(function (k) {
+    const v = bundleRc[k];
+    if (typeof v !== 'function') {
+      plainObj[k] = v;
+    }
+  })
+  fse.writeFileSync(targetFile, 'module.exports=' + JSON.stringify(plainObj, null, 2));
+}
+
 function PackageJsonPlugin() {
 }
 

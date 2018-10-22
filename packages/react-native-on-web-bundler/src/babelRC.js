@@ -37,7 +37,7 @@ function exclude(js) {
 }
 
 function include(js) {
-  if (/react-native-on-web-bundler|react-native-web/.test(js)) {
+  if (/react-native-on-web-bundler/.test(js)) {
     return false;
   } else if (!/node_modules/.test(js)) {
     return true;
